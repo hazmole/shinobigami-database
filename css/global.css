@@ -1,0 +1,51 @@
+body {
+	background-image: url("../img/curve-lines-pattern.jpg");
+	background-attachment: fixed;
+	margin: 0;
+}
+
+h1 {
+	font-family: "HanyiSenty";
+	font-size: 64px;
+	font-weight: normal;
+	text-shadow: 0.1em 0.1em 0em black;
+	background-color: #4a2a11;
+	color: white;
+	position: relative;
+}
+h1:before {
+  content: ' ';
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0.2;
+  background-image: url('../img/hexagonal-line-pattern.jpg');
+}
+
+p {
+	margin-top: .5em;
+	margin-bottom: 0;
+}
+
+.container {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	animation: appear .8s ease-in-out;
+}
+
+
+
+@font-face {
+	font-family: "HanyiSenty";
+	src: url("../fonts/HanyiSentyFoundation.ttf");
+	font-weight: normal;
+  font-style: normal;
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+  }
+}
