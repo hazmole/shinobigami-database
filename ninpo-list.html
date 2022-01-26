@@ -1,0 +1,28 @@
+<html>
+<head>
+	<title>忍法列表</title>
+	<link rel="stylesheet" href="./css/ninpo-card.css">
+	<script src="./js/jquery-3.6.0.min.js"></script>
+	<script src="./js/ninpo-parser.js"></script>
+	<script src="./data/ninpo-list.js"></script>
+
+	<script>
+		var NINPO_LIST;
+		function execute(){
+			for(var ninpoObj of NINPO_LIST){
+				$('.container').append(parseNinpo(ninpoObj))
+			}
+		}
+	</script>
+</head>
+<body onload="execute()">
+	<h2>忍法列表</h2>
+	<hr>
+
+	<div class="container"></div>
+
+
+
+
+</body>
+</html>

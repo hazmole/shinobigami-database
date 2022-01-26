@@ -1,0 +1,131 @@
+p {
+	margin-top: .5em;
+	margin-bottom: 0;
+}
+@keyframes appear {
+  from {
+    opacity: 0;
+  }
+}
+.container {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	animation: appear .8s ease-in-out;
+}
+
+
+.ninpo-card {
+	width: 300px;
+	border: 5px groove #ccc;
+	background-color: white;
+	border-radius: .5rem;
+	margin: 5px;
+	font-size: 16px;
+}
+.ninpo-card .title {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	height: 42px;
+	background: black;
+	color: white;
+}
+.ninpo-card .title .mainTitle {
+	font-size: large; font-weight: bold;
+	margin: 0 2px;
+	padding: 10px 3px;
+}
+
+
+.ninpo-card .attributes {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+
+	background: black;
+}
+.ninpo-card .attributes .category {
+	position: relative;
+	margin: 3px 1px 1px;
+	padding: 0px 6px 2px;
+
+	background: #666; color: white;
+	font-size: 10px;
+}
+.ninpo-card .attributes .category:before {
+	content: "";
+	position: absolute;
+	left: -6px;
+	bottom: 0; top: 0;
+	border-right: 6px solid #666;
+	border-top: 9px solid transparent;
+	border-bottom: 9px solid transparent;
+}
+
+.ninpo-card .category.clan { background-color: #385c99; }
+.ninpo-card .category.clan:before { border-right-color: #385c99; }
+.ninpo-card .category.ancient { background-color: #8d852f; }
+.ninpo-card .category.ancient:before { border-right-color: #8d852f; }
+.ninpo-card .category.demon { background-color: #6e2dab; }
+.ninpo-card .category.demon:before { border-right-color: #6e2dab; }
+.ninpo-card .category.other { background-color: #8f4728; }
+.ninpo-card .category.other:before { border-right-color: #8f4728; }
+
+.ninpo-card .attributes .restrict {
+	background: #aaa;
+	color: black;
+	font-size: 8px;
+	margin: 0 1px;
+	padding: 1px 3px;
+	border-radius: 5px;
+}
+.ninpo-card .attributes .restrict.taima {
+	background: #b39fc5;
+}
+
+
+.ninpo-card .arguments { display: inline-flex; font-size: 14px; width: 100%; padding-top: 1px; }
+.ninpo-card .arguments .tag {
+	border:solid black; border-width: 1px 0 1px 0;
+}
+.ninpo-card .arguments .tag:before {
+	background: black; color: white;
+	padding: 3px 8px 1px 8px;
+	margin-right: 10px;
+}
+
+.ninpo-card .arguments .type { width: 130px; }
+.ninpo-card .arguments .range,
+.ninpo-card .arguments .cost { width: 85px; }
+.ninpo-card .arguments .skill { width: 100%; }
+
+.ninpo-card .arguments .tag.atk { background-color: #811c1c; color: white; }
+.ninpo-card .arguments .tag.sup { background-color: #1a5c41; color: white; }
+.ninpo-card .arguments .tag.equ { background-color: #32236e; color: white; }
+
+.ninpo-card .arguments .tag.type:before {content: "種類";}
+.ninpo-card .arguments .tag.range:before {content: "間隔";}
+.ninpo-card .arguments .tag.cost:before {content: "花費";}
+.ninpo-card .arguments .tag.skill:before {content: "指定特技";}
+
+.ninpo-card .body {
+	margin-top: 1px;
+	border-top: 1px solid black;
+	width: 300px;
+	background-image: url('../img/japanese-pattern.png');
+	background-position: bottom;
+}
+.ninpo-card .body .effect {
+	background: rgba(255,255,255,.4);
+	padding: 5px;
+	height: 160px;
+	overflow-y: auto;
+}
+.ninpo-card .body .desc {
+	padding: 5px;
+	height: 40px;
+	font-size: xx-small; font-style: italic;
+	display: table-cell;
+	vertical-align: bottom;
+}
