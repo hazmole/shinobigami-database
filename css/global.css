@@ -1,3 +1,17 @@
+@font-face {
+  font-family: "HanyiSenty";
+  src: url("../fonts/HanyiSentyFoundation.ttf");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+  }
+}
+
+
 body {
 	background-image: url("../img/curve-lines-pattern.jpg");
 	background-attachment: fixed;
@@ -24,10 +38,15 @@ h1:before {
   opacity: 0.2;
   background-image: url('../img/hexagonal-line-pattern.jpg');
 }
-
 p {
 	margin-top: .5em;
 	margin-bottom: 0;
+}
+button {
+  cursor: pointer;
+}
+button:hover {
+  filter: brightness(1.1);
 }
 
 .container {
@@ -37,31 +56,35 @@ p {
 }
 
 
+.Bar{
+  display: flex;
+}
 
-form.SearchBar {
+form.SearchBox {
   position: relative;
   width: 300px;
   background: #bd5757;
   border-radius: .5rem;
   margin: 0;
 }
-.SearchBar input[type=search] {
+.SearchBox input[type=search] {
   outline: 0;
   width: 300px;
   height: 2rem;
   background: #fff;
   padding: 0 1rem;
-  border-radius: .5rem;
+  border: none;
+  border-radius: 0 .5rem .5rem 0;
   transition: all .3s ease-out;
   transition-property: width, border-radius;
   z-index: 1;
   position: relative;
 }
-.SearchBar input:not(:placeholder-shown) {
-  border-radius: .5rem 0 0 .5rem;
+.SearchBox input:not(:placeholder-shown) {
+  border-radius: 0;
   width: calc(300px - 3rem);
 }
-.SearchBar button {
+.SearchBox #SearchBtn {
   display: none;
   position: absolute;
   top: 0;
@@ -70,22 +93,40 @@ form.SearchBar {
   height: 2rem;
   font-weight: bold;
   background: #bd5757;
+  border: none;
   border-radius: 0 .5rem .5rem 0;
 }
-.SearchBar input:not(:placeholder-shown) + button {
+.SearchBox input:not(:placeholder-shown) + #SearchBtn {
   display: block;
 }
-//========================
 
-@font-face {
-	font-family: "HanyiSenty";
-	src: url("../fonts/HanyiSentyFoundation.ttf");
-	font-weight: normal;
-  font-style: normal;
+#AdvancedSeatchBtn {
+  background: #707070; color: white;
+  width: 100px;
+  border: none;
 }
-
-@keyframes appear {
-  from {
-    opacity: 0;
-  }
+.AdvancedFilterBar {
+  //display: none;
+  margin: .8rem;
+  color: white;
+  transition: all .3s ease-out;
+  transition-property: display;
 }
+.Entry{ margin: 10px 0; }
+.Entry .Title {
+  font-weight: bold;
+  padding: 5px;
+  border-radius: 5px;
+  background: #a39382;
+  color: black;
+}
+.Entry a {
+  color: white;
+  /*text-decoration: underline;*/
+  cursor: pointer;
+  margin-left: 8px;
+}
+.Entry a:hover { color: yellow;}
+.Entry a.selected { color: yellow; }
+.Entry a.selected:before { content: "["; }
+.Entry a.selected:after { content: "]"; }

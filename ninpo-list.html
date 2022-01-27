@@ -5,9 +5,15 @@
 	<link rel="stylesheet" href="./css/ninpo-card.css">
 	<script src="./js/jquery-3.6.0.min.js"></script>
 	<script src="./js/authenticator.js"></script>
+	<script src="./js/myFilter.js"></script>
+	<script src="./js/myFilterOptionBuilder.js"></script>
+
+	<script src="./data/ninpo-list.js"></script>
+
 	<script src="./js/ninpo-filter.js"></script>
 	<script src="./js/ninpo-parser.js"></script>
-	<script src="./data/ninpo-list.js"></script>
+	<!---->
+	
 	<style>
 .SearchPanel {
 	background: #262020;
@@ -15,49 +21,74 @@
 }
 	</style>
 	<script>
-		var NINPO_LIST;
-		var Searcher = new NinpoSearcher(NINPO_LIST);
+		var NINPO_LIST;  //from "data/ninpo-list.js"
+		var NinpoFilter; //from "js/ninpo-filter.js"
+		var NinpoOptionBuilder;
 
-		function filterType(value){
-			Searcher.ResetFilterConfig();
-			Searcher.SetFilterConfig('type', [value]);
-			execute();
+		NinpoFilter.SetList(NINPO_LIST);
+
+		function searchText(){
+			var text = $("#searchInput").val();
+			NinpoFilter.SetConfigEntry('text', text);
+			printResult();
 		}
-		function filterCate(value){
-			Searcher.ResetFilterConfig();
-			Searcher.SetFilterConfig('category', [value]);
-			execute();
+
+		function buildFilterOptionsList(){
+			NinpoOptionBuilder.Build(".AdvancedFilterBar")
 		}
+		function toggleAdvancedFilterArea(){
+			$(".AdvancedFilterBar").toggle(200)
+		}
+
+		function printResult(){
+			var container = $('.container');
+			container.empty();
+			for(var ninpoObj of NinpoFilter.Execute()){
+				container.append(parseNinpo(ninpoObj))
+			}
+		}
+
+		/*var AdvancedFilter = new AdvancedFilterBuilder( printResult );
+
 		function searchText(){
 			var text = $("#searchInput").val();
 			Searcher.SetFilterConfig('text', text);
-			execute();
+			printResult();
 		}
 
-		function execute(){
+		
+
+		// initialize
+		function printResult(){
 			$('.container').empty();
 			for(var ninpoObj of Searcher.Search()){
 				$('.container').append(parseNinpo(ninpoObj))
 			}
 		}
-		window.onload = execute;
+		function buildAdvancedFilter(){
+			AdvancedFilter.build(".AdvancedFilterBar", entry_list);
+		}*/
+		window.onload = function(){
+			buildFilterOptionsList();
+			printResult()
+		}
+		window.addEventListener('selectFilterOption', function(e){
+			NinpoFilter.toggleOption(e.detail.type, e.detail.value);
+			printResult()
+		});
 	</script>
 </head>
 <body>
 	<h1>忍法列表</h1>
 	<div class="SearchPanel">
-		<form class="SearchBar" onsubmit="event.preventDefault(); searchText()" role="search">
-			<input id="searchInput" type="search" placeholder="尋找忍法名或效果..." autofocus />
-			<button type="submit">尋找</button>
-		</form>
-<!--		<button onClick="filterCate(['general'])">泛用</button>
-		<button onClick="filterCate(['clan', '斜齒忍軍'])">斜齒忍軍</button>
-		<button onClick="filterCate(['ancient'])">古流忍法</button>
-		<button onClick="filterCate(['demon'])">妖魔忍法</button>
-		<br>
-		<button onClick="filterType('atk')">攻擊忍法</button>
-		<button onClick="filterType('sup')">輔助忍法</button>
-		<button onClick="filterType('equ')">裝備忍法</button> -->
+		<div class="SearchBar Bar">
+			<button id="AdvancedSeatchBtn" onclick="toggleAdvancedFilterArea()">▼ 進階搜尋</button>
+			<form class="SearchBox" onsubmit="event.preventDefault(); searchText()" role="search">
+				<input id="searchInput" type="search" placeholder="尋找忍法名或效果..." autofocus />
+				<button id="SearchBtn" type="submit">尋找</button>
+			</form>
+		</div>
+		<div class="AdvancedFilterBar"></div>
 	</div>
 	<hr>
 
