@@ -4,7 +4,7 @@ class NinpoSearcher{
     this.list = origin_list;
     this.filteredList = null;
     this.filterConfig = {
-      name: '',
+      text: '',
       category: [],
       type: [],
       range: '',
@@ -25,8 +25,11 @@ class NinpoSearcher{
   Check(ninpo){
     var config = this.filterConfig;
 
-    if(config.name!=''){
-      if(ninpo.name[0].indexOf(config.name)<0) return false;
+    if(config.text!=''){
+      var isFound = false;
+      if(ninpo.name[0].indexOf(config.text)>=0) isFound = true;
+      if(ninpo.effect.join("").indexOf(config.text)>=0) isFound = true;
+      if(!isFound) return false;
     }
     if(config.category.length>0){
       var isFound = OR(config.category, function(_idx, category){

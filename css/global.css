@@ -2,6 +2,7 @@ body {
 	background-image: url("../img/curve-lines-pattern.jpg");
 	background-attachment: fixed;
 	margin: 0;
+	box-sizing: border-box;
 }
 
 h1 {
@@ -36,6 +37,45 @@ p {
 }
 
 
+
+form.SearchBar {
+  position: relative;
+  width: 300px;
+  background: #bd5757;
+  border-radius: .5rem;
+  margin: 0;
+}
+.SearchBar input[type=search] {
+  outline: 0;
+  width: 300px;
+  height: 2rem;
+  background: #fff;
+  padding: 0 1rem;
+  border-radius: .5rem;
+  transition: all .3s ease-out;
+  transition-property: width, border-radius;
+  z-index: 1;
+  position: relative;
+}
+.SearchBar input:not(:placeholder-shown) {
+  border-radius: .5rem 0 0 .5rem;
+  width: calc(300px - 3rem);
+}
+.SearchBar button {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 3rem;
+  height: 2rem;
+  font-weight: bold;
+  background: #bd5757;
+  border-radius: 0 .5rem .5rem 0;
+}
+.SearchBar input:not(:placeholder-shown) + button {
+  display: block;
+}
+//========================
 
 @font-face {
 	font-family: "HanyiSenty";

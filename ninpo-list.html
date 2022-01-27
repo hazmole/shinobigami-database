@@ -28,6 +28,11 @@
 			Searcher.SetFilterConfig('category', [value]);
 			execute();
 		}
+		function searchText(){
+			var text = $("#searchInput").val();
+			Searcher.SetFilterConfig('text', text);
+			execute();
+		}
 
 		function execute(){
 			$('.container').empty();
@@ -41,14 +46,18 @@
 <body>
 	<h1>忍法列表</h1>
 	<div class="SearchPanel">
-		<button onClick="filterCate(['general'])">泛用</button>
+		<form class="SearchBar" onsubmit="event.preventDefault(); searchText()" role="search">
+			<input id="searchInput" type="search" placeholder="尋找忍法名或效果..." autofocus />
+			<button type="submit">尋找</button>
+		</form>
+<!--		<button onClick="filterCate(['general'])">泛用</button>
 		<button onClick="filterCate(['clan', '斜齒忍軍'])">斜齒忍軍</button>
 		<button onClick="filterCate(['ancient'])">古流忍法</button>
 		<button onClick="filterCate(['demon'])">妖魔忍法</button>
 		<br>
 		<button onClick="filterType('atk')">攻擊忍法</button>
 		<button onClick="filterType('sup')">輔助忍法</button>
-		<button onClick="filterType('equ')">裝備忍法</button>
+		<button onClick="filterType('equ')">裝備忍法</button> -->
 	</div>
 	<hr>
 
