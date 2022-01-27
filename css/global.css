@@ -12,6 +12,7 @@ h1 {
 	background-color: #4a2a11;
 	color: white;
 	position: relative;
+	margin-bottom: 0;
 }
 h1:before {
   content: ' ';
@@ -32,7 +33,6 @@ p {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-	animation: appear .8s ease-in-out;
 }
 
 

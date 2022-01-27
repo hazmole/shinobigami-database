@@ -5,14 +5,33 @@
 	<link rel="stylesheet" href="./css/ninpo-card.css">
 	<script src="./js/jquery-3.6.0.min.js"></script>
 	<script src="./js/authenticator.js"></script>
+	<script src="./js/ninpo-filter.js"></script>
 	<script src="./js/ninpo-parser.js"></script>
 	<script src="./data/ninpo-list.js"></script>
-
-
+	<style>
+.SearchPanel {
+	background: #262020;
+	padding: 10px 5px;
+}
+	</style>
 	<script>
 		var NINPO_LIST;
+		var Searcher = new NinpoSearcher(NINPO_LIST);
+
+		function filterType(value){
+			Searcher.ResetFilterConfig();
+			Searcher.SetFilterConfig('type', [value]);
+			execute();
+		}
+		function filterCate(value){
+			Searcher.ResetFilterConfig();
+			Searcher.SetFilterConfig('category', [value]);
+			execute();
+		}
+
 		function execute(){
-			for(var ninpoObj of NINPO_LIST){
+			$('.container').empty();
+			for(var ninpoObj of Searcher.Search()){
 				$('.container').append(parseNinpo(ninpoObj))
 			}
 		}
@@ -21,6 +40,16 @@
 </head>
 <body>
 	<h1>忍法列表</h1>
+	<div class="SearchPanel">
+		<button onClick="filterCate(['general'])">泛用</button>
+		<button onClick="filterCate(['clan', '斜齒忍軍'])">斜齒忍軍</button>
+		<button onClick="filterCate(['ancient'])">古流忍法</button>
+		<button onClick="filterCate(['demon'])">妖魔忍法</button>
+		<br>
+		<button onClick="filterType('atk')">攻擊忍法</button>
+		<button onClick="filterType('sup')">輔助忍法</button>
+		<button onClick="filterType('equ')">裝備忍法</button>
+	</div>
 	<hr>
 
 	<div class="container"></div>

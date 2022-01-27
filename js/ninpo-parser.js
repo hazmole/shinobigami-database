@@ -9,7 +9,7 @@ function parseNinpo(ninpoObj){
 			case "demon": return '妖魔忍法';
 			default:
 				if(category.length<=1) return '-';
-				return category.splice(1).join("-");
+				return category.slice(1).join("-");
 		} 
 	}
 

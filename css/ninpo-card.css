@@ -6,6 +6,8 @@
 	border-radius: .5rem;
 	margin: 5px;
 	font-size: 16px;
+
+	animation: appear .8s ease-in-out;
 }
 .ninpo-card .title {
 	display: flex;
