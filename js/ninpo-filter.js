@@ -11,6 +11,10 @@ NinpoOptionBuilder.filterOptionList[0].options = [
   { text:'全部', value:'all', default: true },
   { text:'泛用忍法', value:'general' },
   { text:'流派忍法', value:'clan' },
+  { text:'斜齒忍軍', value:'clan-斜齒忍軍' },
+  { text:'斜齒忍軍-泛用', value:'clan-斜齒忍軍-x' },
+  { text:'斜齒忍軍-秘傳', value:'clan-斜齒忍軍-秘傳' },
+  { text:'斜齒忍軍-鍔鑋組', value:'clan-斜齒忍軍-鍔鑋組' },
   { text:'妖魔忍法', value:'demon' },
 ];
 NinpoOptionBuilder.filterOptionList[1].options = [
@@ -19,6 +23,23 @@ NinpoOptionBuilder.filterOptionList[1].options = [
   { text:'輔助', value:'sup' },
   { text:'裝備', value:'equ' },
 ];
+NinpoOptionBuilder.filterOptionList[2].options = [
+  { text:'全部', value:'all', default: true },
+  { text:'無', value:'-' },
+  { text:'0', value:'0' },
+  { text:'1', value:'1' },
+  { text:'2', value:'2' },
+  { text:'3', value:'3' },
+  { text:'4+', value:'4+' },
+];
+NinpoOptionBuilder.filterOptionList[3].options = [
+  { text:'全部', value:'all', default: true },
+  { text:'無', value:'-' },
+  { text:'1', value:'1' },
+  { text:'2', value:'2' },
+  { text:'3', value:'3' },
+  { text:'4+', value:'4+' },
+];
 
 
 var NinpoFilter = new MyFilter();
@@ -26,8 +47,8 @@ NinpoFilter.defaultConfig = {
   text: '',
   category: [],
   type: [],
-  range: '',
-  cost: '',
+  range: [],
+  cost: [],
   skill: '',
   tag: [],
   book: [],
@@ -46,7 +67,9 @@ NinpoFilter.checkEntryFunc = function(ninpo){
   }
   if(config.category.length>0){
     var isFound = MyFilter.OR(config.category, function(_idx, category){
-      var isMatchCategory = MyFilter.AND(category, function(lv, detail){
+      var categoryStruct = category.split('-');
+      var isMatchCategory = MyFilter.AND(categoryStruct, function(lv, detail){
+        if(detail=='x' && ninpo.category[lv]==null) return true;
         return ninpo.category[lv]==detail;
       });
       return isMatchCategory;
@@ -59,13 +82,21 @@ NinpoFilter.checkEntryFunc = function(ninpo){
     });
     if(!isFound) return false;
   }
-  if(config.range!=''){
-    var range = config.range==='-'? '': parseInt(config.range);
-    if(ninpo.range!==range) return false;
+  if(config.range.length>0){
+    var isFound = MyFilter.OR(config.range, function(_idx, range){
+      if(range==='-') return ninpo.range==='';
+      if(range==='4+') return ninpo.range>=4;
+      return (""+ninpo.range).indexOf(range)>=0;
+    });
+    if(!isFound) return false;
   }
-  if(config.cost!=''){
-    var cost = config.cost==='-'? 0: parseInt(config.cost);
-    if(ninpo.cost!==cost) return false;
+  if(config.cost.length>0){
+    var isFound = MyFilter.OR(config.cost, function(_idx, cost){
+      if(cost==='-') return ninpo.cost==0;
+      if(cost==='4+') return ninpo.cost>=4;
+      return (""+ninpo.cost).indexOf(cost)>=0;
+    });
+    if(!isFound) return false;
   }
   if(config.skill!=''){
     var isFound = MyFilter.OR(ninpo.skills, function(_idx, skill){
@@ -89,12 +120,12 @@ NinpoFilter.toggleOption = function(key, value){
   else{
     switch(key){
     case "category":
-      this.SetConfigEntry(key, [[value]]);
-      break;
     case "type":
+    case "range":
+    case "cost":
       this.SetConfigEntry(key, [value]);
       break;
-    
+
     default:
       console.log("Not handle yet.")
       break;

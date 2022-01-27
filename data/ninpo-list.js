@@ -597,6 +597,19 @@ var NINPO_LIST = [
 		book: 'basic'
 	},
 
+	{
+		name: ['鳳凰'],
+		category: ['clan','斜齒忍軍'],
+		type: 'atk',
+		range: 6,
+		cost: 2,
+		skills: [],
+		effect: ["接近戰。此忍法不能對生命力3以上的角色使用。攻擊成功時，給予目標2點接近戰傷害。"],
+		desc: ['科學忍法的必殺技。自身包覆火焰，衝向對手的軀體。'],
+		restrict: [],
+		tags: [],
+		book: 'basic'
+	},
 
 	{
 		name: ['妖魔工學'],
