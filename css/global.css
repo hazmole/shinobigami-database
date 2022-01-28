@@ -2,7 +2,7 @@
   --color-titleBack: #4e1e27;
   --color-searchBack: #1C1C1C;
   --color-lightBrown: #a39382;
-  --color-yellow: #c3b77d;
+  --color-select: #c57272;
 }
 
 @font-face {
@@ -147,7 +147,7 @@ form.SearchBox {
 .Entry a:hover,
 .Entry a.selected,
 .Entry .FolderName:hover
- { color: var(--color-yellow); }
+ { color: var(--color-select); }
 .Entry a.selected:before { content: "["; }
 .Entry a.selected:after { content: "]"; }
 
@@ -157,7 +157,7 @@ form.SearchBox {
 }
 
 .Entry .FolderName:before{ content: "[+]"; }
-.Entry .FolderName.unfold:before{ content: "[-]";color:var(--color-yellow); }
+.Entry .FolderName.unfold:before{ content: "[-]";color:var(--color-select); }
 .Entry .FolderBody.unfold{
   display: flex;
   flex-direction: column;

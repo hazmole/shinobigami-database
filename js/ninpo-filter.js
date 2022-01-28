@@ -10,12 +10,65 @@ NinpoOptionBuilder.filterOptionList = [
 NinpoOptionBuilder.filterOptionList[0].options = [
   { text:'全部', value:'all', default: true },
   { text:'泛用忍法', value:'general' },
-  { text: '斜齒忍軍', value: 'clan',isNested: true, entries: [
-      { text:'斜齒忍軍-泛用', value:'clan-斜齒忍軍-x' },
-      { text:'斜齒忍軍-秘傳', value:'clan-斜齒忍軍-秘傳' },
-      { text:'斜齒忍軍-鍔鑋組', value:'clan-斜齒忍軍-鍔鑋組' },
+  { text: '斜齒忍軍', isNested: true, entries: [
+      { text:'泛用忍法', value:'clan-斜齒忍軍-x' },
+      { text:'秘傳忍法', value:'clan-斜齒忍軍-秘傳' },
+      { text:'◆ 鍔鑋組', value:'clan-斜齒忍軍-鍔鑋組' },
+      { text:'◆ 大槌群', value:'clan-斜齒忍軍-大槌群' },
+      { text:'◆ 指矩班', value:'clan-斜齒忍軍-指矩班' },
+      { text:'◆ 御釘眾', value:'clan-斜齒忍軍-御釘眾' },
     ]  
   },
+  { text: '鞍馬神流', isNested: true, entries: [
+      { text:'泛用忍法', value:'clan-鞍馬神流-x' },
+      { text:'秘傳忍法', value:'clan-鞍馬神流-秘傳' },
+      { text:'◆ 迴鴉', value:'clan-鞍馬神流-迴鴉' },
+      { text:'◆ 銃劍', value:'clan-鞍馬神流-銃劍' },
+      { text:'◆ 魔王流', value:'clan-鞍馬神流-魔王流' },
+      { text:'◆ 蓮華王拳', value:'clan-鞍馬神流-蓮華王拳' },
+    ]  
+  },
+  { text: '離群者', isNested: true, entries: [
+      { text:'泛用忍法', value:'clan-離群者-x' },
+      { text:'秘傳忍法', value:'clan-離群者-秘傳' },
+      { text:'◆ 夜顏', value:'clan-離群者-夜顏' },
+      { text:'◆ NO.9', value:'clan-離群者-NO.9' },
+      { text:'◆ 世界忍者聯合', value:'clan-離群者-世界忍者聯合' },
+      { text:'◆ 影繪座', value:'clan-離群者-影繪座' },
+      { text:'◆ 不知火', value:'clan-離群者-不知火' },
+      { text:'◆ 咎眼流', value:'clan-離群者-咎眼流' },
+      { text:'◆ 不來梅', value:'clan-離群者-不來梅' },
+    ]  
+  },
+  { text: '比良坂機關', isNested: true, entries: [
+      { text:'泛用忍法', value:'clan-比良坂機關-x' },
+      { text:'秘傳忍法', value:'clan-比良坂機關-秘傳' },
+      { text:'◆ 常夜', value:'clan-比良坂機關-常夜' },
+      { text:'◆ 醜女眾', value:'clan-比良坂機關-醜女眾' },
+      { text:'◆ 公安隱密局', value:'clan-比良坂機關-公安隱密局' },
+      { text:'◆ 麝香會綜合醫院', value:'clan-比良坂機關-麝香會綜合醫院' },
+      { text:'◆ 外事N課', value:'clan-比良坂機關-外事N課' },
+    ]  
+  },
+  { text: '私立御齋學園', isNested: true, entries: [
+      { text:'泛用忍法', value:'clan-私立御齋學園-x' },
+      { text:'秘傳忍法', value:'clan-私立御齋學園-秘傳' },
+      { text:'◆ 特命臨時教職員派遣委員會', value:'clan-私立御齋學園-特命臨時教職員派遣委員會' },
+      { text:'◆ 御齋學園學生會', value:'clan-私立御齋學園-御齋學園學生會' },
+      { text:'◆ 私立多羅尾女學院', value:'clan-私立御齋學園-私立多羅尾女學院' },
+      { text:'◆ 舊校舍管理委員會', value:'clan-私立御齋學園-舊校舍管理委員會' },
+    ]  
+  },
+  { text: '隱忍的血統', isNested: true, entries: [
+      { text:'泛用忍法', value:'clan-隱忍的血統-x' },
+      { text:'秘傳忍法', value:'clan-隱忍的血統-秘傳' },
+      { text:'◆ 土蜘蛛', value:'clan-隱忍的血統-土蜘蛛' },
+      { text:'◆ 血社', value:'clan-隱忍的血統-血社' },
+      { text:'◆ 凶尾', value:'clan-隱忍的血統-凶尾' },
+      { text:'◆ 長耳', value:'clan-隱忍的血統-長耳' },
+    ]  
+  },
+  { text:'古流忍法', value:'ancient' },
   { text:'妖魔忍法', value:'demon' },
 ];
 NinpoOptionBuilder.filterOptionList[1].options = [
