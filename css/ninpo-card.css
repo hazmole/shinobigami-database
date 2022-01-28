@@ -85,7 +85,7 @@
 .ninpo-card .arguments .type { width: 130px; }
 .ninpo-card .arguments .range,
 .ninpo-card .arguments .cost { width: 85px; }
-.ninpo-card .arguments .skill { width: 100%; }
+.ninpo-card .arguments .skill { width: 100%; font-size:12px; }
 
 .ninpo-card .arguments .tag.atk { background-color: #811c1c; color: white; }
 .ninpo-card .arguments .tag.sup { background-color: #1a5c41; color: white; }
@@ -94,7 +94,7 @@
 .ninpo-card .arguments .tag.type:before {content: "種類";}
 .ninpo-card .arguments .tag.range:before {content: "間隔";}
 .ninpo-card .arguments .tag.cost:before {content: "花費";}
-.ninpo-card .arguments .tag.skill:before {content: "指定特技";}
+.ninpo-card .arguments .tag.skill:before {content: "指定特技"; margin-right: 5px;}
 
 .ninpo-card .body {
 	margin-top: 1px;
