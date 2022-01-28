@@ -1,3 +1,10 @@
+:root {
+  --color-titleBack: #4e1e27;
+  --color-searchBack: #1C1C1C;
+  --color-lightBrown: #a39382;
+  --color-yellow: #c3b77d;
+}
+
 @font-face {
   font-family: "HanyiSenty";
   src: url("../fonts/HanyiSentyFoundation.ttf");
@@ -24,7 +31,7 @@ h1 {
 	font-size: 64px;
 	font-weight: normal;
 	text-shadow: 0.1em 0.1em 0em black;
-	background-color: #4a2a11;
+	background-color: var(--color-titleBack);
 	color: white;
 	position: relative;
 	margin-bottom: 0;
@@ -54,12 +61,15 @@ button:hover {
 	flex-direction: row;
 	flex-wrap: wrap;
 }
-
-
 .Bar{
   display: flex;
 }
 
+
+.SearchPanel {
+  background: var(--color-searchBack);
+  padding: 10px 5px;
+}
 form.SearchBox {
   position: relative;
   width: 300px;
@@ -112,21 +122,44 @@ form.SearchBox {
   transition: all .3s ease-out;
   transition-property: display;
 }
-.Entry{ margin: 10px 0; }
+.Entry{
+  display: flex;
+  align-items:  baseline;
+  margin: 5px 0;
+}
 .Entry .Title {
   font-weight: bold;
   padding: 5px;
   border-radius: 5px;
-  background: #a39382;
+  background: var(--color-lightBrown);
   color: black;
 }
-.Entry a {
+.Entry .Options {
+  display: flex;
+  align-items:  baseline;
+}
+
+.Entry a, .Entry .Nested {
   color: white;
-  /*text-decoration: underline;*/
   cursor: pointer;
   margin-left: 8px;
 }
-.Entry a:hover { color: yellow;}
-.Entry a.selected { color: yellow; }
+.Entry a:hover,
+.Entry a.selected,
+.Entry .FolderName:hover
+ { color: var(--color-yellow); }
 .Entry a.selected:before { content: "["; }
 .Entry a.selected:after { content: "]"; }
+
+.Entry .Nested{
+  display: flex;
+  flex-direction: column;
+}
+
+.Entry .FolderName:before{ content: "[+]"; }
+.Entry .FolderName.unfold:before{ content: "[-]";color:var(--color-yellow); }
+.Entry .FolderBody.unfold{
+  display: flex;
+  flex-direction: column;
+}
+.Entry .FolderBody{ display: none; }

@@ -2,18 +2,20 @@
 
 var NinpoOptionBuilder = new MyFilterOptionBuilder();
 NinpoOptionBuilder.filterOptionList = [
-  { id:'category', title:'忍法分類', type:'simple-select', options:[] },
-  { id:'type', title:'種類', type:'simple-select', options:[] },
-  { id:'range', title:'間隔', type:'simple-select', options:[] },
-  { id:'cost', title:'花費', type:'simple-select', options:[] },
+  { id:'category', title:'忍法分類', options:[] },
+  { id:'type', title:'種類', options:[] },
+  { id:'range', title:'間隔', options:[] },
+  { id:'cost', title:'花費', options:[] },
 ];
 NinpoOptionBuilder.filterOptionList[0].options = [
   { text:'全部', value:'all', default: true },
   { text:'泛用忍法', value:'general' },
-  { text:'斜齒忍軍', value:'clan-斜齒忍軍' },
-  { text:'斜齒忍軍-泛用', value:'clan-斜齒忍軍-x' },
-  { text:'斜齒忍軍-秘傳', value:'clan-斜齒忍軍-秘傳' },
-  { text:'斜齒忍軍-鍔鑋組', value:'clan-斜齒忍軍-鍔鑋組' },
+  { text: '斜齒忍軍', value: 'clan',isNested: true, entries: [
+      { text:'斜齒忍軍-泛用', value:'clan-斜齒忍軍-x' },
+      { text:'斜齒忍軍-秘傳', value:'clan-斜齒忍軍-秘傳' },
+      { text:'斜齒忍軍-鍔鑋組', value:'clan-斜齒忍軍-鍔鑋組' },
+    ]  
+  },
   { text:'妖魔忍法', value:'demon' },
 ];
 NinpoOptionBuilder.filterOptionList[1].options = [
