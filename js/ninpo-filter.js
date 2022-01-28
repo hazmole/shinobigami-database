@@ -10,7 +10,6 @@ NinpoOptionBuilder.filterOptionList = [
 NinpoOptionBuilder.filterOptionList[0].options = [
   { text:'全部', value:'all', default: true },
   { text:'泛用忍法', value:'general' },
-  { text:'流派忍法', value:'clan' },
   { text:'斜齒忍軍', value:'clan-斜齒忍軍' },
   { text:'斜齒忍軍-泛用', value:'clan-斜齒忍軍-x' },
   { text:'斜齒忍軍-秘傳', value:'clan-斜齒忍軍-秘傳' },
@@ -123,7 +122,7 @@ NinpoFilter.toggleOption = function(key, value){
     case "type":
     case "range":
     case "cost":
-      this.SetConfigEntry(key, [value]);
+      toggleConfigEntry(this.config, key, value);
       break;
 
     default:
@@ -136,6 +135,11 @@ NinpoFilter.toggleOption = function(key, value){
   return ;
 
   //=======================
+  function toggleConfigEntry(config, key, value){
+    var idx = config[key].indexOf(value);
+    if(idx==-1) config[key].push(value);
+    else        config[key].splice(idx, 1);
+  }
   function renderSelectedCss(config, key){
     $(`#_filter_${key} a`).removeClass("selected");
     if(config[key].length==0){
