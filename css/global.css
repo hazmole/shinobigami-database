@@ -22,6 +22,7 @@
 body {
 	background-image: url("../img/curve-lines-pattern.jpg");
 	background-attachment: fixed;
+  font-family: '微軟正黑體';
 	margin: 0;
 	box-sizing: border-box;
 }

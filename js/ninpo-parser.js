@@ -7,12 +7,14 @@ function parseNinpo(ninpoObj, mode){
 		switch(category[0]){
 			case "general": return '泛用'+(isSimple?"":"忍法");
 			case "demon": return '妖魔'+(isSimple?"":"忍法");
+			case "ancient":
+				if(category.length<=1) return '-';
+				var textArr = category.slice(1);
+				return '古流-'+textArr.map(t=>getClanNameText(t,isSimple)).join("-");
 			default:
 				if(category.length<=1) return '-';
 				var textArr = category.slice(1);
-				if(category.length>2 && textArr[1]!="秘傳")
-					textArr[0] = getClanNameText(textArr[0], true);
-				return textArr.join("-");
+				return textArr.map(t=>getClanNameText(t,isSimple)).join("-");
 		} 
 	}
 	function getClanNameText(clan, isSimple){
@@ -23,7 +25,8 @@ function parseNinpo(ninpoObj, mode){
 			case "離群者": return '離群';
 			case "比良坂機關": return '比良坂';
 			case "私立御齋學園": return '御齋';
-			case "隱忍的血統": return '隱忍';
+			case "隱忍血統": return '隱忍';
+			case "特命臨時教職員派遣委員會": return '特教委';
 		} 
 		return clan;
 	}
@@ -66,6 +69,7 @@ function parseNinpo(ninpoObj, mode){
 		if(restrict_arr==null || restrict_arr.length==0) return '';
 		return restrict_arr.map(v => `<span class="restrict ${v}">${getRestrictText(v)}</span>`).join('');
 	}
+	var limitHtml = `<span class="restricts">${getRestricts(ninpoObj.restrict)}</span>`;
 
 	if(mode=='list')
 		return `<div class="ninpo ninpo-item">
@@ -83,7 +87,7 @@ function parseNinpo(ninpoObj, mode){
 	<div class="blockCell">
 		<div class="skill">${getSkill(ninpoObj.skills)}</div>
 	</div>
-	<div class="field left effect">${ninpoObj.effect.join('<br>')}</div>
+	<div class="field left effect">${limitHtml}${ninpoObj.effect.join('<br>')}</div>
 </div>`;
 
 	else
@@ -93,7 +97,7 @@ function parseNinpo(ninpoObj, mode){
 			<div class="mainTitle">${getName(ninpoObj)}</div>
 			<div class="attributes">
 				<span class="category ${ninpoObj.category[0]}">${getCategoryText(ninpoObj.category)}</span>
-				<span class="restricts">${getRestricts(ninpoObj.restrict)}</span>
+				${limitHtml}
 			</div>
 		</div>
 		<div class="arguments">

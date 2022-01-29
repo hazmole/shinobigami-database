@@ -5,6 +5,21 @@
 	--ninpo-type-equ: #32236e;
 }
 
+.ninpo-card .restrict,
+.ninpo-item .restrict {
+	background: #df0000;
+	color: white;
+	font-size: 8px;
+	margin: 0 1px;
+	padding: 1px 3px;
+	border-radius: 5px;
+}
+.ninpo-card .restrict.taima,
+.ninpo-item .restrict.taima {
+	background: #7d1ad7;
+}
+
+
 .ninpo-item {
 	display: flex;
 	justify-content: flex-start;
@@ -26,7 +41,7 @@
 }
 .ninpo-item .category {
 	position: relative;
-	margin: 0 1px 0;
+	margin: 0;
 	padding: 0px 6px 0;
 
 	background: #666; color: white;
@@ -39,8 +54,8 @@
 	bottom: 0; top: 0;
 	border-right: 0px;
 	border-left: 6px solid #666;
-	border-top: 9px solid transparent;
-	border-bottom: 9px solid transparent;
+	border-top: 8px solid transparent;
+	border-bottom: 8px solid transparent;
 }
 .ninpo-item .mainTitle {
 	font-weight: bold;
@@ -80,13 +95,15 @@
 .ninpo-item .blockCell .skill:before { content: "指定特技"; }
 
 .ninpo-item .effect {
-	padding: 5px;
-	align-items: center;
-    justify-content: flex-start;
-    display: flex;
+	display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 5px;
 	width: calc(100% - 500px);
 }
-
+.ninpo-item .restricts {
+	padding-bottom: 1px;
+}
 
 
 .ninpo-card:hover { box-shadow: 0px 0px 2px 3px var(--ninpo-hover); }
@@ -124,7 +141,7 @@
 }
 .ninpo-card .attributes .category {
 	position: relative;
-	margin: 3px 1px 1px;
+	margin: 2px 0px 3px;
 	padding: 0px 6px 2px;
 
 	background: #666; color: white;
@@ -145,21 +162,21 @@
 .ninpo .category.clan:before { border-right-color: #385c99;border-left-color:#385c99; }
 .ninpo .category.ancient { background-color: #8d852f; }
 .ninpo .category.ancient:before { border-right-color: #8d852f;border-left-color:#8d852f;  }
-.ninpo .category.demon { background-color: #6e2dab; }
-.ninpo .category.demon:before { border-right-color: #6e2dab;border-left-color:#6e2dab;  }
+.ninpo .category.demon { background-color: #460e7a; }
+.ninpo .category.demon:before { border-right-color: #460e7a;border-left-color:#460e7a;  }
 .ninpo .category.other { background-color: #8f4728; }
 .ninpo .category.other:before { border-right-color: #8f4728;border-left-color:#8f4728;  }
 
-.ninpo-card .attributes .restrict {
-	background: #aaa;
-	color: black;
+.ninpo-card .restrict {
+	background: #df0000;
+	color: white;
 	font-size: 8px;
 	margin: 0 1px;
 	padding: 1px 3px;
 	border-radius: 5px;
 }
-.ninpo-card .attributes .restrict.taima {
-	background: #b39fc5;
+.ninpo-card .restrict.taima {
+	background: #7d1ad7;
 }
 
 
@@ -169,7 +186,7 @@
 }
 .ninpo-card .arguments .tag:before {
 	background: black; color: white;
-	padding: 3px 8px 1px 8px;
+	padding: 1px 8px 1px 8px;
 	margin-right: 10px;
 }
 

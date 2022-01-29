@@ -59,20 +59,19 @@ NinpoOptionBuilder.filterOptionList[0].options = [
       { text:'◆ 舊校舍管理委員會', value:'clan-私立御齋學園-舊校舍管理委員會' },
     ]  
   },
-  { text: '隱忍的血統', isNested: true, entries: [
-      { text:'泛用忍法', value:'clan-隱忍的血統-x' },
-      { text:'秘傳忍法', value:'clan-隱忍的血統-秘傳' },
-      { text:'◆ 土蜘蛛', value:'clan-隱忍的血統-土蜘蛛' },
-      { text:'◆ 血社', value:'clan-隱忍的血統-血社' },
-      { text:'◆ 凶尾', value:'clan-隱忍的血統-凶尾' },
-      { text:'◆ 長耳', value:'clan-隱忍的血統-長耳' },
+  { text: '隱忍血統', isNested: true, entries: [
+      { text:'泛用忍法', value:'clan-隱忍血統-x' },
+      { text:'秘傳忍法', value:'clan-隱忍血統-秘傳' },
+      { text:'◆ 土蜘蛛', value:'clan-隱忍血統-土蜘蛛' },
+      { text:'◆ 血社', value:'clan-隱忍血統-血社' },
+      { text:'◆ 凶尾', value:'clan-隱忍血統-凶尾' },
+      { text:'◆ 長耳', value:'clan-隱忍血統-長耳' },
     ]  
   },
   { text:'古流忍法', value:'ancient' },
   { text:'妖魔忍法', value:'demon' },
 ];
 NinpoOptionBuilder.filterOptionList[1].options = [
-  { text:'全部', value:'all', default: true },
   { text:'攻擊', value:'atk' },
   { text:'輔助', value:'sup' },
   { text:'裝備', value:'equ' },
@@ -116,6 +115,7 @@ NinpoFilter.checkEntryFunc = function(ninpo){
   if(config.text!=''){
     var isFound = false;
     if(ninpo.name[0].indexOf(config.text)>=0) isFound = true;
+    if(ninpo.skills.join("").indexOf(config.text)>=0) isFound = true;
     if(ninpo.effect.join("").indexOf(config.text)>=0) isFound = true;
     if(!isFound) return false;
   }
