@@ -37,11 +37,20 @@
 			var isListMode = document.getElementById("displayMode").checked;
 			var mode = (isListMode)? 'list': 'card';
 
-			var container = $('.container');
+			var container = $('#ninpoContainer');
 			container.empty();
+			i=0;
 			for(var ninpoObj of NinpoFilter.Execute()){
-				container.append(parseNinpo(ninpoObj, mode))
+				var ninpoElem = $(parseNinpo(ninpoObj, mode)).appendTo('#ninpoContainer').get(0);
+				ninpoElem.ondblclick = storeNinpo.bind(null, ninpoObj)
 			}
+		}
+		function storeNinpo(ninpoObj){
+			var ninpoElem = $(parseNinpo(ninpoObj, 'list')).appendTo('#storageContainer').get(0);
+			ninpoElem.ondblclick = removeNinpo.bind(null, ninpoElem);
+		}
+		function removeNinpo(selfObj){
+			$(selfObj).remove();
 		}
 
 		window.onload = function(){
@@ -77,9 +86,11 @@
 		</div>
 		<div class="AdvancedFilterBar"></div>
 	</div>
+	<div id="storageContainer" class="container" style="background:#7ba93f;padding: 10px 0;">
+		<span style="margin:0 5px ;padding:5px 10px; font-weight:bold; background: #00873c; color:white;">忍法倉庫</span>
+	</div>
 	<hr>
-
-	<div class="container"></div>
+	<div id="ninpoContainer" class="container"></div>
 
 
 
