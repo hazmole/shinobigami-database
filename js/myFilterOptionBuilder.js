@@ -35,10 +35,13 @@ class MyFilterOptionBuilder{
 			var parentNode = document.createElement('div');
 			parentNode.className = "Nested";
 			
+			var evtOptionArr = option.entries.map(item=>{
+				return { type: id, value:item.value };
+			});
 			var titleNode = document.createElement('div');
 			titleNode.className = "FolderName";
 			titleNode.innerHTML = option.text;
-			titleNode.onclick = builder.ToggleNestedChildren.bind(builder, titleNode, id, option.value);
+			titleNode.onclick = builder.ToggleNestedChildren.bind(builder, titleNode, evtOptionArr);
 			parentNode.insertBefore(titleNode, null);
 
 			var folderNode = document.createElement('div');
@@ -72,7 +75,13 @@ class MyFilterOptionBuilder{
 		window.dispatchEvent(event);
 	}
 
-	ToggleNestedChildren(obj){
+	ToggleNestedChildren(obj, arr){
+		const event = new CustomEvent('selectFilterGroup', { detail: {
+			isFolding: $(obj).hasClass("unfold"),
+			arr: arr
+		}});
+		window.dispatchEvent(event);
+
 		$(obj).toggleClass("unfold");
 		$(obj.nextSibling).toggleClass("unfold");
 	}

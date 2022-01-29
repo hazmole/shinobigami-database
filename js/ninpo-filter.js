@@ -72,7 +72,13 @@ NinpoOptionBuilder.filterOptionList[0].options = [
   { text:'妖魔忍法', value:'demon' },
 ];
 NinpoOptionBuilder.filterOptionList[1].options = [
-  { text:'攻擊', value:'atk' },
+  { text:'全部', value:'all', default: true },
+  { text: '攻擊', isNested: true, entries: [
+      { text:'接近戰', value:'atk-melee' },
+      { text:'射擊戰', value:'atk-range' },
+      { text:'集團戰', value:'atk-group' },
+    ]  
+  },
   { text:'輔助', value:'sup' },
   { text:'裝備', value:'equ' },
 ];
@@ -132,6 +138,10 @@ NinpoFilter.checkEntryFunc = function(ninpo){
   }
   if(config.type.length>0){
     var isFound = MyFilter.OR(config.type, function(_idx, type){
+      var typeArr = type.split('-')
+      if(typeArr.length>1 && typeArr[0]=='atk'){
+        return ninpo.type==typeArr[0] && ninpo.tags.indexOf(typeArr[1]+'-atk')>=0;
+      }
       return ninpo.type==type;
     });
     if(!isFound) return false;
@@ -165,6 +175,18 @@ NinpoFilter.checkEntryFunc = function(ninpo){
 
 
 
+NinpoFilter.renderSelectedCss = function(config, key){
+  $(`#_filter_${key} a`).removeClass("selected");
+  if(config[key].length==0){
+    $(`#_filter_${key} a[data-value='all']`).addClass("selected");
+  }
+  else{
+    for(var val of config[key]){
+      $(`#_filter_${key} a[data-value='${val}']`).addClass("selected");
+    }
+  }
+}
+
 NinpoFilter.toggleOption = function(key, value){
   console.log(key,value);
 
@@ -186,7 +208,7 @@ NinpoFilter.toggleOption = function(key, value){
     }
   }
 
-  renderSelectedCss(this.config, key)
+  this.renderSelectedCss(this.config, key)
   return ;
 
   //=======================
@@ -195,15 +217,23 @@ NinpoFilter.toggleOption = function(key, value){
     if(idx==-1) config[key].push(value);
     else        config[key].splice(idx, 1);
   }
-  function renderSelectedCss(config, key){
-    $(`#_filter_${key} a`).removeClass("selected");
-    if(config[key].length==0){
-      $(`#_filter_${key} a[data-value='all']`).addClass("selected");
-    }
-    else{
-      for(var val of config[key]){
-        $(`#_filter_${key} a[data-value='${val}']`).addClass("selected");
-      }
-    }
+}
+
+NinpoFilter.toggleGroupOption = function(optArr, isFolding){
+  for(var opt of optArr){
+    var key = opt.type, value = opt.value;
+    if(isFolding) removeConfigEntry(this.config, key, value);
+    else addConfigEntry(this.config, key, value);
+    this.renderSelectedCss(this.config, key)
+  }
+ 
+  //==================
+  function addConfigEntry(config, key, value){
+    var idx = config[key].indexOf(value);
+    if(idx==-1) config[key].push(value);
+  }
+  function removeConfigEntry(config, key, value){
+    var idx = config[key].indexOf(value);
+    if(idx>-1) config[key].splice(idx, 1);
   }
 }

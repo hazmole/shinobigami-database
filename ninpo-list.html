@@ -52,6 +52,10 @@
 			NinpoFilter.toggleOption(e.detail.type, e.detail.value);
 			printResult()
 		});
+		window.addEventListener('selectFilterGroup', function(e){
+			NinpoFilter.toggleGroupOption(e.detail.arr, e.detail.isFolding);
+			printResult()
+		});
 	</script>
 </head>
 <body>
@@ -64,7 +68,7 @@
 				<button id="SearchBtn" type="submit">尋找</button>
 			</form>
 			<div class="SwitchBlock">
-				<span class="label">啟用簡表檢視</span>
+				<span class="label">啟用簡表</span>
 				<label class="switch">
 					<input id="displayMode" type="checkbox" onChange="toggleDisplayMode()">
 					<span class="slider"></span>
