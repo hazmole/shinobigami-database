@@ -1,5 +1,95 @@
+:root{
+	--ninpo-hover: #ff0a94;
+	--ninpo-type-atk: #811c1c;
+	--ninpo-type-sup: #1a5c41;
+	--ninpo-type-equ: #32236e;
+}
 
-.ninpo-card:hover { box-shadow: 0px 0px 2px 3px #fff; }
+.ninpo-item {
+	display: flex;
+	justify-content: flex-start;
+	align-items: stretch;
+	background: white;
+	width: 100%;
+	border: 3px groove #ccc;
+	margin: 0 5px;
+}
+.ninpo-item:hover {
+	border-color: var(--ninpo-hover);
+}
+.ninpo-item .title {
+	background: black; color: white;
+	width: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.ninpo-item .category {
+	position: relative;
+	margin: 0 1px 0;
+	padding: 0px 6px 0;
+
+	background: #666; color: white;
+	font-size: 10px;
+}
+.ninpo-item .category:before {
+	content: "";
+	position: absolute;
+	right: -6px;
+	bottom: 0; top: 0;
+	border-right: 0px;
+	border-left: 6px solid #666;
+	border-top: 9px solid transparent;
+	border-bottom: 9px solid transparent;
+}
+.ninpo-item .mainTitle {
+	font-weight: bold;
+	padding: 5px;
+	align-self: stretch;
+	text-align: center;
+}
+
+.ninpo-item .type {
+	padding: 13px 5px;
+	text-align: center;
+	width: 40px;
+}
+.ninpo-item .type.atk { background-color: var(--ninpo-type-atk); color: white; }
+.ninpo-item .type.sup { background-color: var(--ninpo-type-sup); color: white; }
+.ninpo-item .type.equ { background-color: var(--ninpo-type-equ); color: white; }
+.ninpo-item .blockCell {
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+	border-right: 3px double #6a6a6a;
+    padding-bottom: 5px;
+}
+.ninpo-item .blockCell div:before {
+    display: block;
+    font-size: 10px;
+    width: 100%;
+    background: #b5b5b5;
+    margin-bottom: 5px;
+}
+.ninpo-item .blockCell .range {width: 60px;}
+.ninpo-item .blockCell .cost {width: 60px;}
+.ninpo-item .blockCell .skill {width: 120px;}
+
+.ninpo-item .blockCell .range:before { content: "間隔"; }
+.ninpo-item .blockCell .cost:before { content: "花費"; }
+.ninpo-item .blockCell .skill:before { content: "指定特技"; }
+
+.ninpo-item .effect {
+	padding: 5px;
+	align-items: center;
+    justify-content: flex-start;
+    display: flex;
+	width: calc(100% - 500px);
+}
+
+
+
+.ninpo-card:hover { box-shadow: 0px 0px 2px 3px var(--ninpo-hover); }
 .ninpo-card {
 	width: 300px;
 	border: 5px groove #ccc;
@@ -45,19 +135,20 @@
 	position: absolute;
 	left: -6px;
 	bottom: 0; top: 0;
+	border-left: 0px;
 	border-right: 6px solid #666;
 	border-top: 9px solid transparent;
 	border-bottom: 9px solid transparent;
 }
 
-.ninpo-card .category.clan { background-color: #385c99; }
-.ninpo-card .category.clan:before { border-right-color: #385c99; }
-.ninpo-card .category.ancient { background-color: #8d852f; }
-.ninpo-card .category.ancient:before { border-right-color: #8d852f; }
-.ninpo-card .category.demon { background-color: #6e2dab; }
-.ninpo-card .category.demon:before { border-right-color: #6e2dab; }
-.ninpo-card .category.other { background-color: #8f4728; }
-.ninpo-card .category.other:before { border-right-color: #8f4728; }
+.ninpo .category.clan { background-color: #385c99; }
+.ninpo .category.clan:before { border-right-color: #385c99;border-left-color:#385c99; }
+.ninpo .category.ancient { background-color: #8d852f; }
+.ninpo .category.ancient:before { border-right-color: #8d852f;border-left-color:#8d852f;  }
+.ninpo .category.demon { background-color: #6e2dab; }
+.ninpo .category.demon:before { border-right-color: #6e2dab;border-left-color:#6e2dab;  }
+.ninpo .category.other { background-color: #8f4728; }
+.ninpo .category.other:before { border-right-color: #8f4728;border-left-color:#8f4728;  }
 
 .ninpo-card .attributes .restrict {
 	background: #aaa;
@@ -87,9 +178,9 @@
 .ninpo-card .arguments .cost { width: 85px; }
 .ninpo-card .arguments .skill { width: 100%; font-size:12px; }
 
-.ninpo-card .arguments .tag.atk { background-color: #811c1c; color: white; }
-.ninpo-card .arguments .tag.sup { background-color: #1a5c41; color: white; }
-.ninpo-card .arguments .tag.equ { background-color: #32236e; color: white; }
+.ninpo-card .arguments .tag.atk { background-color: var(--ninpo-type-atk); color: white; }
+.ninpo-card .arguments .tag.sup { background-color: var(--ninpo-type-sup); color: white; }
+.ninpo-card .arguments .tag.equ { background-color: var(--ninpo-type-equ); color: white; }
 
 .ninpo-card .arguments .tag.type:before {content: "種類";}
 .ninpo-card .arguments .tag.range:before {content: "間隔";}

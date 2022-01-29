@@ -1,26 +1,43 @@
-function parseNinpo(ninpoObj){
+function parseNinpo(ninpoObj, mode){
 	function getName(ninpoObj){
 		if(ninpoObj.name.length==0) return '???';
 		return (ninpoObj.features?.canReLearn? '※': '')+ninpoObj.name[0];
 	}
-	function getCategoryText(category){
+	function getCategoryText(category, isSimple){
 		switch(category[0]){
-			case "general": return '泛用';
-			case "demon": return '妖魔忍法';
+			case "general": return '泛用'+(isSimple?"":"忍法");
+			case "demon": return '妖魔'+(isSimple?"":"忍法");
 			default:
 				if(category.length<=1) return '-';
-				return category.slice(1).join("-");
+				var textArr = category.slice(1);
+				if(category.length>2 && textArr[1]!="秘傳")
+					textArr[0] = getClanNameText(textArr[0], true);
+				return textArr.join("-");
 		} 
 	}
+	function getClanNameText(clan, isSimple){
+		if(!isSimple) return clan;
+		switch(clan){
+			case "斜齒忍軍": return '斜齒';
+			case "鞍馬神流": return '鞍馬';
+			case "離群者": return '離群';
+			case "比良坂機關": return '比良坂';
+			case "私立御齋學園": return '御齋';
+			case "隱忍的血統": return '隱忍';
+		} 
+		return clan;
+	}
 
-
-	function getType(type){
-		switch(type){
-			case 'atk': return '攻擊忍法';
-			case 'sup': return '輔助忍法';
-			case 'equ': return '裝備忍法';
+	function getType(type, isSimple){
+		function getTypeText(type){
+			switch(type){
+				case 'atk': return '攻擊';
+				case 'sup': return '輔助';
+				case 'equ': return '裝備';
+			}
+			return type;
 		}
-		return '-'
+		return (isSimple)? getTypeText(type): (getTypeText(type)+'忍法');
 	}
 	function getRange(range){
 		if(Number.isInteger(range)) return range;
@@ -50,7 +67,27 @@ function parseNinpo(ninpoObj){
 		return restrict_arr.map(v => `<span class="restrict ${v}">${getRestrictText(v)}</span>`).join('');
 	}
 
-	return `<div class="ninpo-card">
+	if(mode=='list')
+		return `<div class="ninpo ninpo-item">
+	<div class="title">
+		<div class="category ${ninpoObj.category[0]}">${getCategoryText(ninpoObj.category, true)}</div>
+		<div class="mainTitle">${getName(ninpoObj)}</div>
+	</div>
+	<div class="type ${ninpoObj.type}">${getType(ninpoObj.type, true)}</div>
+	<div class="blockCell">
+		<div class="range">${getRange(ninpoObj.range)}</div>
+	</div>
+	<div class="blockCell">
+		<div class="cost">${getCost(ninpoObj.cost)}</div>
+	</div>
+	<div class="blockCell">
+		<div class="skill">${getSkill(ninpoObj.skills)}</div>
+	</div>
+	<div class="field left effect">${ninpoObj.effect.join('<br>')}</div>
+</div>`;
+
+	else
+		return `<div class="ninpo ninpo-card">
 	<div class="header">
 		<div class="title">
 			<div class="mainTitle">${getName(ninpoObj)}</div>
@@ -74,3 +111,4 @@ function parseNinpo(ninpoObj){
 	</div>
 </div>`;
 }
+
