@@ -172,7 +172,7 @@ input:checked + .slider:before {
   border: none;
 }
 .AdvancedFilterBar {
-  //display: none;
+  display: none;
   margin: .8rem;
   color: white;
   transition: all .3s ease-out;
