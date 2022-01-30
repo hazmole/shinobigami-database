@@ -62,6 +62,7 @@ function parseNinpo(ninpoObj, mode){
 				case "rank-chunintou": return "中忍頭限定";
 				case "rank-jonin": return "上忍限定";
 				case "rank-jonintou": return "上忍頭限定";
+				case "rank-gashira": return "頭領限定";
 				default: return "";
 			}
 		}

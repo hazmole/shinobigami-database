@@ -10,6 +10,25 @@
 	<script src="./data/ninpo-list.js"></script>
 	<script src="./js/ninpo-filter.js"></script>
 	<script src="./js/ninpo-parser.js"></script>
+	<style>
+		#storageContainer{
+			background:#884C3A;
+			padding: 10px 0;
+		}
+		#storageContainer .container_title {
+			background: #5c0000;
+			color:white;
+			margin:0 5px;
+			padding:5px 10px;
+			font-weight:bold;
+		}
+		#storageContainer .container_title:after {
+			content: "(雙擊忍法以加入/移除忍法倉庫)";
+			margin: 0 5px;
+			font-size: 10px;
+			font-weight:normal;
+		}
+	</style>
 	<script>
 		var NINPO_LIST;  //from "data/ninpo-list.js"
 		var NinpoFilter; //from "js/ninpo-filter.js"
@@ -86,8 +105,8 @@
 		</div>
 		<div class="AdvancedFilterBar"></div>
 	</div>
-	<div id="storageContainer" class="container" style="background:#7ba93f;padding: 10px 0;">
-		<span style="margin:0 5px ;padding:5px 10px; font-weight:bold; background: #00873c; color:white;">忍法倉庫</span>
+	<div id="storageContainer" class="container">
+		<span class="container_title">忍法倉庫</span>
 	</div>
 	<hr>
 	<div id="ninpoContainer" class="container"></div>

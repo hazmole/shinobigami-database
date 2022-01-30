@@ -614,7 +614,7 @@ var NINPO_LIST = [
 {name:["龍星群"],category:["clan","隱忍血統","秘傳"],type:"atk",range:3,cost:1,skills:["召喚術"],effect:["射擊戰。指定間隔內的角色全員為目標（包括自己）。攻擊成功時，給予目標2點射擊戰傷害。"],desc:[""],restrict:["rank-jonin"],tags:["range-atk"],book:""},
 {name:["八岐"],category:["clan","隱忍血統","秘傳"],type:"sup",range:"",cost:5,skills:["異形化"],effect:["戰鬥中代替自己攻擊使用。指定特技判定成功時，直到戰鬥結束之前，自己的資料視作忍獸類別中「大蛇」（生命力為該敵人的最大值，不能使用會減少生命力的忍法）當戰鬥結束時，生命力變更為使用該忍法時的生命力-1的狀態。處於忍獸狀態時，不能使用奧義和忍具。"],desc:[""],restrict:["rank-jonin"],tags:[],book:""},
 {name:["殺神"],category:["clan","隱忍血統","秘傳"],type:"equ",range:"",cost:0,skills:[],effect:["對此角色的奧義[暴擊][範圍攻擊]進行的看破判定有-3修正。"],desc:[""],restrict:["rank-jonintou"],tags:[],book:""},
-{name:["反魂"],category:["clan","隱忍血統","秘傳"],type:"sup",range:"",cost:0,skills:["死靈術"],effect:["自己登場的戲劇場景，或高潮階段結束時使用，指定該劇本中死亡的一名角色為目標。指定判定成功時，目標的死亡無效化，給予目標1點「汙染」。此忍法可指定未登場的角色。"],desc:[""],restrict:["taima","頭領"],tags:[],book:""},
+{name:["反魂"],category:["clan","隱忍血統","秘傳"],type:"sup",range:"",cost:0,skills:["死靈術"],effect:["自己登場的戲劇場景，或高潮階段結束時使用，指定該劇本中死亡的一名角色為目標。指定判定成功時，目標的死亡無效化，給予目標1點「汙染」。此忍法可指定未登場的角色。"],desc:[""],restrict:["taima","rank-gashira"],tags:[],book:""},
 {name:["微睡"],category:["clan","隱忍血統","秘傳"],type:"equ",range:"",cost:0,skills:[],effect:["修得此忍法時，選擇一個自己修得的特技變更為未修得。在此劇本間，僅有一次可在任意時機選擇任意一個特技修得。"],desc:[""],restrict:[],tags:[],book:""},
 {name:["隸具"],category:["clan","隱忍血統","秘傳"],type:"sup",range:"",cost:0,skills:["咒術"],effect:["自己的回合使用。指定特技判定成功時，失去一名自己的從者，獲得任意一個忍具（可以是任何能獲得的忍具或特殊忍具）。此忍法在一個場景中只能使用一次。"],desc:[""],restrict:["rank-chunintou"],tags:[],book:""},
 {name:["搦骸"],category:["clan","隱忍血統","秘傳"],type:"sup",range:"",cost:0,skills:[],effect:["任何人對自己的攻擊進行迴避判定時使用。如果此判定中擲骰的點數出現2的話，將2全部變更為0。"],desc:[""],restrict:["rank-jonin"],tags:[],book:""},

@@ -6,6 +6,7 @@ NinpoOptionBuilder.filterOptionList = [
   { id:'type', title:'種類', options:[] },
   { id:'range', title:'間隔', options:[] },
   { id:'cost', title:'花費', options:[] },
+  { id:'restrict', title:'限定條件', options:[] },
 ];
 NinpoOptionBuilder.filterOptionList[0].options = [
   { text:'全部', value:'all', default: true },
@@ -99,6 +100,25 @@ NinpoOptionBuilder.filterOptionList[3].options = [
   { text:'3', value:'3' },
   { text:'4+', value:'4+' },
 ];
+NinpoOptionBuilder.filterOptionList[4].options = [
+  { text:'全部', value:'all', default: true },
+  { text:'無', value:'-' },
+  { text:'階級限定', isNested: true, entries: [
+      { text:'中忍', value:'rank-chunin' },
+      { text:'中忍頭', value:'rank-chunintou' },
+      { text:'上忍', value:'rank-jonin' },
+      { text:'上忍頭', value:'rank-jonintou' },
+      { text:'頭領', value:'rank-gashira' },
+    ]
+  },
+  { text:'退魔篇', value:'taima' },
+/*  { text:'篇章限定', isNested: true, entries: [
+      { text:'退魔篇', value:'taima' },
+      { text:'平安篇', value:'heian ' },
+      { text:'GP篇', value:'GP' },
+    ]
+  },*/
+];
 
 
 var NinpoFilter = new MyFilter();
@@ -162,9 +182,18 @@ NinpoFilter.checkEntryFunc = function(ninpo){
     });
     if(!isFound) return false;
   }
-  if(config.skill!=''){
+  /*if(config.skill!=''){
     var isFound = MyFilter.OR(ninpo.skills, function(_idx, skill){
       return skill.indexOf(config.skill)>=0;
+    });
+    if(!isFound) return false;
+  }*/
+  if(config.restrict.length>0){
+    var isFound = MyFilter.OR(config.restrict, function(_idx, restrict){
+      if(restrict=='-'){
+        return ninpo.restrict.length==0;
+      } 
+      return ninpo.restrict.indexOf(restrict)>=0;
     });
     if(!isFound) return false;
   }
@@ -199,6 +228,7 @@ NinpoFilter.toggleOption = function(key, value){
     case "type":
     case "range":
     case "cost":
+    case "restrict":
       toggleConfigEntry(this.config, key, value);
       break;
 
