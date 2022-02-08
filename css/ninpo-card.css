@@ -89,10 +89,13 @@
 .ninpo-item .blockCell .range {width: 60px;}
 .ninpo-item .blockCell .cost {width: 60px;}
 .ninpo-item .blockCell .skill {width: 120px;}
+.ninpo-item .blockCell .req_exp {width: 80px;}
 
 .ninpo-item .blockCell .range:before { content: "間隔"; }
 .ninpo-item .blockCell .cost:before { content: "花費"; }
 .ninpo-item .blockCell .skill:before { content: "指定特技"; }
+.ninpo-item .blockCell .req_exp:before { content: "必要功績點"; }
+.ninpo-item .blockCell .req_exp.flaw:before { content: "功績點"; }
 
 .ninpo-item .effect {
 	display: flex;
@@ -158,14 +161,18 @@
 	border-bottom: 9px solid transparent;
 }
 
-.ninpo .category.clan { background-color: #385c99; }
-.ninpo .category.clan:before { border-right-color: #385c99;border-left-color:#385c99; }
+.ninpo .category.clan,
+.ninpo .category.benefit { background-color: #385c99; }
+.ninpo .category.clan:before,
+.ninpo .category.benefit:before { border-right-color: #385c99;border-left-color:#385c99; }
 .ninpo .category.ancient { background-color: #8d852f; }
 .ninpo .category.ancient:before { border-right-color: #8d852f;border-left-color:#8d852f;  }
 .ninpo .category.demon { background-color: #460e7a; }
 .ninpo .category.demon:before { border-right-color: #460e7a;border-left-color:#460e7a;  }
-.ninpo .category.other { background-color: #8f4728; }
-.ninpo .category.other:before { border-right-color: #8f4728;border-left-color:#8f4728;  }
+.ninpo .category.other,
+.ninpo .category.flaw { background-color: #8f4728; }
+.ninpo .category.other:before,
+.ninpo .category.flaw:before { border-right-color: #8f4728;border-left-color:#8f4728;  }
 
 .ninpo-card .restrict {
 	background: #df0000;
@@ -194,6 +201,7 @@
 .ninpo-card .arguments .range,
 .ninpo-card .arguments .cost { width: 85px; }
 .ninpo-card .arguments .skill { width: 100%; font-size:12px; }
+.ninpo-card .arguments .req_exp { width: 100%; }
 
 .ninpo-card .arguments .tag.atk { background-color: var(--ninpo-type-atk); color: white; }
 .ninpo-card .arguments .tag.sup { background-color: var(--ninpo-type-sup); color: white; }
@@ -203,6 +211,8 @@
 .ninpo-card .arguments .tag.range:before {content: "間隔";}
 .ninpo-card .arguments .tag.cost:before {content: "花費";}
 .ninpo-card .arguments .tag.skill:before {content: "指定特技"; margin-right: 5px;}
+.ninpo-card .arguments .tag.req_exp:before {content: "必要功績點"; margin-right: 5px;}
+.ninpo-card .arguments .tag.req_exp.flaw:before {content: "功績點";}
 
 .ninpo-card .body {
 	margin-top: 1px;
@@ -216,6 +226,9 @@
 	padding: 5px;
 	height: 160px;
 	overflow-y: auto;
+}
+.ninpo-card .body .effect.large {
+	height: 220px;
 }
 .ninpo-card .body .desc {
 	padding: 5px;
