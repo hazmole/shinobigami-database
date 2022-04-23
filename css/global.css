@@ -58,18 +58,38 @@ button:hover {
 }
 
 .container {
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 .Bar{
   display: flex;
 }
 
 
+/*==============
+ * NavBar Object */
+#navbar {
+  display: flex;
+  background: var(--color-searchBack);
+  padding: 5px;
+}
+#navbar a { text-decoration: none; }
+#navbar .navitem {
+  padding: 5px 10px;
+  margin: 0px 3px;
+  color: white;
+  background: #404040;
+}
+#navbar .navitem:hover {
+  background: #979797;
+}
+
+/*==============
+ * SearchPanel */
 .SearchPanel {
   background: var(--color-searchBack);
-  padding: 10px 5px;
+  padding: 10px 10px;
 }
 form.SearchBox {
   position: relative;

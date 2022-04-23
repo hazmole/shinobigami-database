@@ -19,8 +19,10 @@ function checkAuthentication(){
 	}
 }
 
-function auth(input){
+function auth(){
 	//TODO: auth 
+	var val = $("#password").val();
+	if(val !== "shinobi") return;
 
 	localStorage.setItem('shinobi-auth-status', true);
 	window.location.replace("./index.html")
