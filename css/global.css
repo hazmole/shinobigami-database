@@ -36,6 +36,7 @@ h1 {
 	color: white;
 	position: relative;
 	margin-bottom: 0;
+  height: 85px;
 }
 h1:before {
   content: ' ';
@@ -66,18 +67,36 @@ button:hover {
   display: flex;
 }
 
+/*==============
+ * Frame */
+#FrameOuter {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+#FrameNavbar {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-searchBack);
+  width: 160px;
+  height: calc(100vh - 85px);
+}
+#FrameContent { 
+  width: calc(100% - 160px);
+  height: calc(100vh - 85px);
+  overflow-y: auto;
+}
 
 /*==============
  * NavBar Object */
 #navbar {
-  display: flex;
-  background: var(--color-searchBack);
-  padding: 5px;
+  padding: 10px 10px;
 }
 #navbar a { text-decoration: none; }
 #navbar .navitem {
-  padding: 5px 10px;
-  margin: 0px 3px;
+  text-align: center;
+  padding: 5px 20px;
+  margin-bottom: 10px;
   color: white;
   background: #404040;
 }
