@@ -27,6 +27,7 @@ NinpoOptionBuilder.filterOptionList[0].options = [
       { text:'◆ 銃劍', value:'clan-鞍馬神流-銃劍' },
       { text:'◆ 魔王流', value:'clan-鞍馬神流-魔王流' },
       { text:'◆ 蓮華王拳', value:'clan-鞍馬神流-蓮華王拳' },
+      { text:'◆ 密藏番', value:'clan-鞍馬神流-密藏番' },
     ]  
   },
   { text: '離群者', isNested: true, entries: [
@@ -200,7 +201,41 @@ NinpoFilter.checkEntryFunc = function(ninpo){
 
   return true;
 }
+NinpoFilter.cmpEntryFunc = function(a, b){
+  var result = 0;
 
+  result = cmpCategory(a,b);
+  if(result!=0) return result;
+
+  var orderOfType = ["atk", "sup", "equ"];
+  result = orderOfType.indexOf(a.type) - orderOfType.indexOf(b.type);
+  if(result!=0) return result;
+
+  return this.list.indexOf(a) - this.list.indexOf(b);
+  //=============
+  function cmpCategory(a,b){
+    var depth = (a.category.length>b.category.length)? a.category.length: b.category.length;
+    var orderOfCate = ["general", "clan", "秘傳",
+      "斜齒忍軍", "鍔鑋組", "大槌群", "指矩班", "御釘眾", 
+      "鞍馬神流", "迴鴉", "銃劍", "魔王流", "蓮華王拳", "密藏番", 
+      "離群者", "夜顏", "NO.9", "世界忍者聯合", "影繪座", "不知火", "咎眼流", "不來梅", 
+      "比良坂機關", "常夜", "醜女眾", "公安隱密局", "麝香會綜合醫院", "外事N課", 
+      "私立御齋學園", "特命臨時教職員派遣委員會", "御齋學園學生會", "私立多羅尾女學院", "舊校舍管理委員會", 
+      "隱忍血統", "土蜘蛛", "血社", "凶尾", "長耳",
+      "ancient",
+      "伊賀者", "甲賀者", "裏柳生", "根來眾", "透波", "軒猿", "亂波", "突波", "雜賀眾", "黑脛巾組", "座頭眾", "缽屋眾", "八房", "黑鍬組", "川並眾", "山潛眾", "花留陀眾", "金色庵", "宿儺眾", "真言立川流", "土御門家", "伴天連",
+      "demon"];
+
+    for(var i=0; i<depth; i++){
+      if(a.category[i]==null) return -1;
+      if(b.category[i]==null) return 1;
+
+      var result = orderOfCate.indexOf(a.category[i]) - orderOfCate.indexOf(b.category[i]);
+      if(result!=0) return result;
+    }
+    return 0;
+  }
+}
 
 
 

@@ -4,6 +4,7 @@ class MyFilter{
     this.config = {};
     this.defaultConfig = {};
     this.checkEntryFunc = null;
+    this.cmpEntryFunc = null;
 
     this.resultList = null;
   }
@@ -18,7 +19,7 @@ class MyFilter{
   //==============
   Execute(config){
     if(config !== undefined) this.SetConfig(config);
-    return this.resultList = this.list.filter( entry => this.Check(entry) );
+    return this.resultList = this.list.filter( entry => this.Check(entry) ).sort( (a,b) => this.cmpEntryFunc? this.cmpEntryFunc(a,b): 0 );
   }
   Check(entry){
     var config = this.filterConfig;
