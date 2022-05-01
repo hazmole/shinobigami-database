@@ -1,0 +1,384 @@
+<html>
+<head>
+	<title>創角模擬器</title>
+	<link rel="stylesheet" href="./css/global.css">
+	<link rel="stylesheet" href="./css/ninpo-card.css">
+	<script src="./data/ninpo-list.js"></script>
+	<script src="./data/background-list.js"></script>
+	<script src="./js/jquery-3.6.0.min.js"></script>
+	<script src="./js/authenticator.js"></script>
+	<script src="./js/navbar.js"></script>
+	<script src="./js/windowCtrl.js"></script>
+	<script src="./js/utils.js"></script>
+	<script src="./js/myFilter.js"></script>
+	<script src="./js/myFilterOptionBuilder.js"></script>
+	<script src="./js/ninpo-filter.js"></script>
+	<script src="./js/ninpo-parser.js"></script>
+	<script src="./js/background-parser.js"></script>
+	<style>
+.CharacterSheet {
+	margin: 1rem;
+	padding: 5px;
+	display: inline-block;
+}
+.CharacterSheet .Profile {
+	width: auto;
+}
+.Entry {
+	display: flex;
+	align-items: center;
+	margin: 0 0 5px 0;
+}
+.label{
+	width: 80px;
+	padding: 5px 10px;
+	margin: 0 5px 0 0;
+
+	background: #684c0b;
+	color: white;
+	text-align: center;
+}
+.sublabel {
+	width: 40px;
+	padding: 5px 10px;
+	margin: 0 5px 0 0;
+
+	border: 1px solid black;
+	background: #e3dbb7;
+	color: black;
+	text-align: center;
+	font-weight: bold;
+}
+
+input[type=text], select {
+	width: 260px;
+    padding: 5px 10px;
+    box-sizing: border-box;
+    border: 2px solid black;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+option.hasuba { background:#96b5db; }
+option.kurama { background:#a0c8cf; }
+option.lostone { background:#a0cfa6; }
+option.hirasaka { background:#f1f5b5; }
+option.otogi { background:#e9bd7d; }
+option.oniblood { background:#b9a0cf; }
+option.ancient { background:#b79a71; }
+
+#clan_info,
+#motivation_info { padding-left: 1rem; }
+.info {
+	display: inline-block;
+	padding: 5px;
+}
+
+.SkillTable {
+	display: flex;
+	border: 2px solid black;
+	cursor: pointer;
+}
+.SkillTable .SkillFieldGap { 
+	background: white; width:10px;
+}
+.SkillTable .SkillFieldColume {
+	border: 2px solid black;
+    border-bottom: 1px solid;
+    border-top: 1px solid;
+}
+.SkillTable .SkillFieldColume:last-child {
+    border-right: 0;
+}
+.SkillTable .SkillField {
+	width: 65px;
+	padding: 10px 5px;
+	background: #ccc;
+	text-align: center;
+	border: 1px solid black;
+	border-top: 0px;
+}
+.SkillTable .SkillFieldGap.selected {
+	background: #524b4b;
+}
+.SkillTable .Skill {
+	width: 65px;
+	padding: 5px;
+	background: white;
+	text-align: center;
+	border: 1px solid black;
+}
+.SkillTable .Skill:last-child {
+	border-bottom: 0;
+}
+.SkillTable .Skill.selected {
+	background: #992020;
+	color: white;
+}
+
+
+.ninpo-item { margin: 0; }
+#BackgroundList .ninpo-item .effect { width: calc(100% - 250px); }
+
+	</style>
+	<script>
+var NINPO_LIST; 		// from "data/ninpo-list.js"
+var BACKGROUND_LIST; 	// from "data/background-list.js"
+var Utils; 				// from "js/utils.js"
+var NinpoFilter; 		// from "js/ninpo-filter.js"
+NinpoFilter.SetList(NINPO_LIST);
+
+
+var UserConfig = {
+	name: '',
+	motivation: '',
+	rank: '',
+	clan: '',
+	skills: [],
+};
+
+function selectMotivation(elem){
+	var targetObj = document.getElementById("motivation_info_desc");
+	if(!targetObj) return ;
+
+	var text = elem.value;
+	var movObj = Utils.getMotivationObj(text);
+	targetObj.style.display = "inline-block";
+	targetObj.innerHTML = movObj.info;
+}
+function selectClan(elem){
+	var restrictObj = document.getElementById("clan_info_restrict");
+	var guidanceObj = document.getElementById("clan_info_guidance");
+	if(!restrictObj || !guidanceObj) return ;
+
+	var clanText = elem.value.split('-').last();
+	var clanObj = Utils.getClanObj(clanText);
+	if(!clanObj){
+		restrictObj.innerText = "無";
+		guidanceObj.innerText = "無";
+	} else {
+		restrictObj.innerText = clanObj.restrict? clanObj.restrict: "無";
+		guidanceObj.innerText = clanObj.guidance? clanObj.guidance: "無";
+	}
+}
+function selectSkill(elem){
+	$(elem).toggleClass("selected");
+
+	var skill = elem.innerText;
+	if(UserConfig.skills.indexOf(skill)<0){
+		UserConfig.skills.push(skill);
+	} else {
+		UserConfig.skills.splice(UserConfig.skills.indexOf(skill), 1);
+	}
+}
+function selectSkillField(elem){
+	$(".SkillFieldGap").removeClass("selected");
+
+	$(elem).parent().prev().addClass("selected")
+	$(elem).parent().next().addClass("selected")
+}
+function selectSkillGap(elem){
+	$(elem).toggleClass("selected");
+}
+//=========================
+function buildPage(){
+	
+	buildClanOptions();
+	buildSkillTable();
+	buildNinpo();
+	buildBackground();
+
+	//===============
+	function buildClanOptions(){
+		var targetObj = document.getElementById("clan");
+		if(!targetObj) return;
+
+		var content = [];
+		for(var clanObj of Utils.ClanList){
+			content.push(`<option value="${clanObj.key}" class="${clanObj.style}">${clanObj.text}</option>`);
+			for(var subclanObj of clanObj.subclan){
+				content.push(`<option value="${clanObj.key}-${subclanObj.text}" class="${clanObj.style}">${clanObj.shorten}-${subclanObj.text}</option>`);
+			}
+		}
+		targetObj.innerHTML += content.join("");
+	}
+	function buildSkillTable(){
+		var targetObj = document.getElementById("SkillTable");
+		if(!targetObj) return;
+
+		var content = [];
+		for(var fieldObj of Utils.SkillTable){
+			var fieldCol = [];
+			fieldCol.push(`<div class="SkillField" onClick="selectSkillField(this)">${fieldObj.text}</div>`);
+			for(var skillObj of fieldObj.list){
+				fieldCol.push(`<div class="Skill" onClick="selectSkill(this)">${skillObj.text}</div>`);
+			}
+			content.push(`<div class="SkillFieldGap" onClick="selectSkillGap(this)"></div>`);
+			content.push(`<div class="SkillFieldColume">${fieldCol.join("")}</div>`);
+		}
+		targetObj.innerHTML = content.join("");
+	}
+	function buildNinpo(){
+		var targetObj = document.getElementById("NinpoList");
+		if(!targetObj) return;
+
+		var content = [];
+		content.push(parseNinpo(NINPO_LIST[0], 'list'));
+
+		targetObj.innerHTML = content.join("");
+	}
+	function buildBackground(){
+		var targetObj = document.getElementById("BackgroundList");
+		if(!targetObj) return;
+
+		var content = [];
+
+		targetObj.innerHTML = content.join("");
+	}
+
+}
+function appendNinpo(ninpoObj){
+	var ninpoElem = $(parseNinpo(ninpoObj, 'list')).appendTo('#NinpoList').get(0);
+	ninpoElem.ondblclick = removeNinpo.bind(null, ninpoElem);
+}
+function removeNinpo(elem){
+	console.log(elem)
+	$(elem).remove();
+}
+
+function popNinpoSearcher(){
+	var content = `
+		<div class="SearchBar Bar">
+			<form class="SearchBox" onsubmit="event.preventDefault();" role="search">
+				<input id="searchInput" type="search" placeholder="尋找忍法名或效果..." autofocus />
+				<button id="SearchBtn" type="submit">尋找</button>
+			</form>
+		</div>
+		<hr/>
+		<div style="margin: 10px 0; color: #e3e3e3;">雙擊以選擇忍法</div>
+		<div style="height:460px;overflow-y: auto">
+			<div id="SearchResult" style="width: calc(100% - 8px);"></div>
+		</div>`;
+
+	WindowCtrl.popupWindow(content, 'Large');
+	searchNinpo();
+	$("#searchInput").on('search', function(e){
+		searchNinpo();
+	})
+}
+function searchNinpo(){
+	var searchInputText = $("#searchInput").val();
+	NinpoFilter.SetConfigEntry('text', searchInputText);
+
+	$('#SearchResult').empty();
+	var list = NinpoFilter.Execute();
+	for(var ninpoObj of list){
+		var ninpoElem = $(parseNinpo(ninpoObj, 'list')).appendTo('#SearchResult').get(0);
+		ninpoElem.ondblclick = selectNinpo.bind(null, ninpoObj)
+	}
+}
+function selectNinpo(ninpoObj){
+	appendNinpo(ninpoObj);
+}
+
+function popBackgroundSearcher(){
+	
+}
+
+	</script>
+</head>
+<body onload="buildPage()">
+	<h1>忍神秘傳卷集 - 創角模擬器</h1>
+	<div id="FrameOuter">
+		<div id="FrameNavbar">
+			<div id="navbar"></div>
+		</div>
+		<div id="FrameContent">
+
+			<div class="CharacterSheet">
+				<div class="Bar" style="margin-bottom: 10px;">
+					<div class="Profile">
+						<div class="Entry">
+							<div class="label">角色名稱</div>
+							<div><input type="text" id="name"></div>
+						</div>
+						<div class="Entry">
+							<div class="label">信念</div>
+							<div>
+								<select id="motivation" onchange="selectMotivation(this)">
+									<option value="" selected disabled hidden>--選擇信念--</option>
+									<option value="凶">凶</option>
+									<option value="律">律</option>
+									<option value="我">我</option>
+									<option value="情">情</option>
+									<option value="忠">忠</option>
+									<option value="和">和</option>
+								</select>
+							</div>
+						</div>
+						<div id="motivation_info" style="font-size: 14px;">
+							<div class="Entry" style="background: #fffff7;">
+								<div id="motivation_info_desc" class="info" style="display:none;"></div>
+							</div>
+						</div>
+						<div class="Entry">
+							<div class="label">階級</div>
+							<div>
+								<select id="rank">
+									<option value="" selected disabled hidden>--選擇階級--</option>
+									<option value="genin">下忍</option>
+									<option value="genintou">下忍頭</option>
+									<option value="chunin">中忍</option>
+									<option value="chunintou">中忍頭</option>
+									<option value="jonin">上忍</option>
+									<option value="jonintou">上忍頭</option>
+									<option value="gashira">頭領</option>
+									<option value="" disabled>-----</option>
+									<option value="normal">一般人</option>
+									<option value="demon">妖魔</option>
+								</select>
+							</div>
+						</div>
+						<div class="Entry">
+							<div class="label">流派</div>
+							<select id="clan" onchange="selectClan(this)">
+								<option value="" selected disabled hidden>--選擇流派--</option>
+								<option value="none">無</option>
+							</select>
+						</div>
+						<div id="clan_info" style="font-size: 14px;">
+							<div class="Entry" style="background: #fffff7;">
+								<div class="sublabel">限制</div>
+								<div id="clan_info_restrict" class="info"></div>
+							</div>
+							<div class="Entry" style="background: #fffff7;">
+								<div class="sublabel">流儀</div>
+								<div id="clan_info_guidance" class="info"></div>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+				<div id="Skills" style="margin-bottom: 10px; display: inline-block;">
+					<div class="label">技能表</div>
+					<div id="SkillTable" class="SkillTable"></div>
+				</div>
+				<div id="Ninpos" style="margin-bottom: 10px;">
+					<div class="label">忍法列表</div>
+					<div id="NinpoList" style="width: calc(100vw - 260px);"></div>
+					<button onclick="popNinpoSearcher()">+</button>
+				</div>
+
+				<!--
+				<div id="Backgrounds" style="margin-bottom: 10px;">
+					<div class="label">背景列表</div>
+					<div id="BackgroundList"></div>
+					<button onclick="popBackgroundSearcher()">+</button>
+				</div>
+				<div class="Items"></div>
+				-->
+			</div>
+
+		</div>
+	</div>
+</body>
+</html>

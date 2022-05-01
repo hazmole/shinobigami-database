@@ -100,9 +100,13 @@ button:hover {
   color: white;
   background: #404040;
 }
+#navbar .navitem.bright {
+  background: #786b6b;
+}
 #navbar .navitem:hover {
   background: #979797;
 }
+
 
 /*==============
  * SearchPanel */
@@ -205,7 +209,7 @@ input:checked + .slider:before {
 }
 
 
-#AdvancedSeatchBtn {
+#AdvancedSearchBtn {
   background: #707070; color: white;
   width: 100px;
   border: none;
@@ -258,3 +262,80 @@ input:checked + .slider:before {
   flex-direction: column;
 }
 .Entry .FolderBody{ display: none; }
+
+
+/*==============
+ * Popup Windows */
+#BlackLayout {
+  position: fixed;
+  top: 0; left: 0;
+  z-index: 100;
+  width: calc(100vw);
+  height: calc(100vh);
+
+  background: rgba(0, 0, 0, 0.5);
+}
+#WindowFrame {
+  position: fixed;
+  top: calc(50vh);
+  left: calc(50vw);
+  z-index: 101;
+  width: 600px;
+  height: 400px;
+  margin-top: -200px;
+  margin-left: -300px;
+
+  border: 2px solid #000;
+  border-radius: 5px;
+  background: var(--color-searchBack);
+  color: white;
+}
+#WindowFrameHead {
+  text-align: right;
+  height: 24px;
+}
+#WindowFrameContent {
+  padding: .6rem;
+  overflow-y: auto;
+}
+
+#WindowFrame.Large {
+  width: 1200px;
+  height: 600px;
+  margin-left: -600px;
+  margin-top: -300px;
+}
+
+
+/* 3pp style */
+.cross-stand-alone {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  position: relative;
+  width: 40px;
+  height: 40px;
+  right: 8px;
+  top: 1px;
+  cursor: pointer;
+}
+.cross-stand-alone:before, .cross-stand-alone:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 20px;
+  background: white;
+  border-radius: 4px;
+}
+.cross-stand-alone:before {
+  transform: rotate(45deg);
+}
+.cross-stand-alone:after {
+  transform: rotate(-45deg);
+}
+.cross-stand-alone span {
+  display: block;
+}
