@@ -7,7 +7,7 @@
 
 @font-face {
   font-family: "HanyiSenty";
-  src: url("../fonts/HanyiSentyFoundation.ttf");
+  src: url("../fonts/HanyiSentyFoundation.ttf") format('truetype');
   font-weight: normal;
   font-style: normal;
 }
