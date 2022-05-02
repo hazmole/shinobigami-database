@@ -127,7 +127,6 @@ var Utils; 				// from "js/utils.js"
 var NinpoFilter; 		// from "js/ninpo-filter.js"
 NinpoFilter.SetList(NINPO_LIST);
 
-
 var UserConfig = {
 	name: '',
 	motivation: '',
@@ -181,11 +180,12 @@ function selectSkillGap(elem){
 }
 //=========================
 function buildPage(){
-	
+	WindowCtrl.BlockUI();
 	buildClanOptions();
 	buildSkillTable();
 	buildNinpo();
 	buildBackground();
+	WindowCtrl.UnblockUI();
 
 	//===============
 	function buildClanOptions(){
@@ -241,7 +241,6 @@ function appendNinpo(ninpoObj){
 	ninpoElem.ondblclick = removeNinpo.bind(null, ninpoElem);
 }
 function removeNinpo(elem){
-	console.log(elem)
 	$(elem).remove();
 }
 

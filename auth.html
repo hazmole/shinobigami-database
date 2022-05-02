@@ -13,19 +13,24 @@
 	color:#e9e9e9;
 	display: inline-block;
 }
+#password:invalid {
+	border-color: red;
+}
 </style>
 </head>
 <body>
 <center>
 	<h1>機密忍務認證</h1>
-	<div id="MyPanel">
-		<!-- 暗號: shinobi -->
-		請輸入對應暗號以進入特殊機密忍務室。
+	<form onsubmit="event.preventDefault();">
+		<div id="MyPanel">
+			<!-- 暗號: shinobi -->
+			請輸入對應暗號以進入特殊機密忍務室。
 
-		<p><input id="password" type="text">
-		<button onClick="auth()">進入</button>
-		</p>
-	</div>
+			<p><input id="password" type="text">
+			<button onClick="auth()">進入</button>
+			</p>
+		</div>
+	</form>
 </center>
 </body>
 </html>

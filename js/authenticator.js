@@ -1,4 +1,4 @@
-$(document).ready(checkAuthentication);
+checkAuthentication();
 
 function checkAuthentication(){
 	function isAtAuthPage(){
@@ -22,7 +22,10 @@ function checkAuthentication(){
 function auth(){
 	//TODO: auth 
 	var val = $("#password").val();
-	if(val !== "shinobi") return;
+	if(val !== "shinobi"){
+		document.getElementById("password").setCustomValidity('暗號錯誤');
+		return;
+	}
 
 	localStorage.setItem('shinobi-auth-status', true);
 	window.location.replace("./index.html")
