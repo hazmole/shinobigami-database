@@ -16,6 +16,11 @@
 	<script src="./js/ninpo-parser.js"></script>
 	<script src="./js/background-parser.js"></script>
 	<style>
+.CtrlBtn {
+	margin: 20px 20px 0 20px;
+	padding: 10px;
+}
+
 .CharacterSheet {
 	margin: 1rem;
 	padding: 5px;
@@ -116,6 +121,8 @@ option.ancient { background:#b79a71; }
 }
 
 
+
+
 .ninpo-item { margin: 0; }
 #BackgroundList .ninpo-item .effect { width: calc(100% - 250px); }
 
@@ -127,60 +134,110 @@ var Utils; 				// from "js/utils.js"
 var NinpoFilter; 		// from "js/ninpo-filter.js"
 NinpoFilter.SetList(NINPO_LIST);
 
-var UserConfig = {
-	name: '',
-	motivation: '',
-	rank: '',
-	clan: '',
-	skills: [],
-};
 
-function selectMotivation(elem){
-	var targetObj = document.getElementById("motivation_info_desc");
-	if(!targetObj) return ;
-
-	var text = elem.value;
-	var movObj = Utils.getMotivationObj(text);
-	targetObj.style.display = "inline-block";
-	targetObj.innerHTML = movObj.info;
+//================
+var AllUserConfig = {};
+var UserConfig = null;
+function initConfig(){
+	UserConfig = {};
+	UserConfig.name = '';
+	UserConfig.motivation = '';
+	UserConfig.rank = '';
+	UserConfig.clan = '';
+	UserConfig.skills = [];
+	UserConfig.gaps = [];
+	UserConfig.ninpos = [ NINPO_LIST[0] ];
 }
-function selectClan(elem){
-	var restrictObj = document.getElementById("clan_info_restrict");
-	var guidanceObj = document.getElementById("clan_info_guidance");
-	if(!restrictObj || !guidanceObj) return ;
+function saveConfig(filename){
+	UserConfig.name = $("#name").val();
+	UserConfig.motivation = $("#motivation").val();
+	UserConfig.rank = $("#rank").val();
+	UserConfig.clan = $("#clan").val();
+	UserConfig.skills = $(".Skill.selected").toArray().map( skill => skill.innerText );
+	UserConfig.gaps = $(".SkillFieldGap").toArray().map( gap => gap.className.indexOf("selected")>=0 );
 
-	var clanText = elem.value.split('-').last();
-	var clanObj = Utils.getClanObj(clanText);
-	if(!clanObj){
-		restrictObj.innerText = "無";
-		guidanceObj.innerText = "無";
+	AllUserConfig[filename] = UserConfig;
+	localStorage.setItem('shinobi-user-characters', JSON.stringify(AllUserConfig));
+	localStorage.setItem('shinobi-recent-name', filename);
+}
+function loadConfig(filename){
+	if(!filename) filename = localStorage.getItem('shinobi-recent-name');
+	localStorage.setItem('shinobi-recent-name', filename);
+
+	AllUserConfig = JSON.parse(localStorage.getItem('shinobi-user-characters'));
+	if(!AllUserConfig) AllUserConfig = {};
+	if(Object.keys(AllUserConfig).length>0){
+		UserConfig = AllUserConfig[filename];
+	}
+
+	if(!UserConfig){
+		initConfig();
+	}
+	buildPage();
+}
+function deleteConfig(filename){
+	delete AllUserConfig[filename];
+	localStorage.setItem('shinobi-user-characters', JSON.stringify(AllUserConfig));
+}
+function popupSavingWindow(){
+	var list = Object.keys(AllUserConfig);
+	var contentArr = [`<option value="_empty">(空白角色)</option>`];
+	for(var item of list){
+		contentArr.push(`<option value="${item}">${item}</option>`);
+	}
+
+	var name = $("#name").val();
+	if(!name) name="未命名角色";
+
+	var content = `
+		<button id="saveCfgBtn" onClick="saveConfigWindow()">儲存</button>
+		<button id="loadCfgBtn" onClick="loadConfigWindow()">讀取</button>
+		<button id="deleteCfgBtn" onClick="deleteConfigWindow()">刪除</button>
+		<hr>
+		<div>人物檔案 <input id="userConfigName" type="text" value="${name}"></div>
+		<div><select id="userConfigSelect" onChange="selectSavCfg()" size="10">${contentArr.join("")}</select></div>
+		`;
+	WindowCtrl.popupWindow(content);
+}
+function saveConfigWindow(){
+	var filename = $("#userConfigName").val();
+	saveConfig(filename);
+
+	WindowCtrl.cancel();
+	WindowCtrl.BlockUI();
+	setTimeout(function() {WindowCtrl.UnblockUI();}, 500);
+}
+function loadConfigWindow(){
+	var filename = $("#userConfigSelect").val();
+	loadConfig(filename);
+
+	WindowCtrl.cancel();
+	WindowCtrl.BlockUI();
+	setTimeout(function() {WindowCtrl.UnblockUI();}, 500);
+}
+function deleteConfigWindow(){
+	var filename = $("#userConfigName").val();
+	deleteConfig(filename);
+
+	WindowCtrl.cancel();
+	WindowCtrl.BlockUI();
+	setTimeout(function() {WindowCtrl.UnblockUI();}, 500);
+}
+
+function selectSavCfg(){
+	var selectedCfgName = $("#userConfigSelect").val();
+	if(selectedCfgName === '_empty') {
+		$("#deleteCfgBtn").prop('disabled', true);
+		$("#userConfigName").val("未命名角色")
 	} else {
-		restrictObj.innerText = clanObj.restrict? clanObj.restrict: "無";
-		guidanceObj.innerText = clanObj.guidance? clanObj.guidance: "無";
+		$("#deleteCfgBtn").prop('disabled', false);
+		$("#userConfigName").val(selectedCfgName);
 	}
 }
-function selectSkill(elem){
-	$(elem).toggleClass("selected");
 
-	var skill = elem.innerText;
-	if(UserConfig.skills.indexOf(skill)<0){
-		UserConfig.skills.push(skill);
-	} else {
-		UserConfig.skills.splice(UserConfig.skills.indexOf(skill), 1);
-	}
-}
-function selectSkillField(elem){
-	$(".SkillFieldGap").removeClass("selected");
-
-	$(elem).parent().prev().addClass("selected")
-	$(elem).parent().next().addClass("selected")
-}
-function selectSkillGap(elem){
-	$(elem).toggleClass("selected");
-}
 //=========================
 function buildPage(){
-	WindowCtrl.BlockUI();
+	buildProfile();
 	buildClanOptions();
 	buildSkillTable();
 	buildNinpo();
@@ -188,43 +245,56 @@ function buildPage(){
 	WindowCtrl.UnblockUI();
 
 	//===============
+	function buildProfile(){
+		$("#name").val(UserConfig.name);
+		$("#rank").val(UserConfig.rank);
+		$("#motivation").val(UserConfig.motivation);
+		renderMotivationInfo();
+	}
 	function buildClanOptions(){
 		var targetObj = document.getElementById("clan");
 		if(!targetObj) return;
 
 		var content = [];
+		var optVal;
 		for(var clanObj of Utils.ClanList){
-			content.push(`<option value="${clanObj.key}" class="${clanObj.style}">${clanObj.text}</option>`);
+			optVal = `${clanObj.key}`;
+			content.push(`<option value="${optVal}" class="${clanObj.style}">${clanObj.text}</option>`);
 			for(var subclanObj of clanObj.subclan){
-				content.push(`<option value="${clanObj.key}-${subclanObj.text}" class="${clanObj.style}">${clanObj.shorten}-${subclanObj.text}</option>`);
+				optVal = `${clanObj.key}-${subclanObj.text}`;
+				content.push(`<option value="${optVal}" class="${clanObj.style}">${clanObj.shorten}-${subclanObj.text}</option>`);
 			}
 		}
 		targetObj.innerHTML += content.join("");
+
+		$("#clan").val(UserConfig.clan);
+		renderClanInfo();
 	}
 	function buildSkillTable(){
 		var targetObj = document.getElementById("SkillTable");
 		if(!targetObj) return;
 
-		var content = [];
+		var content = [], idx = 0;
 		for(var fieldObj of Utils.SkillTable){
 			var fieldCol = [];
 			fieldCol.push(`<div class="SkillField" onClick="selectSkillField(this)">${fieldObj.text}</div>`);
 			for(var skillObj of fieldObj.list){
-				fieldCol.push(`<div class="Skill" onClick="selectSkill(this)">${skillObj.text}</div>`);
+				var selected = isSelected(UserConfig.skills.indexOf(skillObj.text)>=0);
+				fieldCol.push(`<div class="Skill ${selected}" onClick="toggleSkill(this)">${skillObj.text}</div>`);
 			}
-			content.push(`<div class="SkillFieldGap" onClick="selectSkillGap(this)"></div>`);
+			content.push(`<div class="SkillFieldGap ${isSelected(UserConfig.gaps[idx])}" onClick="toggleSkillGap(this)"></div>`);
 			content.push(`<div class="SkillFieldColume">${fieldCol.join("")}</div>`);
+			idx++;
 		}
 		targetObj.innerHTML = content.join("");
+
+		function isSelected(flag){ return flag? 'selected': ''; }
 	}
 	function buildNinpo(){
-		var targetObj = document.getElementById("NinpoList");
-		if(!targetObj) return;
-
-		var content = [];
-		content.push(parseNinpo(NINPO_LIST[0], 'list'));
-
-		targetObj.innerHTML = content.join("");
+		$("#NinpoList").empty();
+		for(var ninpoObj of UserConfig.ninpos){
+			appendNinpo(ninpoObj, true);
+		}
 	}
 	function buildBackground(){
 		var targetObj = document.getElementById("BackgroundList");
@@ -236,14 +306,59 @@ function buildPage(){
 	}
 
 }
-function appendNinpo(ninpoObj){
+function renderMotivationInfo(elem){
+	var inputVal = $('#motivation').val();
+	var targetObj = document.getElementById("motivation_info_desc");
+	if(!targetObj) return ;
+
+	var movObj = Utils.getMotivationObj(inputVal);
+	if(!movObj) return ;
+	targetObj.style.display = "inline-block";
+	targetObj.innerHTML = movObj.info;
+}
+function renderClanInfo(){
+	var inputVal = $('#clan').val();
+	var restrictObj = document.getElementById("clan_info_restrict");
+	var guidanceObj = document.getElementById("clan_info_guidance");
+	if(!restrictObj || !guidanceObj || !inputVal) return ;
+
+	var clanText = inputVal.split('-').last();
+	var clanObj = Utils.getClanObj(clanText);
+	if(!clanObj){
+		restrictObj.innerText = "無";
+		guidanceObj.innerText = "無";
+	} else {
+		restrictObj.innerText = clanObj.restrict? clanObj.restrict: "無";
+		guidanceObj.innerText = clanObj.guidance? clanObj.guidance: "無";
+	}
+}
+//================
+function toggleSkill(elem){
+	$(elem).toggleClass("selected");
+}
+function toggleSkillGap(elem){
+	$(elem).toggleClass("selected");
+}
+function selectSkillField(elem){
+	$(".SkillFieldGap").removeClass("selected");
+	$(elem).parent().prev().addClass("selected")
+	$(elem).parent().next().addClass("selected")
+}
+//================
+function appendNinpo(ninpoObj, justRender){
 	var ninpoElem = $(parseNinpo(ninpoObj, 'list')).appendTo('#NinpoList').get(0);
 	ninpoElem.ondblclick = removeNinpo.bind(null, ninpoElem);
+	if(!justRender) UserConfig.ninpos.push(ninpoObj);
 }
 function removeNinpo(elem){
+	var ninpoName = $(elem).find(".mainTitle").text().replace("※", "");
+	var index = UserConfig.ninpos.map(ninpo => ninpo.name[0]).indexOf(ninpoName);
+
+	if(index==0) return;
+	UserConfig.ninpos.splice(index, 1);
 	$(elem).remove();
 }
-
+//================
 function popNinpoSearcher(){
 	var content = `
 		<div class="SearchBar Bar">
@@ -254,7 +369,7 @@ function popNinpoSearcher(){
 		</div>
 		<hr/>
 		<div style="margin: 10px 0; color: #e3e3e3;">雙擊以選擇忍法</div>
-		<div style="height:460px;overflow-y: auto">
+		<div style="height:calc(100% - 2rem - 51px);overflow-y: auto">
 			<div id="SearchResult" style="width: calc(100% - 8px);"></div>
 		</div>`;
 
@@ -277,21 +392,27 @@ function searchNinpo(){
 }
 function selectNinpo(ninpoObj){
 	appendNinpo(ninpoObj);
+	
 }
 
 function popBackgroundSearcher(){
 	
 }
 
+
+function init(){
+	loadConfig();
+}
 	</script>
 </head>
-<body onload="buildPage()">
+<body onload="init()">
 	<h1>忍神秘傳卷集 - 創角模擬器</h1>
 	<div id="FrameOuter">
 		<div id="FrameNavbar">
 			<div id="navbar"></div>
 		</div>
 		<div id="FrameContent">
+			<button class="CtrlBtn" onclick="popupSavingWindow()">儲存/讀取設定</button>
 
 			<div class="CharacterSheet">
 				<div class="Bar" style="margin-bottom: 10px;">
@@ -303,7 +424,7 @@ function popBackgroundSearcher(){
 						<div class="Entry">
 							<div class="label">信念</div>
 							<div>
-								<select id="motivation" onchange="selectMotivation(this)">
+								<select id="motivation" onchange="renderMotivationInfo(this)">
 									<option value="" selected disabled hidden>--選擇信念--</option>
 									<option value="凶">凶</option>
 									<option value="律">律</option>
@@ -339,7 +460,7 @@ function popBackgroundSearcher(){
 						</div>
 						<div class="Entry">
 							<div class="label">流派</div>
-							<select id="clan" onchange="selectClan(this)">
+							<select id="clan" onchange="renderClanInfo()">
 								<option value="" selected disabled hidden>--選擇流派--</option>
 								<option value="none">無</option>
 							</select>
@@ -380,4 +501,7 @@ function popBackgroundSearcher(){
 		</div>
 	</div>
 </body>
+<script>
+	WindowCtrl.BlockUI();
+</script>
 </html>

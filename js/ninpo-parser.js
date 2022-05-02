@@ -77,6 +77,9 @@ function parseNinpo(ninpoObj, mode){
 	<div class="title">
 		<div class="category ${ninpoObj.category[0]}">${getCategoryText(ninpoObj.category, true)}</div>
 		<div class="mainTitle">${getName(ninpoObj)}</div>
+		<div class="actionBar">
+			<button>X</button>
+		</div>
 	</div>
 	<div class="type ${ninpoObj.type}">${getType(ninpoObj.type, true)}</div>
 	<div class="blockCell">

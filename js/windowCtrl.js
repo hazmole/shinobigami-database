@@ -9,6 +9,7 @@ WindowCtrl.UnblockUI = function(){
 	$("#Loading").remove();
 }
 
+// size: Large | Normal
 WindowCtrl.popupWindow = function(content, size){
 	var frame = `
 	<div id="WindowFrameHead"><span class="cross-stand-alone" onClick="WindowCtrl.cancel()">&nbsp;</span></div>

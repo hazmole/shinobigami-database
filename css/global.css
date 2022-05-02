@@ -301,15 +301,15 @@ input:checked + .slider:before {
   height: 24px;
 }
 #WindowFrameContent {
-  padding: .6rem;
+  padding: 10px;
+  height: calc(100% - 44px);
   overflow-y: auto;
 }
-
 #WindowFrame.Large {
-  width: 1200px;
-  height: 600px;
-  margin-left: -600px;
-  margin-top: -300px;
+  width: calc(80vw);
+  height: calc(70vh);
+  margin-left: calc(-40vw);
+  margin-top: calc(-35vh);
 }
 
 
@@ -337,15 +337,9 @@ input:checked + .slider:before {
   background: white;
   border-radius: 4px;
 }
-.cross-stand-alone:before {
-  transform: rotate(45deg);
-}
-.cross-stand-alone:after {
-  transform: rotate(-45deg);
-}
-.cross-stand-alone span {
-  display: block;
-}
+.cross-stand-alone:before { transform: rotate(45deg); }
+.cross-stand-alone:after { transform: rotate(-45deg); }
+.cross-stand-alone span { display: block; }
 
 /* <div class="lds-dual-ring"></div> */
 .lds-dual-ring {
@@ -365,10 +359,6 @@ input:checked + .slider:before {
   animation: lds-dual-ring 1.2s linear infinite;
 }
 @keyframes lds-dual-ring {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
