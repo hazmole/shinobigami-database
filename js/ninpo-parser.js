@@ -55,20 +55,24 @@ function parseNinpo(ninpoObj, mode){
 		return skill_arr.join("/");
 	}
 	function getRestricts(restrict_arr){
+		function getRestrictClass(res){
+			if(res.indexOf("rank-")==0) return 'rank';
+			return res;
+		}
 		function getRestrictText(res){
 			switch(res){
 				case "taima": return "退魔篇";
-				case "rank-chunin": return "中忍限定";
-				case "rank-chunintou": return "中忍頭限定";
-				case "rank-jonin": return "上忍限定";
-				case "rank-jonintou": return "上忍頭限定";
-				case "rank-gashira": return "頭領限定";
+				case "rank-chunin": return "中忍";
+				case "rank-chunintou": return "中忍頭";
+				case "rank-jonin": return "上忍";
+				case "rank-jonintou": return "上忍頭";
+				case "rank-gashira": return "頭領";
 				default: return "";
 			}
 		}
 
 		if(restrict_arr==null || restrict_arr.length==0) return '';
-		return restrict_arr.map(v => `<span class="restrict ${v}">${getRestrictText(v)}</span>`).join('');
+		return restrict_arr.map(v => `<span class="restrict ${getRestrictClass(v)}">${getRestrictText(v)}</span>`).join('');
 	}
 	var limitHtml = `<span class="restricts">${getRestricts(ninpoObj.restrict)}</span>`;
 
