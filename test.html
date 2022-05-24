@@ -1,0 +1,28 @@
+<head>
+  <script src="./data/ninpo-list.js"></script>
+  <script src="./js/mySearcher.js"></script>
+  <script>
+var NINPO_LIST;  //from "data/ninpo-list.js"
+
+
+var customSearcher = new MySearcher();
+customSearcher.InitList(NINPO_LIST);
+customSearcher.SetParameters({
+  text: {
+    type: 'simple',
+    value: '',
+    fields: ['name', 'skills', 'effect'],
+  },
+
+});
+
+
+console.log(customSearcher.Search())
+
+  </script>
+</head>
+<body>
+
+
+
+</body>
