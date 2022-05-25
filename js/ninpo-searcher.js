@@ -10,6 +10,24 @@
  *   NinpoSearcherBuilder.Build( {DOM_ID} );
  *   NinpoSearcherBuilder.SetAfterSearchFunc( {printResultFunc} );
  */
+var NinpoSearcherCtrl = {};
+NinpoSearcherCtrl.Build = function(elemId){
+  NinpoSearcherBuilder.Build(elemId);
+}
+NinpoSearcherCtrl.SetPrintFunc = function(func){
+  NinpoSearcherBuilder.SetAfterSearchFunc(func);
+}
+NinpoSearcherCtrl.Search = function(){
+  NinpoSearcherBuilder.searchFunc();
+}
+NinpoSearcherCtrl.GetResult = function(){
+  return NinpoSearcher.GetResultList();
+}
+NinpoSearcherCtrl.GetDisplayMode = function(){
+  var isListMode = document.getElementById("displayMode").checked;
+  return (isListMode)? 'list': 'card';
+}
+
 
 //==================
 // Searcher Config
@@ -168,8 +186,20 @@ NinpoSearcher.SetParameters(NinpoSearcherConfig);
 
 var NinpoSearcherBuilder = new MySearcherBuilder();
 NinpoSearcherBuilder.SetSearcher(NinpoSearcher);
-NinpoSearcherBuilder.SetPlaceholderText("尋找忍法名或效果...");
 NinpoSearcherBuilder.SetOptionList(NinpoSearcherConfig.advanced);
+NinpoSearcherBuilder.SetPlaceholderText("尋找忍法名或效果...");
+
+NinpoSearcherBuilder.AddBarElememt(`
+<div class="SwitchBlock">
+  <span class="label">啟用簡表</span>
+  <label class="switch">
+    <input id="displayMode" type="checkbox" onChange="toggleDisplayMode()">
+    <span class="slider"></span>
+  </label>
+</div>`);
+function toggleDisplayMode(){
+  NinpoSearcherBuilder.afterSearchFunc();
+}
 
 //==================
 // Add SearchingField
@@ -183,7 +213,7 @@ NinpoSearcher.InitList(NINPO_LIST.map( obj => {
   obj.rangeStr = "" + (obj.range===""? "-": parseInt(obj.range)>=4? "4+": obj.range);
   obj.costStr = "" + (obj.cost===""? "-": parseInt(obj.cost)>=4? "4+": obj.cost);
 
-  obj.restrictStr = obj.restrict.length==0? "-": (obj.restrict.join(",") + "^");
+  obj.restrictStr = obj.restrict.length==0? "-": (obj.restrict.join(","));
 
   return obj;
 }));

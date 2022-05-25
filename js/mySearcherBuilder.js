@@ -19,9 +19,11 @@ class MySearcherBuilder{
   }
   //==============
   SetSearcher(searcher) { this.searcher = searcher; }
-  SetPlaceholderText(text) { this.config.placeholderText = text; }
   SetOptionList(list) { this.config.optionsList = list; }
   SetAfterSearchFunc(func) { this.afterSearchFunc = func; }
+
+  SetPlaceholderText(text) { this.config.placeholderText = text; }
+  AddBarElememt(elem){ this.config.addiBarElemArr.push(elem); }
   
   GetSearchBoxValue() { return $('#searchInput').val(); }
 

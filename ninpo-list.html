@@ -6,11 +6,13 @@
 	<script src="./js/jquery-3.6.0.min.js"></script>
 	<script src="./js/authenticator.js"></script>
 	<script src="./js/navbar.js"></script>
-	<script src="./js/myFilter.js"></script>
-	<script src="./js/myFilterOptionBuilder.js"></script>
+	<script src="./js/mySearcher.js"></script>
+	<script src="./js/mySearcherBuilder.js"></script>
+
 	<script src="./data/ninpo-list.js"></script>
-	<script src="./js/ninpo-filter.js"></script>
+	<script src="./js/ninpo-searcher.js"></script>
 	<script src="./js/ninpo-parser.js"></script>
+
 	<style>
 		#storageContainer{
 			background:#884C3A;
@@ -31,63 +33,35 @@
 		}
 	</style>
 	<script>
-		var NINPO_LIST;  //from "data/ninpo-list.js"
-		var NinpoFilter; //from "js/ninpo-filter.js"
-		var NinpoOptionBuilder;
+var NinpoSearcherCtrl; //from "js/ninpo-searcher.js"
 
-		NinpoFilter.SetList(NINPO_LIST);
+function init(){
+	NinpoSearcherCtrl.Build("SearchObj");
+	NinpoSearcherCtrl.SetPrintFunc(printResult);
+	NinpoSearcherCtrl.Search();
+}
+function printResult(){
+	var list = NinpoSearcherCtrl.GetResult();
+	var mode = NinpoSearcherCtrl.GetDisplayMode();
 
-		function searchText(){
-			var text = $("#searchInput").val();
-			NinpoFilter.SetConfigEntry('text', text);
-			printResult();
-		}
+	var container = $('#ninpoContainer');
+	container.empty();
+	for(var ninpoObj of list){
+		var ninpoElem = $(parseNinpo(ninpoObj, mode)).appendTo('#ninpoContainer').get(0);
+		ninpoElem.ondblclick = storeNinpo.bind(null, ninpoObj);
+	}
+}
+function storeNinpo(ninpoObj){
+	var ninpoElem = $(parseNinpo(ninpoObj, 'list')).appendTo('#storageContainer').get(0);
+	ninpoElem.ondblclick = removeNinpo.bind(null, ninpoElem);
+}
+function removeNinpo(selfObj){
+	$(selfObj).remove();
+}
 
-		function buildFilterOptionsList(){
-			NinpoOptionBuilder.Build(".AdvancedFilterBar")
-		}
-		function toggleAdvancedFilterArea(){
-			$(".AdvancedFilterBar").toggle(200)
-		}
-		function toggleDisplayMode(){
-			printResult();
-		}
-
-		function printResult(){
-			var isListMode = document.getElementById("displayMode").checked;
-			var mode = (isListMode)? 'list': 'card';
-
-			var container = $('#ninpoContainer');
-			container.empty();
-			i=0;
-			for(var ninpoObj of NinpoFilter.Execute()){
-				var ninpoElem = $(parseNinpo(ninpoObj, mode)).appendTo('#ninpoContainer').get(0);
-				ninpoElem.ondblclick = storeNinpo.bind(null, ninpoObj)
-			}
-		}
-		function storeNinpo(ninpoObj){
-			var ninpoElem = $(parseNinpo(ninpoObj, 'list')).appendTo('#storageContainer').get(0);
-			ninpoElem.ondblclick = removeNinpo.bind(null, ninpoElem);
-		}
-		function removeNinpo(selfObj){
-			$(selfObj).remove();
-		}
-
-		window.onload = function(){
-			$("#searchInput").on('search', function(e){
-				searchText();
-			})
-			buildFilterOptionsList();
-			printResult()
-		}
-		window.addEventListener('selectFilterOption', function(e){
-			NinpoFilter.toggleOption(e.detail.type, e.detail.value);
-			printResult()
-		});
-		window.addEventListener('selectFilterGroup', function(e){
-			NinpoFilter.toggleGroupOption(e.detail.arr, e.detail.isFolding);
-			printResult()
-		});
+window.onload = function(){
+	init();
+}
 	</script>
 </head>
 <body>
@@ -98,23 +72,7 @@
 		</div>
 		<div id="FrameContent">
 
-	<div class="SearchPanel">
-		<div class="SearchBar Bar">
-			<button id="AdvancedSearchBtn" onclick="toggleAdvancedFilterArea()">▼ 進階搜尋</button>
-			<form class="SearchBox" onsubmit="event.preventDefault();" role="search">
-				<input id="searchInput" type="search" placeholder="尋找忍法名或效果..." autofocus />
-				<button id="SearchBtn" type="submit">尋找</button>
-			</form>
-			<div class="SwitchBlock">
-				<span class="label">啟用簡表</span>
-				<label class="switch">
-					<input id="displayMode" type="checkbox" onChange="toggleDisplayMode()">
-					<span class="slider"></span>
-				</label>
-			</div>
-		</div>
-		<div class="AdvancedFilterBar"></div>
-	</div>
+	<div id="SearchObj" class="SearchPanel"></div>
 	<div id="storageContainer" class="container">
 		<span class="container_title">忍法倉庫</span>
 	</div>
