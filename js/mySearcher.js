@@ -1,8 +1,12 @@
+/***********
+ *  Require: None
+ * 
+ * *********/
+
 class MySearcher{
   constructor(){
     this.list = [];
     this.resultList = null;
-
     this.paramConfig = {};
 
     this.compareFunc = null;
@@ -11,7 +15,42 @@ class MySearcher{
   InitList(list){ this.list = list; }
   SetParameters(params){ this.paramConfig = params; }
   SetCompareFunc(func){ this.compareFunc = func; }
-  
+
+  SetSimpleText(text){
+    this.paramConfig.simple.value = text;
+  }
+  AddParameter(key, item){
+    var entry = this.paramConfig.advanced.find( param => param.id === key );
+    if(!entry) return ;
+
+    switch(entry.type){
+      case "selection":
+        var idx = entry.value.indexOf(item);
+        if(idx==-1) entry.value.push(item);
+        break;
+    }
+  }
+  RemoveParameter(key, item){
+    var entry = this.paramConfig.advanced.find( param => param.id === key );
+    if(!entry) return ;
+
+    switch(entry.type){
+      case "selection":
+        var idx = entry.value.indexOf(item);
+        if(idx>-1) entry.value.splice(idx, 1);
+        break;
+    }
+  }
+  ClearParameter(key){
+    var entry = this.paramConfig.advanced.find( param => param.id === key );
+    if(!entry) return ;
+
+    switch(entry.type){
+      case "selection":
+        entry.value = [];
+        break;
+    }
+  }
 
 
   //==============
@@ -32,21 +71,36 @@ class MySearcher{
     }
   }
   Reset(){
-    this.paramList = {};
+    this.paramConfig.simple.value = '';
+    this.paramConfig.advanced.forEach( param => {
+      if(param.type=="selection") param.value = [];
+    });
+  }
+  GetResultList(){
+    return this.resultList;
   }
 
   //==============
   filterFunc(item){
-    for(var key of Object.keys(this.paramConfig)){
-      var paramObj = this.paramConfig[key];
+    var self = this;
+
+    // handle simpleSearch
+    var paramObj = this.paramConfig.simple;
+    if(!filterSimple(item, paramObj)){
+      return false;
+    }
+
+    // handle advanced
+    for(var paramObj of this.paramConfig.advanced){
       var type  = paramObj.type;
+      var key   = paramObj.id;
       var value = paramObj.value;
 
       if(value==null || value==='' || value.length===0) continue;
 
       var isFound = true;      
       switch(type){
-        case "simple": isFound = filterSimple(item, paramObj);
+        case "selection": isFound = filterSelection(item, key, paramObj); break;
       }
 
       if(!isFound) return false;
@@ -54,7 +108,8 @@ class MySearcher{
     return true;
 
     //-------------
-    // text: { type: 'simple', value: '', fields: [...], }
+    // type "simple"
+    // { value: '', fields: [...], }
     function filterSimple(item, paramObj){
       var value = paramObj.value;
       if(value==='') return true;
@@ -65,8 +120,19 @@ class MySearcher{
       }
       return false;
     }
-  }
 
+    //-------------
+    // type "simple"
+    // { value: [...], }
+    function filterSelection(item, key, paramObj){
+      var value = paramObj.value;
+      if(value.length===0) return true;
+
+      return MySearcher.OR( paramObj.value, function(idx, val){
+        return item[key] == val;
+      });
+    }
+  }
 
   //==============
   static OR(arr, condFunc){
