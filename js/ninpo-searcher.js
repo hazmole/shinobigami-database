@@ -11,16 +11,16 @@
  */
 var NinpoSearcherCtrl = {};
 NinpoSearcherCtrl.Build = function(elemId){
-  NinpoSearcherBuilder.Build(elemId);
+  this.searcherBuilder.Build(elemId);
 }
 NinpoSearcherCtrl.SetPrintFunc = function(func){
-  NinpoSearcherBuilder.SetAfterSearchFunc(func);
+  this.searcherBuilder.SetAfterSearchFunc(func);
 }
 NinpoSearcherCtrl.Search = function(){
-  NinpoSearcherBuilder.searchFunc();
+  this.searcherBuilder.searchFunc();
 }
 NinpoSearcherCtrl.GetResult = function(){
-  return NinpoSearcher.GetResultList();
+  return this.searcher.GetResultList();
 }
 NinpoSearcherCtrl.GetDisplayMode = function(){
   var isListMode = document.getElementById("displayMode").checked;
@@ -30,7 +30,7 @@ NinpoSearcherCtrl.GetDisplayMode = function(){
 
 //==================
 // Searcher Config
-const NinpoSearcherConfig = {
+NinpoSearcherCtrl.config = {
   simple: {
     type: 'simple',
     value: '',
@@ -178,77 +178,85 @@ const NinpoSearcherConfig = {
   ],
 };
 
+var NINPO_LIST;
 //==================
 // Initialize
-var NinpoSearcher = new MySearcher();
-NinpoSearcher.SetParameters(NinpoSearcherConfig);
+NinpoSearcherCtrl.searcher = new MySearcher();
+NinpoSearcherCtrl.searcherBuilder = new MySearcherBuilder();
 
-var NinpoSearcherBuilder = new MySearcherBuilder();
-NinpoSearcherBuilder.SetSearcher(NinpoSearcher);
-NinpoSearcherBuilder.SetOptionList(NinpoSearcherConfig.advanced);
-NinpoSearcherBuilder.SetPlaceholderText("尋找忍法名或效果...");
+NinpoSearcherCtrl.init = function(){
+  const self = this;
 
-NinpoSearcherBuilder.AddBarElememt(`
-<div class="SwitchBlock">
-  <span class="label">啟用簡表</span>
-  <label class="switch">
-    <input id="displayMode" type="checkbox" onChange="toggleDisplayMode()">
-    <span class="slider"></span>
-  </label>
-</div>`);
-function toggleDisplayMode(){
-  NinpoSearcherBuilder.afterSearchFunc();
-}
+  // Set Searcher Config
+  this.searcher.SetParameters(this.config);
+  this.searcherBuilder.SetOptionList(this.config.advanced);
 
-//==================
-// Add SearchingField
-var NINPO_LIST;
-NinpoSearcher.InitList(NINPO_LIST.map( obj => {
-  obj.categoryStr = (obj.category[0]==='ancient')? "ancient": obj.category.join('-');
+  // Set Reference
+  this.searcherBuilder.SetSearcher(this.searcher);
 
-  obj.typeStr = obj.type!=='atk'? obj.type: obj.tags.find(tag => tag.indexOf("atk"));
-  if(!obj.typeStr) console.error(obj.name, obj.tags);
-
-  obj.rangeStr = "" + (obj.range===""? "-": parseInt(obj.range)>=4? "4+": obj.range);
-  obj.costStr = "" + (obj.cost===""? "-": parseInt(obj.cost)>=4? "4+": obj.cost);
-
-  obj.restrictStr = obj.restrict.length==0? "-": (obj.restrict.join(","));
-
-  return obj;
-}));
-//==================
-// Sorting Function
-NinpoSearcher.SetCompareFunc(function(a, b){
-  const orderOfCate = [
-    "general", "clan", "秘傳",
-    "斜齒忍軍", "鍔鑋組", "大槌群", "指矩班", "御釘眾",
-    "鞍馬神流", "迴鴉", "銃劍", "魔王流", "蓮華王拳", "密藏番",
-    "離群者", "夜顏", "NO.9", "世界忍者聯合", "影繪座", "不知火", "咎眼流", "不來梅",
-    "比良坂機關", "常夜", "醜女眾", "公安隱密局", "麝香會綜合醫院", "外事N課",
-    "私立御齋學園", "特命臨時教職員派遣委員會", "御齋學園學生會", "私立多羅尾女學院", "舊校舍管理委員會",
-    "隱忍血統", "土蜘蛛", "血社", "凶尾", "長耳",
-    "ancient", "伊賀者", "甲賀者", "裏柳生", "根來眾", "透波", "軒猿", "亂波", "突波", "雜賀眾", "黑脛巾組", "座頭眾", "缽屋眾", "八房", "黑鍬組", "川並眾", "山潛眾", "花留陀眾", "金色庵", "宿儺眾", "真言立川流", "土御門家", "伴天連", "義經流",
-    "demon"
-  ];
-  const orderOfType = ["atk", "sup", "equ"];
-
-  var result = cmpCategory(a,b);
-  if(result!=0) return result;
-
-  result = orderOfType.indexOf(a.type) - orderOfType.indexOf(b.type);
-  if(result!=0) return result;
-
-  return this.list.indexOf(a) - this.list.indexOf(b);
-  //=============
-  function cmpCategory(a,b){
-    var depth = (a.category.length>b.category.length)? a.category.length: b.category.length;
-    for(var i=0; i<depth; i++){
-      if(a.category[i]==null) return -1;
-      if(b.category[i]==null) return 1;
-      var result = orderOfCate.indexOf(a.category[i]) - orderOfCate.indexOf(b.category[i]);
-      if(result!=0) return result;
-    }
-    return 0;
+  // Set Modified Data
+  this.searcherBuilder.SetPlaceholderText("尋找忍法名或效果...");
+  this.searcherBuilder.AddBarElememt(`
+    <div class="SwitchBlock">
+      <span class="label">啟用簡表</span>
+      <label class="switch">
+        <input id="displayMode" type="checkbox" onChange="NinpoSearcherCtrl.toggleDisplayMode()">
+        <span class="slider"></span>
+      </label>
+    </div>`);
+  this.toggleDisplayMode = function(){
+    self.searcherBuilder.afterSearchFunc();
   }
-});
 
+  // Parse & Append SearchingField
+  this.searcher.InitList(NINPO_LIST.map( obj => {
+    obj.categoryStr = (obj.category[0]==='ancient')? "ancient": obj.category.join('-');
+
+    obj.typeStr = obj.type!=='atk'? obj.type: obj.tags.find(tag => tag.indexOf("atk"));
+    if(!obj.typeStr) console.error(obj.name, obj.tags);
+
+    obj.rangeStr = "" + (obj.range===""? "-": parseInt(obj.range)>=4? "4+": obj.range);
+    obj.costStr = "" + (obj.cost===""? "-": parseInt(obj.cost)>=4? "4+": obj.cost);
+
+    obj.restrictStr = obj.restrict.length==0? "-": (obj.restrict.join(","));
+
+    return obj;
+  }));
+
+  // Sorting Function
+  this.searcher.SetCompareFunc(function(a, b){
+    const orderOfCate = [
+      "general", "clan", "秘傳",
+      "斜齒忍軍", "鍔鑋組", "大槌群", "指矩班", "御釘眾",
+      "鞍馬神流", "迴鴉", "銃劍", "魔王流", "蓮華王拳", "密藏番",
+      "離群者", "夜顏", "NO.9", "世界忍者聯合", "影繪座", "不知火", "咎眼流", "不來梅",
+      "比良坂機關", "常夜", "醜女眾", "公安隱密局", "麝香會綜合醫院", "外事N課",
+      "私立御齋學園", "特命臨時教職員派遣委員會", "御齋學園學生會", "私立多羅尾女學院", "舊校舍管理委員會",
+      "隱忍血統", "土蜘蛛", "血社", "凶尾", "長耳",
+      "ancient", "伊賀者", "甲賀者", "裏柳生", "根來眾", "透波", "軒猿", "亂波", "突波", "雜賀眾", "黑脛巾組", "座頭眾", "缽屋眾", "八房", "黑鍬組", "川並眾", "山潛眾", "花留陀眾", "金色庵", "宿儺眾", "真言立川流", "土御門家", "伴天連", "義經流",
+      "demon"
+    ];
+    const orderOfType = ["atk", "sup", "equ"];
+
+    var result = cmpCategory(a,b);
+    if(result!=0) return result;
+
+    result = orderOfType.indexOf(a.type) - orderOfType.indexOf(b.type);
+    if(result!=0) return result;
+
+    return this.list.indexOf(a) - this.list.indexOf(b);
+    
+    //-----
+    function cmpCategory(a,b){
+      var depth = (a.category.length>b.category.length)? a.category.length: b.category.length;
+      for(var i=0; i<depth; i++){
+        if(a.category[i]==null) return -1;
+        if(b.category[i]==null) return 1;
+        var result = orderOfCate.indexOf(a.category[i]) - orderOfCate.indexOf(b.category[i]);
+        if(result!=0) return result;
+      }
+      return 0;
+    }
+  });
+};
+NinpoSearcherCtrl.init();

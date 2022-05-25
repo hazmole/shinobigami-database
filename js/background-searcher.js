@@ -11,16 +11,16 @@
  */
 var BgSearcherCtrl = {};
 BgSearcherCtrl.Build = function(elemId){
-  BgSearcherCtrl.searcherBuilder.Build(elemId);
+  this.searcherBuilder.Build(elemId);
 }
 BgSearcherCtrl.SetPrintFunc = function(func){
-  BgSearcherCtrl.searcherBuilder.SetAfterSearchFunc(func);
+  this.searcherBuilder.SetAfterSearchFunc(func);
 }
 BgSearcherCtrl.Search = function(){
-  BgSearcherCtrl.searcherBuilder.searchFunc();
+  this.searcherBuilder.searchFunc();
 }
 BgSearcherCtrl.GetResult = function(){
-  return BgSearcherCtrl.searcher.GetResultList();
+  return this.searcher.GetResultList();
 }
 BgSearcherCtrl.GetDisplayMode = function(){
   var isListMode = document.getElementById("displayMode").checked;
@@ -30,7 +30,7 @@ BgSearcherCtrl.GetDisplayMode = function(){
 
 //==================
 // Searcher Config
-const BgSearcherConfig = {
+BgSearcherCtrl.config = {
   simple: {
     type: 'simple',
     value: '',
@@ -67,44 +67,50 @@ const BgSearcherConfig = {
   ],
 };
 
+var BACKGROUND_LIST;
 //==================
 // Initialize
 BgSearcherCtrl.searcher = new MySearcher();
-BgSearcherCtrl.searcher.SetParameters(BgSearcherConfig);
-
 BgSearcherCtrl.searcherBuilder = new MySearcherBuilder();
-BgSearcherCtrl.searcherBuilder.SetSearcher(BgSearcherCtrl.searcher);
-BgSearcherCtrl.searcherBuilder.SetOptionList(BgSearcherConfig.advanced);
-BgSearcherCtrl.searcherBuilder.SetPlaceholderText("尋找背景名或效果...");
 
-BgSearcherCtrl.searcherBuilder.AddBarElememt(`
-<div class="SwitchBlock">
-  <span class="label">啟用簡表</span>
-  <label class="switch">
-    <input id="displayMode" type="checkbox" onChange="toggleDisplayMode()">
-    <span class="slider"></span>
-  </label>
-</div>`);
-function toggleDisplayMode(){
-  BgSearcherCtrl.searcherBuilder.afterSearchFunc();
-}
+BgSearcherCtrl.init = function(){
+  const self = this;
 
-//==================
-// Add SearchingField
-var BACKGROUND_LIST;
-BgSearcherCtrl.searcher.InitList(BACKGROUND_LIST.map( obj => {
-  obj.costStr = parseCost(obj.exp);
-  return obj;
+  // Set Searcher Config
+  this.searcher.SetParameters(this.config);
+  this.searcherBuilder.SetOptionList(this.config.advanced);
 
-  function parseCost(costArr){
-    var cost = costArr[0];
-    if(cost>6) return "7+";
-    return ""+cost;
+  // Set Reference
+  this.searcherBuilder.SetSearcher(this.searcher);
+
+  // Set Modified Data
+  this.searcherBuilder.SetPlaceholderText("尋找背景名或效果...");
+  this.searcherBuilder.AddBarElememt(`
+    <div class="SwitchBlock">
+      <span class="label">啟用簡表</span>
+      <label class="switch">
+        <input id="displayMode" type="checkbox" onChange="BgSearcherCtrl.toggleDisplayMode()">
+        <span class="slider"></span>
+      </label>
+    </div>`);
+  this.toggleDisplayMode = function(){
+    self.searcherBuilder.afterSearchFunc();
   }
-}));
 
-//==================
-// Sorting Function
-//  - none
+  // Parse & Append SearchingField
+  this.searcher.InitList(BACKGROUND_LIST.map( obj => {
+    obj.costStr = parseCost(obj.exp);
+    return obj;
 
+    function parseCost(costArr){
+      var cost = costArr[0];
+      if(cost>6) return "7+";
+      return ""+cost;
+    }
+  }));
+
+  // Sorting Function
+  /*this.searcher.SetCompareFunc( (a,b) => {...} );*/
+};
+BgSearcherCtrl.init();
 
