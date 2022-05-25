@@ -3,17 +3,19 @@
 	<title>創角模擬器</title>
 	<link rel="stylesheet" href="./css/global.css">
 	<link rel="stylesheet" href="./css/ninpo-card.css">
-	<script src="./data/ninpo-list.js"></script>
-	<script src="./data/background-list.js"></script>
 	<script src="./js/jquery-3.6.0.min.js"></script>
 	<script src="./js/authenticator.js"></script>
 	<script src="./js/navbar.js"></script>
 	<script src="./js/windowCtrl.js"></script>
 	<script src="./js/utils.js"></script>
-	<script src="./js/myFilter.js"></script>
-	<script src="./js/myFilterOptionBuilder.js"></script>
-	<script src="./js/ninpo-filter.js"></script>
+	<script src="./js/mySearcher.js"></script>
+	<script src="./js/mySearcherBuilder.js"></script>
+
+	<script src="./data/ninpo-list.js"></script>
+	<script src="./data/background-list.js"></script>
+	<script src="./js/ninpo-searcher.js"></script>
 	<script src="./js/ninpo-parser.js"></script>
+	<script src="./js/background-searcher.js"></script>
 	<script src="./js/background-parser.js"></script>
 	<style>
 .CtrlBtn {
@@ -129,10 +131,8 @@ option.ancient { background:#b79a71; }
 	</style>
 	<script>
 var NINPO_LIST; 		// from "data/ninpo-list.js"
-var BACKGROUND_LIST; 	// from "data/background-list.js"
 var Utils; 				// from "js/utils.js"
-var NinpoFilter; 		// from "js/ninpo-filter.js"
-NinpoFilter.SetList(NINPO_LIST);
+var NinpoSearcherCtrl; //from "js/ninpo-searcher.js"
 
 
 //================
@@ -374,17 +374,20 @@ function popNinpoSearcher(){
 		</div>`;
 
 	WindowCtrl.popupWindow(content, 'Large');
+
 	searchNinpo();
 	$("#searchInput").on('search', function(e){
 		searchNinpo();
 	})
 }
 function searchNinpo(){
-	var searchInputText = $("#searchInput").val();
-	NinpoFilter.SetConfigEntry('text', searchInputText);
+	var text = $("#searchInput").val();
+	NinpoSearcherCtrl.searcher.SetSimpleText(text);
+	NinpoSearcherCtrl.searcher.Search();
 
 	$('#SearchResult').empty();
-	var list = NinpoFilter.Execute();
+
+	var list = NinpoSearcherCtrl.GetResult();
 	for(var ninpoObj of list){
 		var ninpoElem = $(parseNinpo(ninpoObj, 'list')).appendTo('#SearchResult').get(0);
 		ninpoElem.ondblclick = selectNinpo.bind(null, ninpoObj)
@@ -392,12 +395,8 @@ function searchNinpo(){
 }
 function selectNinpo(ninpoObj){
 	appendNinpo(ninpoObj);
-	
 }
 
-function popBackgroundSearcher(){
-	
-}
 
 
 function init(){
