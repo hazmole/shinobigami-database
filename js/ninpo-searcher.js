@@ -6,9 +6,8 @@
  */
 
 /***********
- * Usage:
- *   NinpoSearcherBuilder.Build( {DOM_ID} );
- *   NinpoSearcherBuilder.SetAfterSearchFunc( {printResultFunc} );
+ * Usage
+ * 
  */
 var NinpoSearcherCtrl = {};
 NinpoSearcherCtrl.Build = function(elemId){
