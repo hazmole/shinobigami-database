@@ -12,22 +12,29 @@ function parseBackgroundInfo(dataObj, mode){
 		} 
 	}
 	function getRestricts(restrict_arr){
+		function getRestrictClass(res){
+			if(res.indexOf("clan-")==0) return 'clan';
+			switch(res){
+				case "taima": return "taima";
+				case "sengoku": return "sengoku";
+				case "exclude-sengoku": return "sengoku";
+				default: return "";
+			}
+		}
 		function getRestrictText(res){
+			if(res.indexOf("clan-")==0) return res.split("clan-")[1];
 			switch(res){
 				case "taima": return "退魔篇";
-				case "rank-chunin": return "中忍限定";
-				case "rank-chunintou": return "中忍頭限定";
-				case "rank-jonin": return "上忍限定";
-				case "rank-jonintou": return "上忍頭限定";
-				case "rank-gashira": return "頭領限定";
-				default: return "";
+				case "sengoku": return "戰國篇";
+				case "exclude-sengoku": return "非戰國篇角色";
+				default: return res;
 			}
 		}
 
 		if(restrict_arr==null || restrict_arr.length==0) return '';
-		return restrict_arr.map(v => `<span class="restrict ${v}">${getRestrictText(v)}</span>`).join('');
+		return restrict_arr.map(v => `<span class="restrict ${getRestrictClass(v)}">${getRestrictText(v)}</span>`).join('');
 	}
-	var limitHtml = '';//`<span class="restricts">${getRestricts(ninpoObj.restrict)}</span>`;
+	var limitHtml = `<span class="restricts">${getRestricts(dataObj.restrict)}</span>`;
 
 
 	if(mode=='list')

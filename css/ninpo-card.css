@@ -5,21 +5,34 @@
 	--ninpo-type-equ: #32236e;
 }
 
+/* common setting  */
 .ninpo-card .restrict,
 .ninpo-item .restrict {
-	background: #df0000;
+	background: #727272;
 	color: white;
 	font-size: 8px;
 	margin: 0 1px;
 	padding: 1px 3px;
 	border-radius: 5px;
 }
+.ninpo-card .restrict.rank,
+.ninpo-item .restrict.rank {
+	background: #df0000;
+}
 .ninpo-card .restrict.taima,
 .ninpo-item .restrict.taima {
 	background: #7d1ad7;
 }
+.ninpo-card .restrict.sengoku,
+.ninpo-item .restrict.sengoku {
+	background: #89431b;
+}
+.ninpo-card .restrict.clan,
+.ninpo-item .restrict.clan {
+	background: #028d66;
+}
 
-
+/* ninpo-item  */
 .ninpo-item {
 	display: flex;
 	justify-content: flex-start;
@@ -186,21 +199,9 @@
 .ninpo .category.demon { background-color: #460e7a; }
 .ninpo .category.demon:before { border-right-color: #460e7a;border-left-color:#460e7a;  }
 .ninpo .category.other,
-.ninpo .category.flaw { background-color: #8f4728; }
+.ninpo .category.flaw { background-color: #950202; }
 .ninpo .category.other:before,
-.ninpo .category.flaw:before { border-right-color: #8f4728;border-left-color:#8f4728;  }
-
-.ninpo-card .restrict {
-	background: #df0000;
-	color: white;
-	font-size: 8px;
-	margin: 0 1px;
-	padding: 1px 3px;
-	border-radius: 5px;
-}
-.ninpo-card .restrict.taima {
-	background: #7d1ad7;
-}
+.ninpo .category.flaw:before { border-right-color: #950202;border-left-color:#950202;  }
 
 
 .ninpo-card .arguments { display: inline-flex; font-size: 14px; width: 100%; padding-top: 1px; }
