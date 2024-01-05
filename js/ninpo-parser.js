@@ -5,12 +5,17 @@ function parseNinpo(ninpoObj, mode){
 	}
 	function getCategoryText(category, isSimple){
 		switch(category[0]){
-			case "general": return '泛用'+(isSimple?"":"忍法");
-			case "demon": return '妖魔'+(isSimple?"":"忍法");
+			case "general":   return '泛用'+(isSimple?"":"忍法");
+			case "demon":     return '妖魔'+(isSimple?"":"忍法");
+			case "bloodbond": return '血盟'+(isSimple?"":"忍法");
 			case "ancient":
 				if(category.length<=1) return '-';
 				var textArr = category.slice(1);
 				return '古流-'+textArr.map(t=>getClanNameText(t,isSimple)).join("-");
+			case "cultist":
+				if(category.length<=1) return '-';
+				var textArr = category.slice(1);
+				return '外道-'+textArr.map(t=>getClanNameText(t,isSimple)).join("-");
 			default:
 				if(category.length<=1) return '-';
 				var textArr = category.slice(1);

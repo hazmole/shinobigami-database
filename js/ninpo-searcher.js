@@ -46,66 +46,73 @@ NinpoSearcherCtrl.config = {
         { text:'全部', value:'*', default: true },
         { text:'泛用忍法', value:'general' },
         { text: '斜齒忍軍', entries: [
-            { text:'泛用忍法', value:'clan-斜齒忍軍' },
-            { text:'秘傳忍法', value:'clan-斜齒忍軍-秘傳' },
-            { text:'◆ 鍔鑋組', value:'clan-斜齒忍軍-鍔鑋組' },
-            { text:'◆ 大槌群', value:'clan-斜齒忍軍-大槌群' },
-            { text:'◆ 指矩班', value:'clan-斜齒忍軍-指矩班' },
-            { text:'◆ 御釘眾', value:'clan-斜齒忍軍-御釘眾' },
+            { text:'泛用忍法', value:'clan-斜齒' },
+            { text:'秘傳忍法', value:'clan-斜齒-秘傳' },
+            { text:'◆ 鍔鑋組', value:'clan-斜齒-鍔鑋組' },
+            { text:'◆ 大槌群', value:'clan-斜齒-大槌群' },
+            { text:'◆ 指矩班', value:'clan-斜齒-指矩班' },
+            { text:'◆ 御釘眾', value:'clan-斜齒-御釘眾' },
+            { text:'◆ 鍵盤勢', value:'clan-斜齒-鍵盤勢' },
           ]  
         },
         { text: '鞍馬神流', entries: [
-            { text:'泛用忍法', value:'clan-鞍馬神流' },
-            { text:'秘傳忍法', value:'clan-鞍馬神流-秘傳' },
-            { text:'◆ 迴鴉', value:'clan-鞍馬神流-迴鴉' },
-            { text:'◆ 銃劍', value:'clan-鞍馬神流-銃劍' },
-            { text:'◆ 魔王流', value:'clan-鞍馬神流-魔王流' },
-            { text:'◆ 蓮華王拳', value:'clan-鞍馬神流-蓮華王拳' },
-            { text:'◆ 密藏番', value:'clan-鞍馬神流-密藏番' },
+            { text:'泛用忍法', value:'clan-鞍馬' },
+            { text:'秘傳忍法', value:'clan-鞍馬-秘傳' },
+            { text:'◆ 迴鴉', value:'clan-鞍馬-迴鴉' },
+            { text:'◆ 銃劍', value:'clan-鞍馬-銃劍' },
+            { text:'◆ 魔王流', value:'clan-鞍馬-魔王流' },
+            { text:'◆ 蓮華王拳', value:'clan-鞍馬-蓮華王拳' },
+            { text:'◆ 密藏番', value:'clan-鞍馬-密藏番' },
           ]  
         },
         { text: '離群者', entries: [
-            { text:'泛用忍法', value:'clan-離群者' },
-            { text:'秘傳忍法', value:'clan-離群者-秘傳' },
-            { text:'◆ 夜顏', value:'clan-離群者-夜顏' },
-            { text:'◆ NO.9', value:'clan-離群者-NO.9' },
-            { text:'◆ 世界忍者聯合', value:'clan-離群者-世界忍者聯合' },
-            { text:'◆ 影繪座', value:'clan-離群者-影繪座' },
-            { text:'◆ 不知火', value:'clan-離群者-不知火' },
-            { text:'◆ 咎眼流', value:'clan-離群者-咎眼流' },
-            { text:'◆ 不來梅', value:'clan-離群者-不來梅' },
+            { text:'泛用忍法', value:'clan-離群' },
+            { text:'秘傳忍法', value:'clan-離群-秘傳' },
+            { text:'◆ 夜顏', value:'clan-離群-夜顏' },
+            { text:'◆ NO.9', value:'clan-離群-NO.9' },
+            { text:'◆ 世界忍者聯合', value:'clan-離群-世界忍者聯合' },
+            { text:'◆ 影繪座', value:'clan-離群-影繪座' },
+            { text:'◆ 不知火', value:'clan-離群-不知火' },
+            { text:'◆ 咎眼流', value:'clan-離群-咎眼流' },
+            { text:'◆ 不來梅', value:'clan-離群-不來梅' },
+            { text:'◆ 屍衣', value:'clan-離群-屍衣' },
+            { text:'◆ 獨自流派', value:'clan-離群-獨自' },
           ]  
         },
         { text: '比良坂機關', entries: [
-            { text:'泛用忍法', value:'clan-比良坂機關' },
-            { text:'秘傳忍法', value:'clan-比良坂機關-秘傳' },
-            { text:'◆ 常夜', value:'clan-比良坂機關-常夜' },
-            { text:'◆ 醜女眾', value:'clan-比良坂機關-醜女眾' },
-            { text:'◆ 公安隱密局', value:'clan-比良坂機關-公安隱密局' },
-            { text:'◆ 麝香會綜合醫院', value:'clan-比良坂機關-麝香會綜合醫院' },
-            { text:'◆ 外事N課', value:'clan-比良坂機關-外事N課' },
+            { text:'泛用忍法', value:'clan-比良坂' },
+            { text:'秘傳忍法', value:'clan-比良坂-秘傳' },
+            { text:'◆ 常夜', value:'clan-比良坂-常夜' },
+            { text:'◆ 醜女眾', value:'clan-比良坂-醜女眾' },
+            { text:'◆ 公安隱密局', value:'clan-比良坂-公安隱密局' },
+            { text:'◆ 麝香會綜合醫院', value:'clan-比良坂-麝香會綜合醫院' },
+            { text:'◆ 外事N課', value:'clan-比良坂-外事N課' },
           ]  
         },
         { text: '私立御齋學園', entries: [
-            { text:'泛用忍法', value:'clan-私立御齋學園' },
-            { text:'秘傳忍法', value:'clan-私立御齋學園-秘傳' },
-            { text:'◆ 特命臨時教職員派遣委員會', value:'clan-私立御齋學園-特命臨時教職員派遣委員會' },
-            { text:'◆ 御齋學園學生會', value:'clan-私立御齋學園-御齋學園學生會' },
-            { text:'◆ 私立多羅尾女學院', value:'clan-私立御齋學園-私立多羅尾女學院' },
-            { text:'◆ 舊校舍管理委員會', value:'clan-私立御齋學園-舊校舍管理委員會' },
+            { text:'泛用忍法', value:'clan-御齋' },
+            { text:'秘傳忍法', value:'clan-御齋-秘傳' },
+            { text:'◆ 特命臨時教職員派遣委員會', value:'clan-御齋-特命臨時教職員派遣委員會' },
+            { text:'◆ 御齋學園學生會', value:'clan-御齋-御齋學園學生會' },
+            { text:'◆ 私立多羅尾女學院', value:'clan-御齋-私立多羅尾女學院' },
+            { text:'◆ 舊校舍管理委員會', value:'clan-御齋-舊校舍管理委員會' },
+            { text:'◆ 麥克菲登偵探教室', value:'clan-御齋-麥克菲登偵探教室' },
           ]  
         },
         { text: '隱忍血統', entries: [
-            { text:'泛用忍法', value:'clan-隱忍血統' },
-            { text:'秘傳忍法', value:'clan-隱忍血統-秘傳' },
-            { text:'◆ 土蜘蛛', value:'clan-隱忍血統-土蜘蛛' },
-            { text:'◆ 血社', value:'clan-隱忍血統-血社' },
-            { text:'◆ 凶尾', value:'clan-隱忍血統-凶尾' },
-            { text:'◆ 長耳', value:'clan-隱忍血統-長耳' },
+            { text:'泛用忍法', value:'clan-隱忍' },
+            { text:'秘傳忍法', value:'clan-隱忍-秘傳' },
+            { text:'◆ 土蜘蛛', value:'clan-隱忍-土蜘蛛' },
+            { text:'◆ 血社', value:'clan-隱忍-血社' },
+            { text:'◆ 凶尾', value:'clan-隱忍-凶尾' },
+            { text:'◆ 長耳', value:'clan-隱忍-長耳' },
+            { text:'◆ 緣魔筋', value:'clan-隱忍-緣魔筋' },
           ]  
         },
         { text:'古流忍法', value:'ancient' },
         { text:'妖魔忍法', value:'demon' },
+        { text:'外道忍法', value:'cultist' },
+        { text:'血盟忍法', value:'bloodbond' },
       ]
     },
     {
@@ -119,6 +126,7 @@ NinpoSearcherCtrl.config = {
             { text:'接近戰', value:'melee-atk' },
             { text:'射擊戰', value:'range-atk' },
             { text:'集團戰', value:'group-atk' },
+            { text:'妖術戰', value:'demon-atk' },
           ]  
         },
         { text:'輔助', value:'sup' },
@@ -210,7 +218,9 @@ NinpoSearcherCtrl.init = function(){
 
   // Parse & Append SearchingField
   this.searcher.InitList(NINPO_LIST.map( obj => {
-    obj.categoryStr = (obj.category[0]==='ancient')? "ancient": obj.category.join('-');
+    obj.categoryStr = (obj.category[0]==='ancient')? "ancient": 
+                      (obj.category[0]==='cultist')? "cultist":
+                      obj.category.join('-');
 
     obj.typeStr = obj.type!=='atk'? obj.type: obj.tags.find(tag => tag.indexOf("atk"));
     if(!obj.typeStr) console.error(obj.name, obj.tags);
@@ -234,7 +244,10 @@ NinpoSearcherCtrl.init = function(){
       "私立御齋學園", "特命臨時教職員派遣委員會", "御齋學園學生會", "私立多羅尾女學院", "舊校舍管理委員會",
       "隱忍血統", "土蜘蛛", "血社", "凶尾", "長耳",
       "ancient", "伊賀者", "甲賀者", "裏柳生", "根來眾", "透波", "軒猿", "亂波", "突波", "雜賀眾", "黑脛巾組", "座頭眾", "缽屋眾", "八房", "黑鍬組", "川並眾", "山潛眾", "花留陀眾", "金色庵", "宿儺眾", "真言立川流", "土御門家", "伴天連", "義經流",
-      "demon"
+      "demon",
+      "cultist",
+      "bloodbond",
+      "unique",
     ];
     const orderOfType = ["atk", "sup", "equ"];
 

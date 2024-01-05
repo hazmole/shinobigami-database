@@ -198,6 +198,10 @@
 .ninpo .category.ancient:before { border-right-color: #8d852f;border-left-color:#8d852f;  }
 .ninpo .category.demon { background-color: #460e7a; }
 .ninpo .category.demon:before { border-right-color: #460e7a;border-left-color:#460e7a;  }
+.ninpo .category.cultist { background-color: #793585; }
+.ninpo .category.cultist:before { border-right-color: #793585;border-left-color:#793585;  }
+.ninpo .category.bloodbond { background-color: #6f0000; }
+.ninpo .category.bloodbond:before { border-right-color: #6f0000;border-left-color:#6f0000;  }
 .ninpo .category.other,
 .ninpo .category.flaw { background-color: #950202; }
 .ninpo .category.other:before,
