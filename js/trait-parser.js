@@ -38,29 +38,31 @@ function parseBackgroundInfo(dataObj, mode){
 
 
 	if(mode=='list')
-		return `<div class="ninpo ninpo-item">
-	<div class="title">
+		return `<div class="info-card row trait">
+	<div class="titleCell">
 		<div class="category ${dataObj.category}">${getCategoryText(dataObj.category, true)}</div>
-		<div class="mainTitle">${getName(dataObj)}</div>
+		<div class="title">${getName(dataObj)}</div>
 	</div>
 	<div class="blockCell">
-		<div class="req_exp ${dataObj.category}">${dataObj.exp.join('/')}</div>
+		<div class="cell-label">必要功績點</div>
+		<div class="cell-content reqExp ${dataObj.category}">${dataObj.exp.join('/')}</div>
 	</div>
 	<div class="field left effect">${limitHtml}${dataObj.effect.join('<br>')}</div>
 </div>`;
 
 	else
-		return `<div class="ninpo ninpo-card">
+		return `<div class="info-card card trait">
 	<div class="header">
-		<div class="title">
-			<div class="mainTitle">${getName(dataObj)}</div>
+		<div class="titleRow">
+			<div class="title">${getName(dataObj)}</div>
 			<div class="attributes">
 				<span class="category ${dataObj.category}">${getCategoryText(dataObj.category)}</span>
 				${limitHtml}
 			</div>
 		</div>
 		<div class="arguments">
-			<div class="tag req_exp ${dataObj.category}">${dataObj.exp.join('/')}</div>
+			<div class="tag-label">必要功績點</div>
+			<div class="tag-content reqExp ${dataObj.category}">${dataObj.exp.join('/')}</div>
 		</div>
 	</div>
 	<div class="body">

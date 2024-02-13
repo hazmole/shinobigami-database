@@ -1,8 +1,8 @@
 :root {
-  --color-titleBack: #4e1e27;
+  --color-titleBack:  #4E1E27;
   --color-searchBack: #1C1C1C;
-  --color-lightBrown: #a39382;
-  --color-select: #c57272;
+  --color-lightBrown: #A39382;
+  --color-select:     #C57272;
 }
 
 @font-face {

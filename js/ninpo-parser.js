@@ -82,43 +82,50 @@ function parseNinpo(ninpoObj, mode){
 	var limitHtml = `<span class="restricts">${getRestricts(ninpoObj.restrict)}</span>`;
 
 	if(mode=='list')
-		return `<div class="ninpo ninpo-item">
-	<div class="title">
+		return `<div class="info-card row ninpo">
+	<div class="titleCell">
 		<div class="category ${ninpoObj.category[0]}">${getCategoryText(ninpoObj.category, true)}</div>
-		<div class="mainTitle">${getName(ninpoObj)}</div>
+		<div class="title">${getName(ninpoObj)}</div>
 		<div class="actionBar">
 			<button>X</button>
 		</div>
 	</div>
 	<div class="type ${ninpoObj.type}">${getType(ninpoObj.type, true)}</div>
 	<div class="blockCell">
-		<div class="range">${getRange(ninpoObj.range)}</div>
+		<div class="cell-label">間隔</div>
+		<div class="cell-content range">${getRange(ninpoObj.range)}</div>
 	</div>
 	<div class="blockCell">
-		<div class="cost">${getCost(ninpoObj.cost)}</div>
+		<div class="cell-label">花費</div>
+		<div class="cell-content cost">${getCost(ninpoObj.cost)}</div>
 	</div>
 	<div class="blockCell">
-		<div class="skill">${getSkill(ninpoObj.skills)}</div>
+		<div class="cell-label">指定特技</div>
+		<div class="cell-content skill">${getSkill(ninpoObj.skills)}</div>
 	</div>
 	<div class="field left effect">${limitHtml}${ninpoObj.effect.join('<br>')}</div>
 </div>`;
 
 	else
-		return `<div class="ninpo ninpo-card">
+		return `<div class="info-card card ninpo">
 	<div class="header">
-		<div class="title">
-			<div class="mainTitle">${getName(ninpoObj)}</div>
+		<div class="titleRow">
+			<div class="title">${getName(ninpoObj)}</div>
 			<div class="attributes">
 				<span class="category ${ninpoObj.category[0]}">${getCategoryText(ninpoObj.category)}</span>
 				${limitHtml}
 			</div>
 		</div>
 		<div class="arguments">
-			<div class="tag type ${ninpoObj.type}">${getType(ninpoObj.type)}</div>
-			<div class="tag range">${getRange(ninpoObj.range)}</div>
-			<div class="tag cost">${getCost(ninpoObj.cost)}</div>
+			<div class="tag-label">種類</div>
+			<div class="tag-content type ${ninpoObj.type}">${getType(ninpoObj.type)}</div>
+			<div class="tag-label">間隔</div>
+			<div class="tag-content range">${getRange(ninpoObj.range)}</div>
+			<div class="tag-label">花費</div>
+			<div class="tag-content cost">${getCost(ninpoObj.cost)}</div>
 		</div>
 		<div class="arguments">
+			<div class="tag-label skill">指定特技</div>
 			<div class="tag skill">${getSkill(ninpoObj.skills)}</div>
 		</div>
 	</div>

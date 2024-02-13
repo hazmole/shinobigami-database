@@ -1,0 +1,44 @@
+:root{
+	--info-card-border-hover: #ff0a94;
+	--info-card-border:       #cccccc;
+}
+
+
+/* common setting : Card */
+.info-card.card {
+	width: 300px;
+	border: 5px groove;
+	border-color: var(--info-card-border);
+	background-color: white;
+	color: black;
+	border-radius: .5rem;
+	margin: 5px;
+	font-size: 16px;
+
+	animation: appear .8s ease-in-out;
+}
+.info-card.card:hover { box-shadow: 0px 0px 2px 3px var(--info-card-border-hover); }
+
+/* common setting : Row */
+.info-card.row {
+	display: flex;
+	justify-content: flex-start;
+	align-items: stretch;
+	background: white;
+	color: black;
+	width: 100%;
+	border: 3px groove;
+	border-color: var(--info-card-border);
+	margin: 0 5px;
+}
+.info-card.row:hover {
+	border-color: var(--info-card-border-hover);
+}
+
+/* common setting : Row-ActionBar */
+.info-card.row .actionBar {
+	display: none;
+	width: 100%;
+	margin-top: -5px;
+	text-align: center;
+}
