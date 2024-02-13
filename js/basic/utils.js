@@ -330,3 +330,6 @@ Utils.ClanList = [
 Array.prototype.last = function(){
     return this[this.length - 1];
 };
+String.prototype.fmt = function(){
+	return this.replace(/[\t]/g, '')
+}

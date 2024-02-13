@@ -126,7 +126,7 @@ function parseNinpo(ninpoObj, mode){
 		</div>
 		<div class="arguments">
 			<div class="tag-label skill">指定特技</div>
-			<div class="tag skill">${getSkill(ninpoObj.skills)}</div>
+			<div class="tag-content skill">${getSkill(ninpoObj.skills)}</div>
 		</div>
 	</div>
 	<div class="body">

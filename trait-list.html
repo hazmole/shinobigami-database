@@ -7,6 +7,7 @@
 	<script src="./js/config/custom.js"></script>
 	<script src="./js/basic/jquery-3.6.0.min.js"></script>
 	<script src="./js/basic/authenticator.js"></script>
+	<script src="./js/basic/utils.js"></script>
 	<script src="./js/basic/navbar.js"></script>
 	<script src="./js/basic/mySearcher.js"></script>
 	<script src="./js/basic/mySearcherBuilder.js"></script>
@@ -36,7 +37,7 @@
 var BgSearcherCtrl; //from "js/background-searcher.js"
 
 function init(){
-	BgSearcherCtrl.Build("SearchObj");
+	BgSearcherCtrl.Build("SearchPanel");
 	BgSearcherCtrl.SetPrintFunc(printResult);
 	BgSearcherCtrl.Search();
 }
@@ -44,10 +45,10 @@ function printResult(){
 	var list = BgSearcherCtrl.GetResult();
 	var mode = BgSearcherCtrl.GetDisplayMode();
 
-	var container = $('#ninpoContainer');
+	var container = $('#ItemContainer .Page');
 	container.empty();
 	for(var ninpoObj of list){
-		var ninpoElem = $(parseBackgroundInfo(ninpoObj, mode)).appendTo('#ninpoContainer').get(0);
+		var ninpoElem = $(parseBackgroundInfo(ninpoObj, mode)).appendTo('#ItemContainer .Page').get(0);
 		ninpoElem.ondblclick = storeNinpo.bind(null, ninpoObj);
 	}
 }
@@ -65,23 +66,21 @@ window.onload = function(){
 	</script>
 </head>
 <body>
-	<h1>忍神秘傳卷集 - 背景列表</h1>
+	<div id="FrameTitle">忍神秘傳卷集 - 背景列表</div>
 	<div id="FrameOuter">
-		<div id="FrameNavbar">
-			<div id="navbar"></div>
-		</div>
+		<div id="FrameNavbar"><div id="navbar"></div></div>
 		<div id="FrameContent">
+			<div id="FrameContentHeader"><div id="SearchPanel"></div></div>
 
-	<div id="SearchObj" class="SearchPanel"></div>
-	<div id="storageContainer" class="container">
-		<span class="container_title">背景倉庫</span>
-	</div>
-	<hr>
-	<div id="ninpoContainer" class="container"></div>
+			<div id="storageContainer" class="container">
+				<span class="container_title">背景倉庫</span>
+			</div>
+			<hr>
 
+			<div id="ItemContainer">
+				<div class="Page List"></div>
+			</div>
 		</div>
 	</div>
-
-
 </body>
 </html>
