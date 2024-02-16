@@ -89,7 +89,7 @@
 }
 .info-card.card .body .desc {
 	padding: 5px;
-	height: 40px;
+	height: 60px;
 	font-size: xx-small; font-style: italic;
 	display: table-cell;
 	vertical-align: bottom;
@@ -197,6 +197,7 @@
 	--ninpo-category-benefit:	#385c99;
 	--ninpo-category-flaw:    #950202;
 
+	--ninpo-restrict-background: #666666;
 	--ninpo-restrict-rank:    #df0000;
 	--ninpo-restrict-taima:   #7d1ad7;
 	--ninpo-restrict-sengoku: #89431b;

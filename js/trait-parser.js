@@ -17,7 +17,7 @@ function parseBackgroundInfo(dataObj, mode){
 			switch(res){
 				case "taima": return "taima";
 				case "sengoku": return "sengoku";
-				case "exclude-sengoku": return "sengoku";
+				case "ancient": return "sengoku";
 				default: return "";
 			}
 		}
@@ -27,6 +27,8 @@ function parseBackgroundInfo(dataObj, mode){
 				case "taima": return "退魔篇";
 				case "sengoku": return "戰國篇";
 				case "exclude-sengoku": return "非戰國篇角色";
+				case "ancient": return "修得古流忍法者";
+				case "seance": return "可修得惟神者";
 				default: return res;
 			}
 		}
