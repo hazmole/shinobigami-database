@@ -35,7 +35,7 @@
 	padding: 2px 6px 2px;
 
 	color: var(--ninpo-category-text);
-	font-size: 10px;
+	font-size: 12px;
 }
 .info-card.card .titleRow .attributes .category:before {
 	content: "";
@@ -117,7 +117,7 @@
 	padding: 0px 6px 0px;
 
 	color: var(--ninpo-category-text);
-	font-size: 10px;
+	font-size: 12px;
 }
 .info-card.row .titleCell .category:before {
 	content: "";

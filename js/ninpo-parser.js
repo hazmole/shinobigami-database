@@ -31,7 +31,12 @@ function parseNinpo(ninpoObj, mode){
 			case "比良坂機關": return '比良坂';
 			case "私立御齋學園": return '御齋';
 			case "隱忍血統": return '隱忍';
-			case "特命臨時教職員派遣委員會": return '特教委';
+			case "麝香會綜合醫院": return '麝香會';	
+			case "特命臨時教職員派遣委員會": return '特命教職員';
+			case "御齋學園學生會": return '學生會';
+			case "私立多羅尾女學院": return "多羅尾";
+			case "舊校舍管理委員會": return "舊校舍";
+			case "麥克菲登偵探教室": return "麥克菲登";
 		} 
 		return clan;
 	}
