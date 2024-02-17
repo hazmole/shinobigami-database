@@ -1,35 +1,123 @@
+<html>
 <head>
-  <meta charset="utf-8">
+  <title>忍法列表</title>
   <link rel="stylesheet" href="./css/global.css">
-  <link rel="stylesheet" href="./css/ninpo-card.css">
+  <link rel="stylesheet" href="./css/searchbox.css">
+  <link rel="stylesheet" href="./css/info-card.css">
+  <link rel="stylesheet" href="./css/info-card-ninpo.css">
   <script src="./js/config/custom.js"></script>
   <script src="./js/basic/jquery-3.6.0.min.js"></script>
-  <script src="./js/basic/mySearcher.js"></script>
-  <script src="./js/basic/mySearcherBuilder.js"></script>
+  <script src="./js/basic/authenticator.js"></script>
+  <script src="./js/basic/utils.js"></script>
+  <script src="./js/basic/windowCtrl.js"></script>
+  <script src="./js/basic/navbar.js"></script>
+  <script src="./js/basic/mySearcher_new.js"></script>
   <script src="./data/ninpo-list.js"></script>
-  <script src="./js/ninpo-searcher.js"></script>
+  <script src="./js/ninpo-searcher_new.js"></script>
   <script src="./js/ninpo-parser.js"></script>
-  <script>
 
-var NinpoSearcherBuilder;
-var NinpoSearcher;
+  <style>
+    #storageContainer{
+      background:#884C3A;
+      padding: 10px 0;
+    }
+    #storageContainer .container_title {
+      background: #5c0000;
+      color:white;
+      margin:0 5px;
+      padding:5px 10px;
+      font-weight:bold;
+    }
+  </style>
+  <script>
+var NinpoSearcherCtrl; //from "js/ninpo-searcher.js"
+
+const actionBtn = {
+  Add:    {icon:"add",  label:"加入忍法倉庫"},
+  Delete: {icon:"del",  label:"從忍法倉庫移除"},
+  Copy:   {icon:"copy", label:"複製到剪貼簿"},
+} 
 
 function init(){
-  NinpoSearcherBuilder.Build("SearchObj");
-  NinpoSearcherBuilder.SetAfterSearchFunc(function(){
-    var list = NinpoSearcher.GetResultList();
+  NinpoSearcherCtrl.searcher.SetAfterSearchFunc(afterSearch);
+  NinpoSearcherCtrl.searcher.Build("#SearchPanel");
+  NinpoSearcherCtrl.searcher.Search();
+}
+function afterSearch(itemList) {
+  var mode = NinpoSearcherCtrl.searcher.GetDisplayMode();
+  var options = {
+    mode: mode,
+    actions: [actionBtn.Add, actionBtn.Copy],
+  };
 
-    var container = $('#ninpoContainer');
-    container.empty();
-    for(var ninpoObj of list){
-      $(parseNinpo(ninpoObj, "card")).appendTo('#ninpoContainer');
-    }
-  });
+  // Show ItemList
+  WindowCtrl.BlockUI();
+  $("#ItemContainer .List").empty();
+  setTimeout(function() {
+    $("#ItemContainer .List").append(
+    itemList.map( item => NinpoParser.getElem(item, options) ).join(""));
+    WindowCtrl.UnblockUI();
+  }, 0);
+  
+}
+
+
+/*
+function printResult(){
+  var list = NinpoSearcherCtrl.GetResult();
+  var mode = NinpoSearcherCtrl.GetDisplayMode();
+  var options = {
+    mode: mode,
+    actions: [actionBtn.Add, actionBtn.Copy],
+  };
+
+  var container = $('#ItemContainer .Page');
+  container.empty();
+  for(var ninpoObj of list){
+    var ninpoElem = $(NinpoParser.getElem(ninpoObj, options)).appendTo(container);
+    ninpoElem.find(".action.add" ).on("click", addToStorage.bind(null, ninpoObj));
+    ninpoElem.find(".action.copy").on("click", copyNinpo.bindAppend(null, ninpoObj));
+  }
+}
+function addToStorage(ninpoObj){
+  var options = {
+    mode: 'list',
+    actions: [actionBtn.Delete, actionBtn.Copy],
+  };
+
+  var container = $('#storageContainer');
+  var ninpoElem = $(NinpoParser.getElem(ninpoObj, options)).appendTo(container);
+  ninpoElem.find(".action.del" ).on("click", delFromStorage.bind(null, ninpoElem));
+  ninpoElem.find(".action.copy").on("click", copyNinpo.bindAppend(null, ninpoObj));
+}
+function delFromStorage(selfObj){
+  $(selfObj).remove();
+}
+function copyNinpo(event, ninpoObj){
+  var text = NinpoParser.getCopiedText(ninpoObj);
+  CopyToClipboard(event, text);
+}
+*/
+window.onload = function(){
+  init();
 }
   </script>
 </head>
-<body onload="init()">
-  <div id="SearchObj" class="SearchPanel"></div>
-  <div id="ninpoContainer" class="container"></div>
+<body>
+  <div id="FrameTitle">忍神秘傳卷集 - 忍法列表</div>
+  <div id="FrameOuter">
+    <div id="FrameNavbar"><div id="navbar"></div></div>
+    <div id="FrameContent">
+      <div id="FrameContentHeader"><div id="SearchPanel"></div></div>
+  
+      <div id="storageContainer" class="container">
+        <span class="container_title">忍法倉庫</span>
+      </div>
 
+      <div id="ItemContainer">
+        <div class="Page List"></div>
+      </div>
+    </div>
+  </div>
 </body>
+</html>

@@ -1,11 +1,9 @@
 var WindowCtrl = {};
 
 WindowCtrl.BlockUI = function(){
-	$('body').append(`<div id="BlackLayout""></div>`);
 	$('body').append(`<div id="Loading"><div class="lds-dual-ring"></div></div>`);
 }
 WindowCtrl.UnblockUI = function(){
-	$("#BlackLayout").remove();
 	$("#Loading").remove();
 }
 
