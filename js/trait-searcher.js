@@ -110,7 +110,20 @@ BgSearcherCtrl.init = function(){
   }));
 
   // Sorting Function
-  /*this.searcher.SetCompareFunc( (a,b) => {...} );*/
+  this.searcher.SetCompareFunc( (a,b) => {
+    const orderOfCategory = ["benefit", "flaw"];
+
+    result = orderOfCategory.indexOf(a.category) - orderOfCategory.indexOf(b.category);
+    if(result!=0) return result;
+
+    result = a.exp[0] - b.exp[0];
+    if(result!=0) return result;
+
+    result = a.exp.length - b.exp.length;
+    if(result!=0) return result;
+
+    return 0;
+  });
 };
 BgSearcherCtrl.init();
 
