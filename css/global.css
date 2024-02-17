@@ -347,8 +347,20 @@ input:checked + .slider:before {
   margin-top: calc(-35vh);
 }
 
+/*==============
+ * Copied Message */
+#CopyMsg{
+  position: absolute;
+  display: none;
+}
+#CopyMsg::after{
+  content: "已複製!";
+  color: #e9c078;
+  font-size: 12px;
+}
 
-/* 3pp style */
+/*==============
+ * 3pp style */
 /* <span class="cross-stand-alone"></span> */
 .cross-stand-alone {
   margin: 0;

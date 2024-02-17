@@ -26,15 +26,14 @@
 			padding:5px 10px;
 			font-weight:bold;
 		}
-		#storageContainer .container_title:after {
-			content: "(雙擊忍法以加入/移除忍法倉庫)";
-			margin: 0 5px;
-			font-size: 10px;
-			font-weight:normal;
-		}
 	</style>
 	<script>
 var BgSearcherCtrl; //from "js/background-searcher.js"
+const actionBtn = {
+	Add:    {icon:"add",  label:"加入背景倉庫"},
+	Delete: {icon:"del",  label:"從背景倉庫移除"},
+	Copy:   {icon:"copy", label:"複製到剪貼簿"},
+} 
 
 function init(){
 	BgSearcherCtrl.Build("SearchPanel");
@@ -44,20 +43,36 @@ function init(){
 function printResult(){
 	var list = BgSearcherCtrl.GetResult();
 	var mode = BgSearcherCtrl.GetDisplayMode();
+	var options = {
+		mode: mode,
+		actions: [actionBtn.Add, actionBtn.Copy],
+	};
 
 	var container = $('#ItemContainer .Page');
 	container.empty();
-	for(var ninpoObj of list){
-		var ninpoElem = $(parseBackgroundInfo(ninpoObj, mode)).appendTo('#ItemContainer .Page').get(0);
-		ninpoElem.ondblclick = storeNinpo.bind(null, ninpoObj);
+	for(var dataObj of list){
+		var itemElem = $(TraitParser.getElem(dataObj, options)).appendTo(container);
+		itemElem.find(".action.add" ).on("click", addToStorage.bind(null, dataObj));
+		itemElem.find(".action.copy").on("click", copyItem.bindAppend(null, dataObj));
 	}
 }
-function storeNinpo(ninpoObj){
-	var ninpoElem = $(parseBackgroundInfo(ninpoObj, 'list')).appendTo('#storageContainer').get(0);
-	ninpoElem.ondblclick = removeNinpo.bind(null, ninpoElem);
+function addToStorage(dataObj){
+	var options = {
+		mode: 'list',
+		actions: [actionBtn.Delete, actionBtn.Copy],
+	};
+
+	var container = $('#storageContainer');
+	var itemElem = $(TraitParser.getElem(dataObj, options)).appendTo(container);
+	itemElem.find(".action.del" ).on("click", delFromStorage.bind(null, itemElem));
+	itemElem.find(".action.copy").on("click", copyItem.bindAppend(null, dataObj));
 }
-function removeNinpo(selfObj){
+function delFromStorage(selfObj){
 	$(selfObj).remove();
+}
+function copyItem(event, dataObj){
+	var text = TraitParser.getCopiedText(dataObj);
+	CopyToClipboard(event, text);
 }
 
 window.onload = function(){
@@ -75,7 +90,6 @@ window.onload = function(){
 			<div id="storageContainer" class="container">
 				<span class="container_title">背景倉庫</span>
 			</div>
-			<hr>
 
 			<div id="ItemContainer">
 				<div class="Page List"></div>

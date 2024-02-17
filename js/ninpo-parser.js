@@ -1,9 +1,93 @@
-function parseNinpo(ninpoObj, mode){
-	function getName(ninpoObj){
+class NinpoParser {
+	//==========================
+	// Main
+	static getElem(ninpoObj, options) {
+		const isListMode = (options.mode == "list");
+
+		var name = this.getName(ninpoObj);
+		var categoryStyle = ninpoObj.category[0];
+		var categoryText = this.getCategoryText(ninpoObj.category, isListMode);
+		var typeStyle = ninpoObj.type;
+		var typeText  = this.getType(ninpoObj.type, isListMode);
+		var range = this.getRange(ninpoObj.range);
+		var cost = this.getCost(ninpoObj.cost);
+		var skills = this.getSkill(ninpoObj.skills);
+
+		var limitElem = `<span class="restricts">${this.getRestricts(ninpoObj.restrict)}</span>`;
+		var actionBarElem = this.getActionBar(options.actions);
+
+		if(isListMode)
+			return `<div class="info-card row ninpo">
+		<div class="titleCell">
+			<div class="category ${categoryStyle}">${categoryText}</div>
+			<div class="title">${name}</div>
+			${actionBarElem}
+		</div>
+		<div class="type ${typeStyle}">${typeText}</div>
+		<div class="blockCell">
+			<div class="cell-label">間隔</div>
+			<div class="cell-content range">${range}</div>
+		</div>
+		<div class="blockCell">
+			<div class="cell-label">花費</div>
+			<div class="cell-content cost">${cost}</div>
+		</div>
+		<div class="blockCell">
+			<div class="cell-label">指定特技</div>
+			<div class="cell-content skill">${skills}</div>
+		</div>
+		<div class="field left effect">${limitElem}${ninpoObj.effect.join('<br>')}</div>
+	</div>`;
+
+		else
+			return `<div class="info-card card ninpo">
+		<div class="header">
+			<div class="titleRow">
+				<div class="title">${name}</div>
+				<div class="attributes">
+					<span class="category ${categoryStyle}">${categoryText}</span>
+					${limitElem}
+				</div>
+			</div>
+			${actionBarElem}
+			<div class="arguments">
+				<div class="tag-label">種類</div>
+				<div class="tag-content type ${typeStyle}">${typeText}</div>
+				<div class="tag-label">間隔</div>
+				<div class="tag-content range">${range}</div>
+				<div class="tag-label">花費</div>
+				<div class="tag-content cost">${cost}</div>
+			</div>
+			<div class="arguments">
+				<div class="tag-label skill">指定特技</div>
+				<div class="tag-content skill">${skills}</div>
+			</div>
+		</div>
+		<div class="body">
+			<div class="effect">${ninpoObj.effect.join('<p>')}</div>
+			<div class="desc">${ninpoObj.desc.join('<br>')}</div>
+		</div>
+	</div>`;
+	}
+
+	static getCopiedText(ninpoObj) {
+		var name = this.getName(ninpoObj);
+		var type = this.getType(ninpoObj.type, true);
+		var skill = this.getSkill(ninpoObj.skills);
+		var range = this.getRange(ninpoObj.range);
+		var cost = this.getCost(ninpoObj.cost);
+		var effect = ninpoObj.effect.join("");
+
+		return `${name}\t\t\t\t${type}\t\t${skill}\t\t\t${range}\t\t${cost}\t\t${effect}`;
+	}
+
+	//=========================
+	// Components
+	static getName(ninpoObj) {
 		if(ninpoObj.name.length==0) return '???';
 		return (ninpoObj.features?.canReLearn? '※': '')+ninpoObj.name[0];
 	}
-	function getCategoryText(category, isSimple){
+	static getCategoryText(category, isSimple){
 		switch(category[0]){
 			case "general":   return '泛用'+(isSimple?"":"忍法");
 			case "demon":     return '妖魔'+(isSimple?"":"忍法");
@@ -20,28 +104,29 @@ function parseNinpo(ninpoObj, mode){
 				if(category.length<=1) return '-';
 				var textArr = category.slice(1);
 				return textArr.map(t=>getClanNameText(t,isSimple)).join("-");
-		} 
-	}
-	function getClanNameText(clan, isSimple){
-		if(!isSimple) return clan;
-		switch(clan){
-			case "斜齒忍軍": return '斜齒';
-			case "鞍馬神流": return '鞍馬';
-			case "離群者": return '離群';
-			case "比良坂機關": return '比良坂';
-			case "私立御齋學園": return '御齋';
-			case "隱忍血統": return '隱忍';
-			case "麝香會綜合醫院": return '麝香會';	
-			case "特命臨時教職員派遣委員會": return '特命教職員';
-			case "御齋學園學生會": return '學生會';
-			case "私立多羅尾女學院": return "多羅尾";
-			case "舊校舍管理委員會": return "舊校舍";
-			case "麥克菲登偵探教室": return "麥克菲登";
-		} 
-		return clan;
+		}
+
+		function getClanNameText(clan, isSimple){
+			if(!isSimple) return clan;
+			switch(clan){
+				case "斜齒忍軍": return '斜齒';
+				case "鞍馬神流": return '鞍馬';
+				case "離群者": return '離群';
+				case "比良坂機關": return '比良坂';
+				case "私立御齋學園": return '御齋';
+				case "隱忍血統": return '隱忍';
+				case "麝香會綜合醫院": return '麝香會';	
+				case "特命臨時教職員派遣委員會": return '特命教職員';
+				case "御齋學園學生會": return '學生會';
+				case "私立多羅尾女學院": return "多羅尾";
+				case "舊校舍管理委員會": return "舊校舍";
+				case "麥克菲登偵探教室": return "麥克菲登";
+			} 
+			return clan;
+		}
 	}
 
-	function getType(type, isSimple){
+	static getType(type, isSimple){
 		function getTypeText(type){
 			switch(type){
 				case 'atk': return '攻擊';
@@ -52,19 +137,19 @@ function parseNinpo(ninpoObj, mode){
 		}
 		return (isSimple)? getTypeText(type): (getTypeText(type)+'忍法');
 	}
-	function getRange(range){
+	static getRange(range){
 		if(Number.isInteger(range)) return range;
 		return '無';
 	}
-	function getCost(cost){
+	static getCost(cost){
 		if(cost!=0) return cost;
 		return '無';
 	}
-	function getSkill(skill_arr){
+	static getSkill(skill_arr){
 		if(skill_arr.length==0) return '無';
 		return skill_arr.join("/");
 	}
-	function getRestricts(restrict_arr){
+	static getRestricts(restrict_arr){
 		function getRestrictClass(res){
 			if(res.indexOf("rank-")==0) return 'rank';
 			return res;
@@ -84,60 +169,10 @@ function parseNinpo(ninpoObj, mode){
 		if(restrict_arr==null || restrict_arr.length==0) return '';
 		return restrict_arr.map(v => `<span class="restrict ${getRestrictClass(v)}">${getRestrictText(v)}</span>`).join('');
 	}
-	var limitHtml = `<span class="restricts">${getRestricts(ninpoObj.restrict)}</span>`;
-
-	if(mode=='list')
-		return `<div class="info-card row ninpo">
-	<div class="titleCell">
-		<div class="category ${ninpoObj.category[0]}">${getCategoryText(ninpoObj.category, true)}</div>
-		<div class="title">${getName(ninpoObj)}</div>
-		<div class="actionBar">
-			<button>X</button>
-		</div>
-	</div>
-	<div class="type ${ninpoObj.type}">${getType(ninpoObj.type, true)}</div>
-	<div class="blockCell">
-		<div class="cell-label">間隔</div>
-		<div class="cell-content range">${getRange(ninpoObj.range)}</div>
-	</div>
-	<div class="blockCell">
-		<div class="cell-label">花費</div>
-		<div class="cell-content cost">${getCost(ninpoObj.cost)}</div>
-	</div>
-	<div class="blockCell">
-		<div class="cell-label">指定特技</div>
-		<div class="cell-content skill">${getSkill(ninpoObj.skills)}</div>
-	</div>
-	<div class="field left effect">${limitHtml}${ninpoObj.effect.join('<br>')}</div>
-</div>`;
-
-	else
-		return `<div class="info-card card ninpo">
-	<div class="header">
-		<div class="titleRow">
-			<div class="title">${getName(ninpoObj)}</div>
-			<div class="attributes">
-				<span class="category ${ninpoObj.category[0]}">${getCategoryText(ninpoObj.category)}</span>
-				${limitHtml}
-			</div>
-		</div>
-		<div class="arguments">
-			<div class="tag-label">種類</div>
-			<div class="tag-content type ${ninpoObj.type}">${getType(ninpoObj.type)}</div>
-			<div class="tag-label">間隔</div>
-			<div class="tag-content range">${getRange(ninpoObj.range)}</div>
-			<div class="tag-label">花費</div>
-			<div class="tag-content cost">${getCost(ninpoObj.cost)}</div>
-		</div>
-		<div class="arguments">
-			<div class="tag-label skill">指定特技</div>
-			<div class="tag-content skill">${getSkill(ninpoObj.skills)}</div>
-		</div>
-	</div>
-	<div class="body">
-		<div class="effect">${ninpoObj.effect.join('<p>')}</div>
-		<div class="desc">${ninpoObj.desc.join('<br>')}</div>
-	</div>
-</div>`;
+	static getActionBar(list){
+		function getActionIcon(item){
+			return `<div class="action ${item.icon}" title="${item.label}"></div>`
+		}
+		return `<div class="actionBar">${ list.map(item => getActionIcon(item)).join("") }</div>`;
+	}
 }
-

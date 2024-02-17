@@ -1,6 +1,7 @@
 :root{
-	--info-card-border-hover: #ff0a94;
+	--info-card-border-hover: #d98429;
 	--info-card-border:       #cccccc;
+	--info-card-actionbar: #1f2021;
 }
 
 
@@ -36,9 +37,27 @@
 }
 
 /* common setting : Row-ActionBar */
-.info-card.row .actionBar {
+.info-card .actionBar {
 	display: none;
-	width: 100%;
-	margin-top: -5px;
-	text-align: center;
+	background: var(--info-card-actionbar);
+	width: calc(100% - 2px);
+	padding-left: 2px;
 }
+.info-card:hover .actionBar {
+	display: flex;
+	gap:2px;
+}
+
+.actionBar .action {
+	background-size: cover;
+	filter: brightness(0.7);
+	cursor: pointer;
+
+	width: 18px;
+	height: 18px;
+	margin: 2px;
+}
+.actionBar .action.add { background-image: url("../img/icon-add.svg"); }
+.actionBar .action.del { background-image: url("../img/icon-del.svg"); }
+.actionBar .action.copy { background-image: url("../img/icon-copy.svg"); }
+

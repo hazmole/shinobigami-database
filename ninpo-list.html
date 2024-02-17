@@ -27,15 +27,15 @@
 			padding:5px 10px;
 			font-weight:bold;
 		}
-		#storageContainer .container_title:after {
-			content: "(雙擊忍法以加入/移除忍法倉庫)";
-			margin: 0 5px;
-			font-size: 10px;
-			font-weight:normal;
-		}
 	</style>
 	<script>
 var NinpoSearcherCtrl; //from "js/ninpo-searcher.js"
+
+const actionBtn = {
+	Add:    {icon:"add",  label:"加入忍法倉庫"},
+	Delete: {icon:"del",  label:"從忍法倉庫移除"},
+	Copy:   {icon:"copy", label:"複製到剪貼簿"},
+} 
 
 function init(){
 	NinpoSearcherCtrl.Build("SearchPanel");
@@ -45,20 +45,38 @@ function init(){
 function printResult(){
 	var list = NinpoSearcherCtrl.GetResult();
 	var mode = NinpoSearcherCtrl.GetDisplayMode();
+	var options = {
+		mode: mode,
+		actions: [actionBtn.Add, actionBtn.Copy],
+	};
 
 	var container = $('#ItemContainer .Page');
 	container.empty();
 	for(var ninpoObj of list){
-		var ninpoElem = $(parseNinpo(ninpoObj, mode)).appendTo('#ItemContainer .Page').get(0);
-		ninpoElem.ondblclick = storeNinpo.bind(null, ninpoObj);
+		var ninpoElem = $(NinpoParser.getElem(ninpoObj, options)).appendTo(container);
+		ninpoElem.find(".action.add" ).on("click", addToStorage.bind(null, ninpoObj));
+		ninpoElem.find(".action.copy").on("click", copyNinpo.bindAppend(null, ninpoObj));
 	}
 }
-function storeNinpo(ninpoObj){
-	var ninpoElem = $(parseNinpo(ninpoObj, 'list')).appendTo('#storageContainer').get(0);
-	ninpoElem.ondblclick = removeNinpo.bind(null, ninpoElem);
+
+
+function addToStorage(ninpoObj){
+	var options = {
+		mode: 'list',
+		actions: [actionBtn.Delete, actionBtn.Copy],
+	};
+
+	var container = $('#storageContainer');
+	var ninpoElem = $(NinpoParser.getElem(ninpoObj, options)).appendTo(container);
+	ninpoElem.find(".action.del" ).on("click", delFromStorage.bind(null, ninpoElem));
+	ninpoElem.find(".action.copy").on("click", copyNinpo.bindAppend(null, ninpoObj));
 }
-function removeNinpo(selfObj){
+function delFromStorage(selfObj){
 	$(selfObj).remove();
+}
+function copyNinpo(event, ninpoObj){
+	var text = NinpoParser.getCopiedText(ninpoObj);
+	CopyToClipboard(event, text);
 }
 
 window.onload = function(){
