@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>忍法列表</title>
+	<title>忍神秘傳卷集 - 忍法列表</title>
 	<link rel="stylesheet" href="./css/global.css">
 	<link rel="stylesheet" href="./css/searchbox.css">
 	<link rel="stylesheet" href="./css/info-card.css">
@@ -9,9 +9,9 @@
 	<script src="./js/basic/jquery-3.6.0.min.js"></script>
 	<script src="./js/basic/authenticator.js"></script>
 	<script src="./js/basic/utils.js"></script>
+	<script src="./js/basic/windowCtrl.js"></script>
 	<script src="./js/basic/navbar.js"></script>
 	<script src="./js/basic/mySearcher.js"></script>
-	<script src="./js/basic/mySearcherBuilder.js"></script>
 	<script src="./data/ninpo-list.js"></script>
 	<script src="./js/ninpo-searcher.js"></script>
 	<script src="./js/ninpo-parser.js"></script>
@@ -39,25 +39,28 @@ const actionBtn = {
 } 
 
 function init(){
-	NinpoSearcherCtrl.Build("SearchPanel");
-	NinpoSearcherCtrl.SetPrintFunc(printResult);
-	NinpoSearcherCtrl.Search();
+  NinpoSearcherCtrl.searcher.SetAfterSearchFunc(afterSearch);
+  NinpoSearcherCtrl.searcher.Build("#SearchPanel");
+  NinpoSearcherCtrl.searcher.Search();
 }
-function printResult(){
-	var list = NinpoSearcherCtrl.GetResult();
-	var mode = NinpoSearcherCtrl.GetDisplayMode();
-	var options = {
-		mode: mode,
-		actions: [actionBtn.Add, actionBtn.Copy],
-	};
+function afterSearch(itemList) {
+  var mode = NinpoSearcherCtrl.searcher.GetDisplayMode();
+  var options = {
+    mode: mode,
+    actions: [actionBtn.Add, actionBtn.Copy],
+  };
 
-	var container = $('#ItemContainer .Page');
-	container.empty();
-	for(var ninpoObj of list){
-		var ninpoElem = $(NinpoParser.getElem(ninpoObj, options)).appendTo(container);
-		ninpoElem.find(".action.add" ).on("click", addToStorage.bind(null, ninpoObj));
-		ninpoElem.find(".action.copy").on("click", copyNinpo.bindAppend(null, ninpoObj));
-	}
+  // Show ItemList
+  WindowCtrl.BlockUI();
+  $("#ItemContainer .List").empty();
+  setTimeout(function() {
+  	itemList.forEach( item => {
+  		var itemElem = $(NinpoParser.getElem(item, options)).appendTo("#ItemContainer .List");
+		itemElem.find(".action.add" ).on("click", addToStorage.bind(null, item));
+		itemElem.find(".action.copy").on("click", copyNinpo.bindAppend(null, item));
+  	});
+    WindowCtrl.UnblockUI();
+  }, 0);
 }
 
 

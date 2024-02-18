@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>忍法列表</title>
+  <title>功能測試頁</title>
   <link rel="stylesheet" href="./css/global.css">
   <link rel="stylesheet" href="./css/searchbox.css">
   <link rel="stylesheet" href="./css/info-card.css">
@@ -11,9 +11,9 @@
   <script src="./js/basic/utils.js"></script>
   <script src="./js/basic/windowCtrl.js"></script>
   <script src="./js/basic/navbar.js"></script>
-  <script src="./js/basic/mySearcher_new.js"></script>
+  <script src="./js/basic/mySearcher.js"></script>
   <script src="./data/ninpo-list.js"></script>
-  <script src="./js/ninpo-searcher_new.js"></script>
+  <script src="./js/ninpo-searcher.js"></script>
   <script src="./js/ninpo-parser.js"></script>
 
   <style>
@@ -58,53 +58,15 @@ function afterSearch(itemList) {
     itemList.map( item => NinpoParser.getElem(item, options) ).join(""));
     WindowCtrl.UnblockUI();
   }, 0);
-  
 }
 
-
-/*
-function printResult(){
-  var list = NinpoSearcherCtrl.GetResult();
-  var mode = NinpoSearcherCtrl.GetDisplayMode();
-  var options = {
-    mode: mode,
-    actions: [actionBtn.Add, actionBtn.Copy],
-  };
-
-  var container = $('#ItemContainer .Page');
-  container.empty();
-  for(var ninpoObj of list){
-    var ninpoElem = $(NinpoParser.getElem(ninpoObj, options)).appendTo(container);
-    ninpoElem.find(".action.add" ).on("click", addToStorage.bind(null, ninpoObj));
-    ninpoElem.find(".action.copy").on("click", copyNinpo.bindAppend(null, ninpoObj));
-  }
-}
-function addToStorage(ninpoObj){
-  var options = {
-    mode: 'list',
-    actions: [actionBtn.Delete, actionBtn.Copy],
-  };
-
-  var container = $('#storageContainer');
-  var ninpoElem = $(NinpoParser.getElem(ninpoObj, options)).appendTo(container);
-  ninpoElem.find(".action.del" ).on("click", delFromStorage.bind(null, ninpoElem));
-  ninpoElem.find(".action.copy").on("click", copyNinpo.bindAppend(null, ninpoObj));
-}
-function delFromStorage(selfObj){
-  $(selfObj).remove();
-}
-function copyNinpo(event, ninpoObj){
-  var text = NinpoParser.getCopiedText(ninpoObj);
-  CopyToClipboard(event, text);
-}
-*/
 window.onload = function(){
   init();
 }
   </script>
 </head>
 <body>
-  <div id="FrameTitle">忍神秘傳卷集 - 忍法列表</div>
+  <div id="FrameTitle">忍神秘傳卷集 - 功能測試頁</div>
   <div id="FrameOuter">
     <div id="FrameNavbar"><div id="navbar"></div></div>
     <div id="FrameContent">
