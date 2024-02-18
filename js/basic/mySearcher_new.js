@@ -46,7 +46,7 @@ class MySearcher{
     // Fetch Arguments
     var filter = {
       simple:   this.elemCtrl.GetSimpleSearchVal(),
-      advanced: {},
+      advanced: this.config.advanced,
     };
     // Search
     this.resultList = this.itemList.filter( item => this.isItemMatched(item, filter));
@@ -72,7 +72,37 @@ class MySearcher{
       if(!result) return false;
     }
 
+    // Advanced Search
+    if(filter.advanced.length>0){
+      var result = filter.advanced
+        .map( f => {
+          var itemVal = itemObj[f.id];
+
+          if(f.type == "selection"){
+            if(f.value.length == 0) return true;
+            return f.value
+                    .map( searchVal => isItemFieldMatch(searchVal, itemVal) )
+                    .reduce( (a,b) => (a||b) );
+          }
+
+          return true;
+        })
+        .reduce( (a,b) => a && b );
+
+      if(!result) return false;
+    }
+
     return true;
+
+    //-------
+    function isItemFieldMatch(searchVal, itemVal){
+      if(Array.isArray(itemVal)){
+        if(itemVal.length==0) return false;
+        return itemVal.map( val => searchVal==val ).reduce( (a,b) => a||b );
+      } else {
+        return searchVal==itemVal;
+      }
+    }
   }
 
 }
@@ -85,7 +115,8 @@ class MySearcherElemCtrl {
     this.rootElem = null;
 
     // Expand action
-    this.act.toggleDisplayMode = this.toggleDisplayMode.bind(this);
+    this.act.toggleDisplayMode  = this.toggleDisplayMode.bind(this);
+    this.act.toggleAdvancePanel = this.toggleAdvancePanel.bind(this);
   }
 
   GetSimpleSearchVal(){
@@ -103,6 +134,7 @@ class MySearcherElemCtrl {
 
     buildBasicPanel();
     buildAdditionalSearchElems();
+    buildAdvancedOptions();
 
     //======================
     function buildBasicPanel() {
@@ -115,8 +147,10 @@ class MySearcherElemCtrl {
           </form>
           <div class="AdditionalSearchElems"></div>
         </div>
-        <div id="AdvancedFilterPanel" class="AdvancedFilterBar"></div>`);
+        <div class="AdvancedFilterBar"></div>`);
+      $("#AdvancedSearchBtn").on('click', self.act.toggleAdvancePanel);
       $("#searchInput").on('search', self.act.DoSearch);
+      $("#searchInput").on('change', self.act.DoSearch);
     }
     function buildAdditionalSearchElems() {
       var baseElem = rootElem.find(".AdditionalSearchElems");
@@ -124,8 +158,8 @@ class MySearcherElemCtrl {
       if(self.config.isDisplayModeEnable){
         buildDisplayModeSwitch(baseElem);
       }
-    }
-    function buildDisplayModeSwitch(baseElem) {
+
+      function buildDisplayModeSwitch(baseElem) {
         baseElem.append(`
           <div class="SwitchBlock">
             <span class="label">${LangUtil.Searcher['toggleDisplayMode']}</span>
@@ -135,17 +169,103 @@ class MySearcherElemCtrl {
             </label>
           </div>`);
         $("#displayMode").on('change', self.act.toggleDisplayMode);
+      }
+    }
+    function buildAdvancedOptions() {
+      var baseElem = rootElem.find(".AdvancedFilterBar");
+      self.config.advanced.forEach( advOpt => {
+        buildAdvancedOption(baseElem, advOpt);
+      });
+
+      function buildAdvancedOption(baseElem, optionObj) {
+        var optElem = $(`
+          <div class="AdvancedOptionEntry">
+            <div class="title">${optionObj.title}</div>
+            <div class="entryRow"></div>
+          </div>`.fmt()).appendTo(baseElem);
+        var optRowElem = optElem.find(".entryRow");
+
+        switch(optionObj.type) {
+        case "selection":
+          optionObj.options
+              .forEach( optItem => buildSelectOption(optRowElem, optItem) );
+          break;
+        }
+
+        function buildSelectOption(baseElem, optItem) {
+          if(optItem.entries){ // Folder
+            var elem = $(`
+              <div class="selectGroup">
+                <div class="groupName">${optItem.text}</div>
+                <div class="groupContent"></div>
+              </div>`).appendTo(baseElem);
+            elem.find('.groupName').on('click', self.toggleSelectionGroup.bind(self));
+
+            var sunBaseElem = elem.find(".groupContent");
+            optItem.entries.forEach(subOptItem => buildSelectOption(sunBaseElem, subOptItem));
+
+          } else { // Single
+            var defaultCls = (optItem.value=="*")? "default selected": "";
+            var elem = $(`<div class="selectOpt ${defaultCls}">${optItem.text}</div>`).appendTo(baseElem);
+            elem.on('click', self.clickSelection.bindAppend(self, optionObj.id, optItem.value));
+
+          }
+        }
+      }
     }
   }
 
 
   //===================
   // Actions
-  toggleDisplayMode(){
+  toggleDisplayMode() {
     this.config.displayMode = (this.config.displayMode=="list")? "card": "list";
     this.act.DoAfterSearch();
   }
+  toggleAdvancePanel(){
+    this.rootElem.find(".AdvancedFilterBar").toggle(150);
+  }
 
+  toggleSelectionGroup(evt){
+    $(evt.currentTarget).toggleClass("unfold");
+    $(evt.currentTarget).parent().find(".groupContent").toggle(100);
+  }
+  clickSelection(evt, groupId, value) {
+    const elem = evt.currentTarget;
+    const groupCfg = this.config.advanced.find( optGroup => optGroup.id == groupId );
+    if(value!="*"){
+      toggleConfigValue(elem, groupCfg, groupId, value);
+    } else {
+      clearConfigValue(elem, groupCfg, groupId);
+    }
+    setDefaultOptionClass(elem, groupCfg);
+
+    this.act.DoSearch();
+
+    function toggleConfigValue(elem, groupCfg, groupId, value){
+      var idx = groupCfg.value.indexOf(value);
+      if(idx < 0){
+        groupCfg.value.push(value);
+      } else {
+        groupCfg.value.splice(idx, 1);
+      }
+
+      $(elem).toggleClass("selected");
+    }
+    function clearConfigValue(elem, groupCfg, groupId){
+      groupCfg.value.length = 0;
+
+      $(elem).parents(".AdvancedOptionEntry").find(".selectOpt").removeClass("selected");
+    }
+    function setDefaultOptionClass(elem, groupCfg){
+      var defaultElem = $(elem).parents(".AdvancedOptionEntry").find(".selectOpt.default");
+      if(groupCfg.value.length==0){
+        defaultElem.addClass("selected");
+      } else {
+        defaultElem.removeClass("selected");
+      }
+    }
+  }
 }
 
 

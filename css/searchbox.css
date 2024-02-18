@@ -5,8 +5,18 @@
   display: flex;
   align-items: stretch;
 }
+.SearchBar .AdditionalSearchElems {
+  display: flex;
+  align-items: center;
+}
+.SearchBar #AdvancedSearchBtn {
+  background: #707070; color: white;
+  width: 100px;
+  border: none;
+}
 
-form.SearchBox {
+/* Simple SearchBox */
+.SearchBox {
   position: relative;
   width: 300px;
   border-radius: .5rem;
@@ -45,7 +55,7 @@ form.SearchBox {
   display: block;
 }
 
-
+/* DisplayMode Switch */
 .SwitchBlock{
   display: flex;
   align-items: center;
@@ -99,24 +109,68 @@ input:checked + .slider:before {
   transform: translateX(26px);
 }
 
-.SearchBar .AdditionalSearchElems {
-  display: flex;
-  align-items: center;
-}
-
-
-#AdvancedSearchBtn {
-  background: #707070; color: white;
-  width: 100px;
-  border: none;
-}
+/* AdvanceSearch Panel */
 .AdvancedFilterBar {
   display: none;
-  margin: .8rem;
-  color: white;
   transition: all .3s ease-out;
   transition-property: display;
 }
+
+
+
+
+.AdvancedOptionEntry {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-top: 10px;
+}
+.AdvancedOptionEntry .title {
+  display: inline-block;
+  padding: 5px;
+  border-radius: 5px;
+  background: var(--color-lightBrown);
+  color: black;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+.AdvancedOptionEntry .entryRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+
+/* OptionType :: Selection */
+.selectOpt {
+  color: white;
+  cursor: pointer;
+}
+.selectOpt:hover,
+.selectOpt.selected {
+  color: var(--color-select);
+}
+.selectOpt.selected::before { content:"["; }
+.selectOpt.selected::after { content:"]"; }
+
+.selectGroup .groupName {
+  color: white;
+  cursor: pointer;
+}
+.selectGroup .groupName:hover {
+  color: var(--color-select);
+}
+.selectGroup .groupName::before { content:"[+]"; }
+.selectGroup .groupName.unfold::before { color: var(--color-select); content:"[-]"; }
+
+.selectGroup .groupContent {
+  display: none;
+  padding-left: 10px;
+}
+.selectGroup .groupContent .selectOpt { margin-top: 2px;}
+
+/* Old CSS */
 .Entry{
   display: flex;
   align-items:  baseline;

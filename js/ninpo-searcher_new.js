@@ -10,7 +10,7 @@ var NinpoSearcherCtrl = {};
 NinpoSearcherCtrl.simpleCfg = { fields:['t_name','t_skills','t_effect'] };
 NinpoSearcherCtrl.advancedCfg = [
   {
-    id: 'categoryStr',
+    id: 't_category',
     title: '忍法分類',
     type: 'selection',
     value: [],
@@ -88,7 +88,7 @@ NinpoSearcherCtrl.advancedCfg = [
     ]
   },
   {
-    id: 'typeStr',
+    id: 't_type',
     title: '種類',
     type: 'selection',
     value: [],
@@ -106,7 +106,7 @@ NinpoSearcherCtrl.advancedCfg = [
     ]
   },
   {
-    id: 'rangeStr',
+    id: 't_range',
     title: '間隔',
     type: 'selection',
     value: [],
@@ -121,7 +121,7 @@ NinpoSearcherCtrl.advancedCfg = [
     ]
   },
   {
-    id: 'costStr',
+    id: 't_cost',
     title: '花費',
     type: 'selection',
     value: [],
@@ -135,7 +135,7 @@ NinpoSearcherCtrl.advancedCfg = [
     ]
   },
   {
-    id: 'restrictStr',
+    id: 't_restrict',
     title: '限定條件',
     type: 'selection',
     value: [],
@@ -161,6 +161,16 @@ NinpoSearcherCtrl.decorateListData = function(itemObj) {
   itemObj.t_name   = itemObj.name.join("");
   itemObj.t_skills = itemObj.skills.join("");
   itemObj.t_effect = itemObj.effect.join("");
+
+  itemObj.t_category = itemObj.category.join("-");
+  itemObj.t_type = (itemObj.type!=="atk")? itemObj.type: (itemObj.tags.find(tag => tag.indexOf("atk")))
+  if(!itemObj.t_type) console.error(itemObj.name, itemObj.tags);
+
+  itemObj.t_range = ""+ ((itemObj.range==="")? "-": 
+                         (parseInt(itemObj.range)>=4)? "4+": itemObj.range);
+  itemObj.t_cost  = ""+ ((itemObj.cost==="")? "-": 
+                         (parseInt(itemObj.cost)>=4)? "4+": itemObj.cost);
+  itemObj.t_restrict = (itemObj.restrict.length==0)? ["-"]: (itemObj.restrict.map(v => v));
 
   return itemObj;
 }
