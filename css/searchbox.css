@@ -1,0 +1,215 @@
+
+/*==============
+ * SearchPanel */
+.SearchBar {
+  display: flex;
+  align-items: stretch;
+}
+.SearchBar .AdditionalSearchElems {
+  display: flex;
+  align-items: center;
+}
+.SearchBar #AdvancedSearchBtn {
+  background: #707070; color: white;
+  width: 100px;
+  border: none;
+}
+
+/* Simple SearchBox */
+.SearchBox {
+  position: relative;
+  width: 300px;
+  border-radius: .5rem;
+  margin: 0;
+}
+.SearchBox input[type=search] {
+  outline: 0;
+  width: 300px;
+  height: 2rem;
+  background: #fff;
+  padding: 0 1rem;
+  border: none;
+  border-radius: 0 .5rem .5rem 0;
+  transition: all .3s ease-out;
+  transition-property: width, border-radius;
+  z-index: 1;
+  position: relative;
+}
+.SearchBox input:not(:placeholder-shown) {
+  border-radius: 0;
+  width: calc(300px - 3rem);
+}
+.SearchBox #SearchBtn {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 3rem;
+  height: 2rem;
+  font-weight: bold;
+  background: #bd5757;
+  border: none;
+  border-radius: 0 .5rem .5rem 0;
+}
+.SearchBox input:not(:placeholder-shown) + #SearchBtn {
+  display: block;
+}
+
+/* DisplayMode Switch */
+.SwitchBlock{
+  display: flex;
+  align-items: center;
+  color: white;
+  margin: 0 2rem;
+}
+.SwitchBlock .label{
+  margin: 0 5px;
+}
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+}
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 34px;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 2px;
+  top: 2px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 50%;
+}
+input:checked + .slider {
+  background-color: #994f4f;
+}
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* AdvanceSearch Panel */
+.AdvancedFilterBar {
+  display: none;
+  transition: all .3s ease-out;
+  transition-property: display;
+}
+
+
+
+
+.AdvancedOptionEntry {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-top: 10px;
+}
+.AdvancedOptionEntry .title {
+  display: inline-block;
+  padding: 5px;
+  border-radius: 5px;
+  background: var(--color-lightBrown);
+  color: black;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+.AdvancedOptionEntry .entryRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+
+/* OptionType :: Selection */
+.selectOpt {
+  color: white;
+  cursor: pointer;
+}
+.selectOpt:hover,
+.selectOpt.selected {
+  color: var(--color-select);
+}
+.selectOpt.selected::before { content:"["; }
+.selectOpt.selected::after { content:"]"; }
+
+.selectGroup .groupName {
+  color: white;
+  cursor: pointer;
+}
+.selectGroup .groupName:hover {
+  color: var(--color-select);
+}
+.selectGroup .groupName::before { content:"[+]"; }
+.selectGroup .groupName.unfold::before { color: var(--color-select); content:"[-]"; }
+
+.selectGroup .groupContent {
+  display: none;
+  padding-left: 10px;
+}
+.selectGroup .groupContent .selectOpt { margin-top: 2px;}
+
+/* Old CSS */
+.Entry{
+  display: flex;
+  align-items:  baseline;
+  margin: 5px 0;
+}
+.Entry .Title {
+  font-weight: bold;
+  padding: 5px;
+  border-radius: 5px;
+  background: var(--color-lightBrown);
+  color: black;
+}
+.Entry .Options {
+  display: flex;
+  align-items:  baseline;
+}
+
+.Entry a, .Entry .Nested {
+  color: white;
+  cursor: pointer;
+  margin-left: 8px;
+}
+.Entry a:hover,
+.Entry a.selected,
+.Entry .FolderName:hover
+ { color: var(--color-select); }
+.Entry a.selected:before { content: "["; }
+.Entry a.selected:after { content: "]"; }
+
+.Entry .Nested{
+  display: flex;
+  flex-direction: column;
+}
+
+.Entry .FolderName:before{ content: "[+]"; }
+.Entry .FolderName.unfold:before{ content: "[-]";color:var(--color-select); }
+.Entry .FolderBody.unfold{
+  display: flex;
+  flex-direction: column;
+}
+.Entry .FolderBody{ display: none; }
+
