@@ -148,7 +148,6 @@ class MySearcherElemCtrl {
         </div>
         <div class="AdvancedFilterBar"></div>`);
       $("#AdvancedSearchBtn").on('click', self.act.toggleAdvancePanel);
-      $("#searchInput").on('search', self.act.DoSearch);
       $("#searchInput").on('change', self.act.DoSearch);
     }
     function buildAdditionalSearchElems() {

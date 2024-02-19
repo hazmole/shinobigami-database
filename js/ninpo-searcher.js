@@ -175,6 +175,12 @@ NinpoSearcherCtrl.decorateListData = function(itemObj) {
   return itemObj;
 }
 NinpoSearcherCtrl.sortFunc = (a, b) => {
+  if(a.t_category!=b.t_category) return 0;
+
+  const orderOfType = ["atk", "sup", "equ"];
+  var result = orderOfType.indexOf(a.type) - orderOfType.indexOf(b.type);
+  if(result!=0) return result;
+
   return 0;
 };
 
@@ -189,7 +195,7 @@ NinpoSearcherCtrl.searcher.Register(
   {
     simple: NinpoSearcherCtrl.simpleCfg,
     advanced: NinpoSearcherCtrl.advancedCfg,
-    //sortFunc: NinpoSearcherCtrl.sortFunc,
+    compareFunc: NinpoSearcherCtrl.sortFunc,
     placeholderText: "尋找忍法名或效果...",
 
     isDisplayModeEnable: true,
