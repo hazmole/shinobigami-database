@@ -2,8 +2,15 @@ $(document).ready(buildNavBar);
 
 const NAVBAR = [
 	{ type:"link", text: "首頁", url: "index.html", style: "background:var(--color-TitleBar-bg);" },
-	{ type:"link", text: "忍法列表", url: "ninpo-list.html" },
-	{ type:"link", text: "背景列表", url: "trait-list.html" },
+	{ type:"folder", text: "▼ 規則速查", folderKey: "rule-ref", list: [
+			{ type:"link", text: "名稱決定表", url: "rule-naming.html" },
+		]
+	},
+	{ type:"folder", text: "▼ 資料一覽", folderKey: "player-data", list: [
+			{ type:"link", text: "忍法", url: "ninpo-list.html" },
+			{ type:"link", text: "背景", url: "trait-list.html" },
+		]
+	},
 	//{ text: "奧義(X)", url: "#" },
 	//{ text: "創角模擬器", url: "character-generator.html", style:"bright" },
 ]; 
