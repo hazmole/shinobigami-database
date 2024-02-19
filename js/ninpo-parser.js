@@ -100,6 +100,10 @@ class NinpoParser {
 				if(category.length<=1) return '-';
 				var textArr = category.slice(1);
 				return '外道-'+textArr.map(t=>getClanNameText(t,isSimple)).join("-");
+			case "enemy":
+				if(category.length<=1) return '-';
+				var textArr = category.slice(1);
+				return '敵人-'+textArr.map(t=>getClanNameText(t,isSimple)).join("-");
 			default:
 				if(category.length<=1) return '-';
 				var textArr = category.slice(1);

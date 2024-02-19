@@ -85,6 +85,7 @@ NinpoSearcherCtrl.advancedCfg = [
       { text:'妖魔忍法', value:'demon' },
       { text:'外道忍法', value:'cultist' },
       { text:'血盟忍法', value:'bloodbond' },
+      { text:'敵人專用', value:'enemy' },
     ]
   },
   {
@@ -162,7 +163,7 @@ NinpoSearcherCtrl.decorateListData = function(itemObj) {
   itemObj.t_skills = itemObj.skills.join("");
   itemObj.t_effect = itemObj.effect.join("");
 
-  itemObj.t_category = itemObj.category.join("-");
+  itemObj.t_category = (itemObj.category[0]=="enemy")? "enemy": itemObj.category.join("-");
   itemObj.t_type = (itemObj.type!=="atk")? itemObj.type: (itemObj.tags.find(tag => tag.indexOf("atk")))
   if(!itemObj.t_type) console.error(itemObj.name, itemObj.tags);
 
