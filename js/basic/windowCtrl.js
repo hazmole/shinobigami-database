@@ -1,12 +1,5 @@
 var WindowCtrl = {};
 
-WindowCtrl.BlockUI = function(){
-	$('body').append(`<div id="Loading"><div class="lds-dual-ring"></div></div>`);
-}
-WindowCtrl.UnblockUI = function(){
-	$("#Loading").remove();
-}
-
 // size: Large | Normal
 WindowCtrl.popupWindow = function(content, size){
 	var frame = `

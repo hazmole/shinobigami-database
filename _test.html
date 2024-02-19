@@ -9,7 +9,6 @@
   <script src="./js/basic/jquery-3.6.0.min.js"></script>
   <script src="./js/basic/authenticator.js"></script>
   <script src="./js/basic/utils.js"></script>
-  <script src="./js/basic/windowCtrl.js"></script>
   <script src="./js/basic/navbar.js"></script>
   <script src="./js/basic/mySearcher.js"></script>
   <script src="./data/ninpo-list.js"></script>
@@ -51,12 +50,12 @@ function afterSearch(itemList) {
   };
 
   // Show ItemList
-  WindowCtrl.BlockUI();
+  Utils.BlockUI();
   $("#ItemContainer .List").empty();
   setTimeout(function() {
     $("#ItemContainer .List").append(
     itemList.map( item => NinpoParser.getElem(item, options) ).join(""));
-    WindowCtrl.UnblockUI();
+    Utils.UnblockUI();
   }, 0);
 }
 
