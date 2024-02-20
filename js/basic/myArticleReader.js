@@ -15,6 +15,7 @@ class ArticleParser {
 			case "string": return this.handleString(entry);
 			case "object":
 				switch(entry.type){
+					case "flex":    return this.handleFlex(entry, depth);
 					case "section": return this.handleSection(entry, depth);
 					case "list":    return this.handleList(entry, depth);
 					case "table":   return this.handleTable(entry, depth);
@@ -41,6 +42,14 @@ class ArticleParser {
 	static handleNote(item) {
 		// ReqField: text
 		return `<p class="note">${item.text}</p>`;
+	}
+	static handleFlex(item, depth) {
+		// ReqField: entries
+		var ret = [];
+		for(var entry of item.entries){
+			ret.push( this.handleEntry(entry, depth+1) );
+		}
+		return `<div class="flexRow">${ret.join('')}</div>`;
 	}
 	static handleList(item, depth) {
 		// ReqField: entries

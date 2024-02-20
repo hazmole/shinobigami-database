@@ -8,7 +8,7 @@
   --color-table-diff-row: #f7e1c6;
 }
 
-.Articles { margin:1rem; }
+.Articles { margin:1rem; width:50rem; }
 
 .Articles .section {
 	background-color: var(--color-section-bg);
@@ -24,7 +24,8 @@
 .section h2,
 .section h3,
 .section h4 { margin-bottom: 0; margin-top: 0; }
-.section h3 { margin:1.5rem 0 5px 0; border-bottom: 1px solid; }
+.section h3 { margin:1.5rem 0 5px 0; border-bottom: 1px solid; color:#bf0000; }
+
 
 .section p:first-child, h3+p, h4+p { margin-top:0; }
 .section p:last-child { margin-bottom:0; }
@@ -36,6 +37,17 @@
 	color: #bd2f2f;
 	text-align: right;
 }
+
+
+.section .flexRow {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	gap: 1rem;
+
+	margin: 1rem 0;
+}
+.section .flexRow .dicTableOuter { margin:0; }
 
 
 /* Coponent: Table */

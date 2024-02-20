@@ -3,7 +3,7 @@ $(document).ready(buildNavBar);
 const NAVBAR = [
 	{ type:"link", text: "首頁", url: "index.html", style: "background:var(--color-TitleBar-bg);" },
 	{ type:"folder", text: "▼ 規則速查", folderKey: "rule-ref", list: [
-			{ type:"link", text: "名稱決定表", url: "rule-naming.html" },
+			{ type:"link", text: "隱忍書擴充", url: "rule-expansion-oni-pack.html" },
 		]
 	},
 	{ type:"folder", text: "▼ 資料一覽", folderKey: "player-data", list: [
