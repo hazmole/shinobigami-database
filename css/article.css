@@ -39,7 +39,17 @@
 	text-align: right;
 }
 
+/* Coponent: Sidebar */
+.section .sidebar {
+	margin: 1em 0 1em 8em;
+	padding: 0.5em;
 
+	font-size: 0.8em;
+	background: var(--color-table-row);
+}
+
+
+/* Coponent: flexRow */
 .section .flexRow {
 	display: flex;
 	flex-wrap: wrap;
