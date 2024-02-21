@@ -17,7 +17,7 @@ Array.prototype.push.apply(DOC, [
 					"在進行妖魔化時，除了使用「新異形表」決定會新發現什麼異形之外，還會一併發現過去妖魔化時曾經發現過的所有異形。倘若這時新發現的異形與過去異形重複，則重新擲骰使用「新異形表」，直到發現不同的異形為止。",
 					{
 						type: "table",
-						caption: "● 新異形表 1D6",
+						caption: "● 新異形表",
 						colStyles: [ "", "" ],
 						rows: [
 							[ "" ],
@@ -118,10 +118,10 @@ Array.prototype.push.apply(DOC, [
 						type: "table",
 						caption: "現代篇．退魔篇 的 妖術變調對應表",
 						colStyles: [
-							"width:80px; text-align:center",
+							"width:60px; text-align:center",
 							"width:100px;text-align:center",
-							"width:80px;text-align:center",
-							"width:120px;text-align:center" ],
+							"width:60px; text-align:center; border-left:1px dotted black",
+							"width:100px;text-align:center" ],
 						rows: [
 							[ "特技分野", "變調", "特技分野", "變調" ],
 							[ "器術", "故障", "謀術", "行蹤不明" ],
@@ -133,10 +133,10 @@ Array.prototype.push.apply(DOC, [
 						type: "table",
 						caption: "戰國篇 的 妖術變調對應表",
 						colStyles: [
-							"width:80px; text-align:center",
+							"width:60px; text-align:center",
 							"width:100px;text-align:center",
-							"width:80px;text-align:center",
-							"width:120px;text-align:center" ],
+							"width:60px; text-align:center; border-left:1px dotted black",
+							"width:100px;text-align:center" ],
 						rows: [
 							[ "特技分野", "變調", "特技分野", "變調" ],
 							[ "器術", "催眠", "謀術", "飢餓" ],
@@ -192,7 +192,47 @@ Array.prototype.push.apply(DOC, [
 		title: "出島",
 		entries: [
 			{ type: "note", text: "出自《流派ブック 隠忍の血統》" },
-			"(待補充)"
+			"此為與出島有關的追加規則，可以在以出島作為舞台的劇本中使用。",
+			{
+				type: "section",
+				title: "調度妖魔武器",
+				entries: [
+					"主役玩家在以出島為舞台的自己的戲劇場景中，可以進行調度妖魔武器的行動。",
+					"調度妖魔武器被視為一種主要行動。當進行調度妖魔武器時，將需要擲骰使用「出售表」，從表中各項對應的二種妖魔武器中任意選擇一種作為目標。",
+					"如果想要獲得目標妖魔武器的話，則需要進行《經濟力》的判定，這個判定被稱為「調度判定」。調度判定會受到等同於目標妖魔武器的維持功績點的負修正。若調度判定成功，則獲得一個目標妖魔武器。",
+					"但如果覺得沒必要獲得該妖魔武器的話，主役玩家也可以改為進行其他的主要行動。在這種情況，改為進行的另一個主要行動會因此承受 -1 的負修正。",
+					{
+						type: "table",
+						caption: "出售表 2D6",
+						colStyles: [ "", "width:80px", "width:80px", "border-left:1px dotted black", "width:80px", "width:90px" ],
+						rows: [
+							[ "" ],
+							[ "2", "翼手", "解剖刀", "8", "滿潮珠", "屍人形" ],
+							[ "3", "幽命丹", "魔界樹", "9", "生體銃", "投幻香" ],
+							[ "4", "無顏之面", "龍鱗", "10", "妖皮紙", "渡來的干首" ],
+							[ "5", "落仔", "蠱獲箱", "11", "神面瘡", "沉眠砂" ],
+							[ "6", "骨刃", "魔血圖", "12", "外法爐", "餓鬼魂" ],
+							[ "7", "死靈粉", "蒼角", "", "", "" ],
+						],
+					},
+					{
+						type: "section",
+						title: "消耗忍具",
+						entries: [
+							"進行調度妖魔武器的角色，可以在調度判定的擲骰之前改為選擇消耗忍具。",
+							"透過消耗數量等同於目標妖魔武器的維持功績點的任意忍具，可以讓該調度判定自動成功。在使用這種方式進行調度之後，還可以再追加進行一次主要行動。這個追加的主要行動的判定仍會受到 -1 的負修正，且這個追加的主要行動不能用來進行調度妖魔武器。",
+						],
+					},
+				],
+			},
+			{
+				type: "section",
+				title: "禁足地",
+				entries: [
+					"GM 可以禁止主役玩家選擇出島作為自己場景的舞台。這也被稱為「禁足地」規則。",
+					"除了出島以外，如果主役玩家想要選擇像是異界或被封印的空間等，PC們無法自由進入的場所作為場景舞台，也同樣能夠適用「禁足地」規則加以禁止。",
+				]
+			},
 		],
 	},
 ]);
