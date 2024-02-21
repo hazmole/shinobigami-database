@@ -1,4 +1,17 @@
 class ArticleParser {
+	static Build(elemQuery, doc) {
+		Utils.BlockUI();
+		setTimeout(function() {
+			const rootElem = $(elemQuery);
+			rootElem.append(`<div class="Articles"></div>`);
+			rootElem.append(`<div><div class="QuickNav"></div></div>`);
+
+			rootElem.find(".Articles").append(ArticleParser.Parse(doc).join(""));
+			rootElem.find(".QuickNav").append(parseQuickNav(doc).join(""));
+			Utils.UnblockUI();
+		}, 0);
+	}
+
 	static Parse(doc) {
 		var outputArr = [];
 		var depth = 1;

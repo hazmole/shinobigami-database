@@ -13,10 +13,7 @@
 
 	<script>
 		window.onload = function(){
-			var secArr = ArticleParser.Parse(DOC);
-			var navArr = parseQuickNav(DOC);
-			$(".Articles").html(secArr.join(""));
-			$(".QuickNav").html(navArr.join(""));
+			ArticleParser.Build("#ItemContainer", DOC);
 		};
 	</script>
 </head>
@@ -26,11 +23,7 @@
 		<div id="FrameNavbar"><div id="navbar"></div></div>
 		<div id="FrameContent">
 			<div id="FrameContentHeader"><div id="SearchPanel"></div></div>
-
-			<div id="ItemContainer">
-				<div class="Articles"></div>
-				<div><div class="QuickNav"></div></div>
-			</div>
+			<div id="ItemContainer"></div>
 		</div>
 	</div>
 </body>
