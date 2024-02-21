@@ -46,7 +46,7 @@ class ArticleParser {
 
 	//====================
 	static handleString(item) {
-		return `<p>${item.replace('\n', '<br/>')}</p>`;
+		return `<p>${item.replace(/\n/g, '<br/>')}</p>`;
 	}
 	static handleImage(item) {
 		// ReqField: url, (style)

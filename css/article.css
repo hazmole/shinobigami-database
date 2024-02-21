@@ -5,7 +5,8 @@
   --color-QuickNav-bg:    #f1e6ab;
   --color-QuickNav-txt:   #360909;
 
-  --color-table-diff-row: #f7e1c6;
+  --color-table-row:      #f5f3f3;
+  --color-table-row-diff: #f7e1c6;
 }
 
 .Articles { margin:1rem; width:50rem; }
@@ -66,17 +67,20 @@ table.docTable td {
 table.docTable th {
 	background: #1c1c1c;
 	color: white;
-	font-size: 12px;
+	font-size: 12px !important;
 }
 table.docTable th.caption {
 	text-align: left;
-	font-size: 16px;
+	font-size: 16px !important;
 }
 table.docTable tr:nth-child(2) th {
 	background: #4b4848;
 }
+table.docTable tr {
+	background: var(--color-table-row);
+}
 table.docTable tr:nth-child(odd) {
-	background: var(--color-table-diff-row);
+	background: var(--color-table-row-diff);
 }
 
 
