@@ -33,6 +33,7 @@ class ArticleParser {
 					case "list":    return this.handleList(entry, depth);
 					case "table":   return this.handleTable(entry, depth);
 					case "image":   return this.handleImage(entry);
+					case "sidebar": return this.handleSidebar(entry, depth);
 					case "note":    return this.handleNote(entry);
 					default:
 						console.error("Unknown entry type!", entry.type);
@@ -55,6 +56,14 @@ class ArticleParser {
 	static handleNote(item) {
 		// ReqField: text
 		return `<p class="note">${item.text}</p>`;
+	}
+	static handleSidebar(item, depth) {
+		// ReqField: entries
+		var ret = [];
+		for(var entry of item.entries){
+			ret.push( this.handleEntry(entry, depth+1) );
+		}
+		return `<div class="sidebar">${ret.join('')}</div>`
 	}
 	static handleFlex(item, depth) {
 		// ReqField: entries

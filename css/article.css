@@ -29,7 +29,7 @@
 .section h4 { margin:1.2rem 0 5px 0; color:#bf0000; }
 
 .section p:first-child, h3+p, h4+p { margin-top:0; }
-.section p:last-child { margin-bottom:0; }
+.section > p:last-child { margin-bottom:0.5em; }
 
 /* Coponent: Note */
 .section p.note {
@@ -39,7 +39,17 @@
 	text-align: right;
 }
 
+/* Coponent: Sidebar */
+.section .sidebar {
+	margin: 1em 0 1em 8em;
+	padding: 0.5em;
 
+	font-size: 0.8em;
+	background: var(--color-table-row);
+}
+
+
+/* Coponent: flexRow */
 .section .flexRow {
 	display: flex;
 	flex-wrap: wrap;
