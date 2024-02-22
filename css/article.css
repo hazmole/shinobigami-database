@@ -83,6 +83,8 @@ table.docTable tr:nth-child(odd) {
 	background: var(--color-table-row-diff);
 }
 
+.dicTableOuter.fullWidth { width: 100%; }
+.dicTableOuter.fullWidth table.docTable { width: 100%; }
 
 
 /* Quick Navigator  */

@@ -73,7 +73,7 @@ class ArticleParser {
 		return `<ul>${ret.join('')}</ul>`;
 	}
 	static handleTable(item, depth) {
-		// ReqField: (caption), rows, colStyles, 
+		// ReqField: (caption), rows, colStyles, (bodyStyle), (bodyStyle)
 		var rowArr = [];
 		var columeCount = item.colStyles.length;
 		var rowCount = item.rows.length;
@@ -95,8 +95,8 @@ class ArticleParser {
 			rowArr.push(`<tr>${cellArr.join('')}</tr>`);
 		});
 
-		return `<div class="dicTableOuter">
-							<table class="docTable">${rowArr.join('')}</table>
+		return `<div class="dicTableOuter ${item.bodyClass}">
+							<table class="docTable" style="${item.bodyStyle}">${rowArr.join('')}</table>
 						</div>`;
 	}
 	static handleSection(item, depth) {
