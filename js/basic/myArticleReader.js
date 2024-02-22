@@ -93,15 +93,18 @@ class ArticleParser {
 		item.rows.forEach( (row, rIdx) => {
 			if(rIdx==0 && row.length==1 && row[0]=="") return ;
 
-			const tag = (rIdx == 0)? "th": "td";
+			const tag   = (rIdx == 0)? "th": "td";
+			const rClass = (rIdx == 0)? "header": "";
 
 			var cellArr = [];
-			row.forEach( (cell, cIdx) => {
+			row.forEach( (cell, cIdx, arr) => {
+				var mergeSpan = (arr.length==1)? ` colspan=${columeCount}`: "";
+
 				var cStyle = item.colStyles[cIdx];
-				cellArr.push(`<${tag} style="${cStyle}">${this.handleEntry(cell, depth+1)}</${tag}>`);
+				cellArr.push(`<${tag} style="${cStyle}" ${mergeSpan}>${this.handleEntry(cell, depth+1)}</${tag}>`);
 			});
 
-			rowArr.push(`<tr>${cellArr.join('')}</tr>`);
+			rowArr.push(`<tr class="${rClass}">${cellArr.join('')}</tr>`);
 		});
 
 		return `<div class="dicTableOuter ${item.bodyClass}">

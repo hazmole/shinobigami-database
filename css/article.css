@@ -83,7 +83,7 @@ table.docTable th.caption {
 	text-align: left;
 	font-size: 16px !important;
 }
-table.docTable tr:nth-child(2) th {
+table.docTable tr.header th {
 	background: #4b4848;
 }
 table.docTable tr {
