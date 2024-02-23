@@ -171,17 +171,34 @@ var NINPO_LIST;
     itemObj.t_skills = itemObj.skills.join("");
     itemObj.t_effect = itemObj.effect.join("");
 
-    itemObj.t_category = (itemObj.category[0]=="enemy")? "enemy": itemObj.category.join("-");
+    itemObj.t_category = decoCategory(itemObj.category);
     itemObj.t_type = (itemObj.type!=="atk")? itemObj.type: (itemObj.tags.find(tag => tag.indexOf("atk")))
     if(!itemObj.t_type) console.error(itemObj.name, itemObj.tags);
 
-    itemObj.t_range = ""+ ((itemObj.range==="")? "-": 
-                           (parseInt(itemObj.range)>=4)? "4+": itemObj.range);
-    itemObj.t_cost  = ""+ ((itemObj.cost==="")? "-": 
-                           (parseInt(itemObj.cost)>=4)? "4+": itemObj.cost);
+    itemObj.t_range = ""+ decoRange(itemObj.range);
+    itemObj.t_cost  = ""+ decoRange(itemObj.cost);
     itemObj.t_restrict = (itemObj.restrict.length==0)? ["-"]: (itemObj.restrict.map(v => v));
 
     return itemObj;
+
+    function decoCategory(categoryArr) {
+      switch(categoryArr[0]){
+        case "ancient":
+        case "cultist":
+        case "enemy":
+          return categoryArr[0];
+        default:
+          return itemObj.category.join("-")
+      }
+    }
+    function decoRange(range) {
+      if(range==="") return "-";
+      return (parseInt(range)>=4)? "4+": range;
+    }
+    function decoCost(cost) {
+      if(cost==="") return "-";
+      return (parseInt(cost)>=4)? "4+": cost;
+    }
   }
   ctrl.sortFunc = (a, b) => {
     if(a.t_category!=b.t_category) return 0;
