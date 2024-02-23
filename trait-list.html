@@ -14,19 +14,6 @@
 	<script src="./data/trait-list.js"></script>
 	<script src="./js/trait-searcher.js"></script>
 	<script src="./js/trait-parser.js"></script>
-	<style>
-		#storageContainer{
-			background:#884C3A;
-			padding: 10px 0;
-		}
-		#storageContainer .container_title {
-			background: #5c0000;
-			color:white;
-			margin:0 5px;
-			padding:5px 10px;
-			font-weight:bold;
-		}
-	</style>
 	<script>
 var TraitSearcherCtrl; //from "js/background-searcher.js"
 var PageSerachCtrl = TraitSearcherCtrl;
@@ -41,6 +28,16 @@ function init(){
 	PageSerachCtrl.searcher.SetAfterSearchFunc(afterSearch);
 	PageSerachCtrl.searcher.Build("#SearchPanel");
 	PageSerachCtrl.searcher.Search();
+
+  Utils.listenDragging("#CacheContainer .resizeBar", function(evt, elemQuery){
+  	var barElem = document.querySelector(elemQuery);
+  	var listElem = barElem.closest('#CacheContainer').querySelector('.ListContainer');
+  	var h = (evt.clientY - listElem.offsetTop) + (-10);
+  	var max_h = (window.innerHeight - listElem.offsetTop) + (-10);
+  	if(h > max_h) h = max_h;
+  	
+  	listElem.style.height = h + "px";
+  });
 }
 function afterSearch(itemList) {
 	var mode = PageSerachCtrl.searcher.GetDisplayMode();
@@ -69,7 +66,7 @@ function addToStorage(dataObj){
 		actions: [actionBtn.Delete, actionBtn.Copy],
 	};
 
-	var container = $('#storageContainer');
+	var container = $('#CacheContainer .List');
 	var itemElem = $(TraitParser.getElem(dataObj, options)).appendTo(container);
 	itemElem.find(".action.del" ).on("click", delFromStorage.bind(null, itemElem));
 	itemElem.find(".action.copy").on("click", copyItem.bindAppend(null, dataObj));
@@ -94,8 +91,12 @@ window.onload = function(){
 		<div id="FrameContent">
 			<div id="FrameContentHeader"><div id="SearchPanel"></div></div>
 
-			<div id="storageContainer" class="container">
-				<span class="container_title">背景倉庫</span>
+			<div id="CacheContainer">
+				<div class="title">背景倉庫</div>
+				<div class="ListContainer">
+					<div class="List"></div>
+				</div>
+				<div class="resizeBar"></div>
 			</div>
 
 			<div id="ItemContainer">

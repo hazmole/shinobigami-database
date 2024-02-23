@@ -30,7 +30,7 @@
 	width: 100%;
 	border: 3px groove;
 	border-color: var(--info-card-border);
-	margin: 0 5px;
+	margin: 0;
 }
 .info-card.row:hover {
 	border-color: var(--info-card-border-hover);

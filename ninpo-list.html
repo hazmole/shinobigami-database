@@ -14,22 +14,9 @@
 	<script src="./data/ninpo-list.js"></script>
 	<script src="./js/ninpo-searcher.js"></script>
 	<script src="./js/ninpo-parser.js"></script>
-
-	<style>
-		#storageContainer{
-			background:#884C3A;
-			padding: 10px 0;
-		}
-		#storageContainer .container_title {
-			background: #5c0000;
-			color:white;
-			margin:0 5px;
-			padding:5px 10px;
-			font-weight:bold;
-		}
-	</style>
 	<script>
 var NinpoSearcherCtrl; //from "js/ninpo-searcher.js"
+var PageSerachCtrl = NinpoSearcherCtrl;
 
 const actionBtn = {
 	Add:    {icon:"add",  label:"加入忍法倉庫"},
@@ -38,12 +25,22 @@ const actionBtn = {
 } 
 
 function init(){
-  NinpoSearcherCtrl.searcher.SetAfterSearchFunc(afterSearch);
-  NinpoSearcherCtrl.searcher.Build("#SearchPanel");
-  NinpoSearcherCtrl.searcher.Search();
+  PageSerachCtrl.searcher.SetAfterSearchFunc(afterSearch);
+  PageSerachCtrl.searcher.Build("#SearchPanel");
+  PageSerachCtrl.searcher.Search();
+
+  Utils.listenDragging("#CacheContainer .resizeBar", function(evt, elemQuery){
+  	var barElem = document.querySelector(elemQuery);
+  	var listElem = barElem.closest('#CacheContainer').querySelector('.ListContainer');
+  	var h = (evt.clientY - listElem.offsetTop) + (-10);
+  	var max_h = (window.innerHeight - listElem.offsetTop) + (-10);
+  	if(h > max_h) h = max_h;
+
+  	listElem.style.height = h + "px";
+  });
 }
 function afterSearch(itemList) {
-  var mode = NinpoSearcherCtrl.searcher.GetDisplayMode();
+  var mode = PageSerachCtrl.searcher.GetDisplayMode();
   var options = {
     mode: mode,
     actions: [actionBtn.Add, actionBtn.Copy],
@@ -55,8 +52,8 @@ function afterSearch(itemList) {
   setTimeout(function() {
   	itemList.forEach( item => {
   		var itemElem = $(NinpoParser.getElem(item, options)).appendTo("#ItemContainer .List");
-		itemElem.find(".action.add" ).on("click", addToStorage.bind(null, item));
-		itemElem.find(".action.copy").on("click", copyNinpo.bindAppend(null, item));
+			itemElem.find(".action.add" ).on("click", addToStorage.bind(null, item));
+			itemElem.find(".action.copy").on("click", copyNinpo.bindAppend(null, item));
   	});
     Utils.UnblockUI();
   }, 0);
@@ -69,10 +66,13 @@ function addToStorage(ninpoObj){
 		actions: [actionBtn.Delete, actionBtn.Copy],
 	};
 
-	var container = $('#storageContainer');
+	var container = $('#CacheContainer .List');
 	var ninpoElem = $(NinpoParser.getElem(ninpoObj, options)).appendTo(container);
 	ninpoElem.find(".action.del" ).on("click", delFromStorage.bind(null, ninpoElem));
 	ninpoElem.find(".action.copy").on("click", copyNinpo.bindAppend(null, ninpoObj));
+
+	var containerElem = $("#CacheContainer .ListContainer").get(0);
+	containerElem.scrollTo(0, containerElem.scrollHeight);
 }
 function delFromStorage(selfObj){
 	$(selfObj).remove();
@@ -94,8 +94,12 @@ window.onload = function(){
 		<div id="FrameContent">
 			<div id="FrameContentHeader"><div id="SearchPanel"></div></div>
 	
-			<div id="storageContainer" class="container">
-				<span class="container_title">忍法倉庫</span>
+			<div id="CacheContainer">
+				<div class="title">忍法倉庫</div>
+				<div class="ListContainer">
+					<div class="List"></div>
+				</div>
+				<div class="resizeBar"></div>
 			</div>
 
 			<div id="ItemContainer">

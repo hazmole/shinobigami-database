@@ -17,6 +17,27 @@ Utils.CopyToClipboard = function(evt, text){
     	});
 }
 
+/* Drag Listener */
+Utils.listenDragging = function(elemQuery, f){
+	$(elemQuery).on('mousedown', ()=>{
+		Utils.draggingElemQuery = elemQuery;
+		Utils.listenDraggingFlag = true;
+	});
+	$(document).on('mousemove', (evt)=>{
+		if(Utils.listenDraggingFlag){
+			f(evt, Utils.draggingElemQuery);
+		}
+	});
+	
+}
+$(document).on('mouseup', ()=>{
+	if(Utils.listenDraggingFlag){
+		Utils.draggingElemQuery = null;
+		Utils.listenDraggingFlag = false;
+	}
+});
+
+
 /* Loading */
 Utils.BlockUI = function(){
 	$('body').append(`<div id="Loading"><div class="lds-dual-ring"></div></div>`);

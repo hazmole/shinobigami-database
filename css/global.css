@@ -217,6 +217,45 @@ body {
 }
 
 /*==============
+ * Cache Container */
+:root {
+  --color-CacheContainer-bg:    #884c3a;
+  --color-CacheContainer-slide: #bf9852;
+}
+#CacheContainer{
+  background: var(--color-CacheContainer-bg);
+}
+#CacheContainer > .title {
+  background: #5c0000;
+  color:white;
+  margin:0;
+  padding:5px 10px;
+  font-weight:bold;
+}
+#CacheContainer > .ListContainer {
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+#CacheContainer > .ListContainer > .List {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 5px 1rem;
+}
+#CacheContainer > .resizeBar {
+  padding: 2px 5px;
+  cursor: row-resize;
+  user-select: none;
+}
+#CacheContainer > .resizeBar::before {
+  content: '';
+  display: block;
+  height: 2px;
+  background: var(--color-CacheContainer-slide);
+  margin: 2px;
+}
+
+
+/*==============
  * 3pp style */
 /* <span class="cross-stand-alone"></span> */
 .cross-stand-alone {
