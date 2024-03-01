@@ -1,0 +1,108 @@
+<html>
+<head>
+	<title>忍神秘傳卷集 - 敵人列表</title>
+	<link rel="stylesheet" href="./css/global.css">
+	<link rel="stylesheet" href="./css/searchbox.css">
+	<link rel="stylesheet" href="./css/info-card.css">
+	<link rel="stylesheet" href="./css/info-card-enemy.css">
+	<script src="./js/config/custom.js"></script>
+	<script src="./js/basic/jquery-3.6.0.min.js"></script>
+	<script src="./js/basic/authenticator.js"></script>
+	<script src="./js/basic/utils.js"></script>
+	<script src="./js/basic/navbar.js"></script>
+	<script src="./js/basic/mySearcher.js"></script>
+	<script src="./data/enemy-list.js"></script>
+	<script src="./js/enemy-searcher.js"></script>
+	<script src="./js/enemy-parser.js"></script>
+	<script>
+var EnemySearcherCtrl; //from "js/background-searcher.js"
+var PageSerachCtrl = EnemySearcherCtrl;
+
+const actionBtn = {
+	Add:    {icon:"add",  label:"加入敵人倉庫"},
+	Delete: {icon:"del",  label:"從敵人倉庫移除"},
+	Copy:   {icon:"copy", label:"複製到剪貼簿"},
+} 
+
+function init(){
+	PageSerachCtrl.searcher.SetAfterSearchFunc(afterSearch);
+	PageSerachCtrl.searcher.Build("#SearchPanel");
+	PageSerachCtrl.searcher.Search();
+
+  Utils.listenDragging("#CacheContainer .resizeBar", function(evt, elemQuery){
+  	var barElem = document.querySelector(elemQuery);
+  	var listElem = barElem.closest('#CacheContainer').querySelector('.ListContainer');
+  	var h = (evt.clientY - listElem.offsetTop) + (-10);
+  	var max_h = (window.innerHeight - listElem.offsetTop) + (-10);
+  	if(h > max_h) h = max_h;
+  	
+  	listElem.style.height = h + "px";
+  });
+}
+function afterSearch(itemList) {
+	var mode = PageSerachCtrl.searcher.GetDisplayMode();
+	var options = {
+		mode: mode,
+		actions: [actionBtn.Add, actionBtn.Copy],
+	};
+
+	// Show ItemList
+	Utils.BlockUI();
+	$("#ItemContainer .List").empty();
+	setTimeout(function() {
+		itemList.forEach( item => {
+			var itemElem = $(EnemyParser.getElem(item, options)).appendTo("#ItemContainer .List");
+			itemElem.find(".action.add" ).on("click", addToStorage.bind(null, item));
+			itemElem.find(".action.copy").on("click", copyItem.bindAppend(null, item));
+		});
+		Utils.UnblockUI();
+	}, 0);
+}
+
+
+function addToStorage(dataObj){
+	var options = {
+		mode: 'list',
+		actions: [actionBtn.Delete, actionBtn.Copy],
+	};
+
+	var container = $('#CacheContainer .List');
+	var itemElem = $(EnemyParser.getElem(dataObj, options)).appendTo(container);
+	itemElem.find(".action.del" ).on("click", delFromStorage.bind(null, itemElem));
+	itemElem.find(".action.copy").on("click", copyItem.bindAppend(null, dataObj));
+}
+function delFromStorage(selfObj){
+	$(selfObj).remove();
+}
+function copyItem(event, dataObj){
+	var text = EnemyParser.getCopiedText(dataObj);
+	Utils.CopyToClipboard(event, text);
+}
+
+window.onload = function(){
+	init();
+}
+	</script>
+</head>
+<body>
+	<div id="FrameTitle">忍神秘傳卷集 - 敵人列表</div>
+	<div id="FrameOuter">
+		<div id="FrameNavbar"><div id="navbar"></div></div>
+		<div id="FrameContent">
+			<div id="FrameContentHeader"><div id="SearchPanel"></div></div>
+
+			<div id="CacheContainer">
+				<div class="title">敵人倉庫</div>
+				<div class="ListContainer">
+					<div class="List"></div>
+				</div>
+				<div class="resizeBar"></div>
+			</div>
+
+			<div id="ItemContainer">
+				<div class="Page List"></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
