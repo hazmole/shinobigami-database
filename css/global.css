@@ -242,7 +242,7 @@ body {
   margin: 5px 1rem;
 }
 #CacheContainer > .resizeBar {
-  padding: 2px 5px;
+  padding: 9px 5px 1px 5px;
   cursor: row-resize;
   user-select: none;
 }
