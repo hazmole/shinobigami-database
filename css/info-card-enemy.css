@@ -103,6 +103,7 @@
 	flex-direction: column;
 	align-items: flex-start;
 	width: 160px;
+	flex-shrink: 0;
 
 	background: var(--ninpo-title-row-background);
 	color: var(--ninpo-title-text);
@@ -167,16 +168,37 @@
 .info-card.row .blockCell.ultimate .cell-content {width: 110px; font-size:0.85em;}
 
 .info-card.row .ninpo-list {
-	display: flex;
+	/*display: flex;
 	flex-direction: column;
 	align-items: flex-start;
-	justify-content: center;
+	justify-content: space-between;*/
+	flex-grow: 1;
 }
-.info-card.row .ninpo-list .ninpo {
+.info-card.row .ninpo-list .fold-list.ninpo {
 	font-size: 0.9em;
+	display: flex;
+	flex-direction: row;
 }
+.fold-list.ninpo:not(:first-child) { border-top: 1px dotted black; }
+.fold-list.ninpo > div { padding:1px; }
+.fold-list.ninpo .name  { width:110px; text-align:center; }
+.fold-list.ninpo .type  { width: 40px; text-align:center; }
+.fold-list.ninpo .range { width: 55px; text-align:center; border-right: 1px solid #ddd; }
+.fold-list.ninpo .cost  { width: 55px; text-align:center; border-right: 1px solid #ddd; }
+.fold-list.ninpo .skill  { width: 80px; text-align:center; border-right: 1px solid #ddd; }
+.fold-list.ninpo .type.atk { background-color: var(--ninpo-type-atk); color: white; }
+.fold-list.ninpo .type.sup { background-color: var(--ninpo-type-sup); color: white; }
+.fold-list.ninpo .type.equ { background-color: var(--ninpo-type-equ); color: white; }
 
-
+.info-card.row .ninpo-list .folded-effect {
+	display: none;
+	font-size: 0.85em;
+	margin: 0 5px 3px 5px;
+	padding: 5px;
+	border: 1px dotted black;
+	border-radius: 5px;
+	background: #fffde5;
+}
 
 /* ============================== */
 /* Color Scheme */

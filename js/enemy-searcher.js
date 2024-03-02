@@ -17,6 +17,23 @@ var ENEMY_LIST;
   // Controller
   ctrl.simpleCfg = { fields:['t_name','t_effect'] };
   ctrl.advancedCfg = [
+    {
+      id: 'category',
+      title: '類別',
+      type: 'selection',
+      value: [],
+      options: [
+        { text:'全部', value:'*', default: true },
+        { text:'常人', value:'common' },
+        { text:'忍獸', value:'beast' },
+        { text:'下忍', value:'ke-nin' },
+        { text:'中忍', value:'chu-nin' },
+        { text:'上忍', value:'jo-nin' },
+        { text:'低級妖魔', value:'lesser-demon' },
+        { text:'中級妖魔', value:'common-demon' },
+        { text:'上級妖魔', value:'great-demon' },
+      ]
+    },
   ];
 
   ctrl.decorateListData = function(itemObj) {
@@ -47,7 +64,7 @@ var ENEMY_LIST;
     compareFunc: ctrl.sortFunc,
     placeholderText: "尋找敵人名或忍法...",
 
-    isDisplayModeEnable: true,
+    isDisplayModeEnable: false,
     displayMode: "list",
   });
 }

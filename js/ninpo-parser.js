@@ -2,7 +2,8 @@ class NinpoParser {
 	//==========================
 	// Main
 	static getElem(ninpoObj, options) {
-		const isListMode = (options.mode == "list");
+		const displayMode = (options.mode);
+		const isListMode = displayMode!="card";
 
 		var name = this.getName(ninpoObj);
 		var categoryStyle = ninpoObj.category[0];
@@ -16,58 +17,70 @@ class NinpoParser {
 		var limitElem = `<span class="restricts">${this.getRestricts(ninpoObj.restrict)}</span>`;
 		var actionBarElem = this.getActionBar(options.actions);
 
-		if(isListMode)
+		switch(displayMode){
+		case "list":
 			return `<div class="info-card row ninpo">
-		<div class="titleCell">
-			<div class="category ${categoryStyle}">${categoryText}</div>
-			<div class="title">${name}</div>
-			${actionBarElem}
-		</div>
-		<div class="type ${typeStyle}">${typeText}</div>
-		<div class="blockCell">
-			<div class="cell-label">間隔</div>
-			<div class="cell-content range">${range}</div>
-		</div>
-		<div class="blockCell">
-			<div class="cell-label">花費</div>
-			<div class="cell-content cost">${cost}</div>
-		</div>
-		<div class="blockCell">
-			<div class="cell-label">指定特技</div>
-			<div class="cell-content skill">${skills}</div>
-		</div>
-		<div class="field left effect">${limitElem}${ninpoObj.effect.join('<br>')}</div>
-	</div>`;
-
-		else
-			return `<div class="info-card card ninpo">
-		<div class="header">
-			<div class="titleRow">
-				<div class="title">${name}</div>
-				<div class="attributes">
-					<span class="category ${categoryStyle}">${categoryText}</span>
-					${limitElem}
+				<div class="titleCell">
+					<div class="category ${categoryStyle}">${categoryText}</div>
+					<div class="title">${name}</div>
+					${actionBarElem}
 				</div>
+				<div class="type ${typeStyle}">${typeText}</div>
+				<div class="blockCell">
+					<div class="cell-label">間隔</div>
+					<div class="cell-content range">${range}</div>
+				</div>
+				<div class="blockCell">
+					<div class="cell-label">花費</div>
+					<div class="cell-content cost">${cost}</div>
+				</div>
+				<div class="blockCell">
+					<div class="cell-label">指定特技</div>
+					<div class="cell-content skill">${skills}</div>
+				</div>
+				<div class="field left effect">${limitElem}${ninpoObj.effect.join('<br>')}</div>
+			</div>`;
+		case "card":
+			return `<div class="info-card card ninpo">
+				<div class="header">
+					<div class="titleRow">
+						<div class="title">${name}</div>
+						<div class="attributes">
+							<span class="category ${categoryStyle}">${categoryText}</span>
+							${limitElem}
+						</div>
+					</div>
+					${actionBarElem}
+					<div class="arguments">
+						<div class="tag-label">種類</div>
+						<div class="tag-content type ${typeStyle}">${typeText}</div>
+						<div class="tag-label">間隔</div>
+						<div class="tag-content range">${range}</div>
+						<div class="tag-label">花費</div>
+						<div class="tag-content cost">${cost}</div>
+					</div>
+					<div class="arguments">
+						<div class="tag-label skill">指定特技</div>
+						<div class="tag-content skill">${skills}</div>
+					</div>
+				</div>
+				<div class="body">
+					<div class="effect">${ninpoObj.effect.join('<p>')}</div>
+					<div class="desc">${ninpoObj.desc.join('<br>')}</div>
+				</div>
+			</div>`;
+		case "fold-list":
+			return `<div class="fold-list ninpo">
+				<div class="name">${name}</div>
+				<div class="type ${typeStyle}">${typeText}</div>
+				<div class="range">間隔 ${ range=="無"?"-":range }</div>
+				<div class="cost">花費 ${ cost=="無"?"-":cost }</div>
+				<div class="skill">${ skills=="無"?"-":skills }</div>
+				<div><button onclick="NinpoParser.toggleFoldedEffect(this)">展開效果</button></div>
 			</div>
-			${actionBarElem}
-			<div class="arguments">
-				<div class="tag-label">種類</div>
-				<div class="tag-content type ${typeStyle}">${typeText}</div>
-				<div class="tag-label">間隔</div>
-				<div class="tag-content range">${range}</div>
-				<div class="tag-label">花費</div>
-				<div class="tag-content cost">${cost}</div>
-			</div>
-			<div class="arguments">
-				<div class="tag-label skill">指定特技</div>
-				<div class="tag-content skill">${skills}</div>
-			</div>
-		</div>
-		<div class="body">
-			<div class="effect">${ninpoObj.effect.join('<p>')}</div>
-			<div class="desc">${ninpoObj.desc.join('<br>')}</div>
-		</div>
-	</div>`;
+			<div class="folded-effect">${ninpoObj.effect.join('<p>')}</div>`;
+		}
+
 	}
 
 	static getCopiedText(ninpoObj) {
@@ -177,6 +190,14 @@ class NinpoParser {
 		function getActionIcon(item){
 			return `<div class="action ${item.icon}" title="${item.label}"></div>`
 		}
+		if(!list) return "";
 		return `<div class="actionBar">${ list.map(item => getActionIcon(item)).join("") }</div>`;
+	}
+
+
+	//=========================
+	// Interactions
+	static toggleFoldedEffect(evt) {
+		$(evt).parents(".fold-list").next().toggle(100)
 	}
 }

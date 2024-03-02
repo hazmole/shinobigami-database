@@ -1,3 +1,5 @@
+var NINPO_LIST;
+
 class EnemyParser {
 	//==========================
 	// Main
@@ -125,9 +127,22 @@ class EnemyParser {
 		return `${ultimate.length}種<br>（${ultimate.join("、<br>")}）`;
 	}
 	static getNinpo(ninpoObj){
-		var text = ninpoObj.name;
-		if(ninpoObj.skill) text += ("/" + ninpoObj.skill);
-		return `<div class="ninpo">${text}</div>`;
+		var sourceName = (ninpoObj.name).split("：")[0];
+		var fullNinpoObj = NINPO_LIST.find( obj => {
+			var targetName = (obj.name[0][0]=="※")? obj.name[0].slice(1): obj.name[0];
+			return targetName==sourceName;
+		});
+		if(fullNinpoObj==null){
+			return `<div>${ninpoObj.name}</div>`;
+		}
+
+		var tmpObj = Object.assign({}, fullNinpoObj);
+
+		tmpObj.name = [ ninpoObj.name.replace("：",":") ];
+		delete tmpObj.features;
+		if(ninpoObj.skill) { tmpObj.skills = [ ninpoObj.skill ]; }
+
+		return NinpoParser.getElem(tmpObj, { mode:"fold-list" });
 	}
 
 
