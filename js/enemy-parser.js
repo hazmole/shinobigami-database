@@ -14,14 +14,14 @@ class EnemyParser {
 		var field = dataObj.skillField;
 		var skillText = dataObj.skills.join("、");
 		var gearText = this.getGear(dataObj.gear);
-		var ultimateText = this.getUltimate(dataObj.ultimate);
+		var ultimateText = this.getUltimate(dataObj.ultimate, !isListMode);
 		var ninpoListText = dataObj.ninpoList.map( ninpo => this.getNinpo(ninpo) ).join("");
 
 		var actionBarElem = this.getActionBar(options.actions);
 
 
 		if(isListMode)
-			return `<div class="info-card row trait">
+			return `<div class="info-card row enemy">
 		<div class="titleCell">
 			<div class="category ${categoryStyle}">${categoryText}</div>
 			<div class="title">${name}</div>
@@ -57,25 +57,54 @@ class EnemyParser {
 	</div>`;
 
 		else
-			return `<div class="info-card card trait">
+			return `<div class="info-card card enemy">
 		<div class="header">
 			<div class="titleRow">
+				<div class="level">
+					<div class="label">威脅度</div>
+					<div class="value">${level}</div>
+				</div>
 				<div class="title">${name}</div>
 				<div class="attributes">
 					<span class="category ${categoryStyle}">${categoryText}</span>
-					${limitElem}
 				</div>
-			</div>
-			${actionBarElem}
-			<div class="arguments">
-				<div class="tag-label">必要功績點</div>
-				<div class="tag-content reqExp">${reqExpText}</div>
 			</div>
 		</div>
 		<div class="body">
-			<div class="effect large">${dataObj.effect.join('<p>')}</div>
 			<div class="desc">${dataObj.desc.join('<br>')}</div>
+			<div class="bodyRow">
+				<div class="sideBlock">
+					<div class="block-cell health">
+						<div class="label">生命力</div>
+						<div class="value">${hp}</div>
+					</div>
+					<div class="block-cell gear">
+						<div class="label">忍具</div>
+						${ dataObj.gear.length==0? 
+							`<div class="value"> - </div>`:
+							dataObj.gear.map( val => `<div class="value">${val}</div>`).join('') }
+					</div>
+					<div class="block-cell ultimate">
+						<div class="label">奧義</div>
+						<div class="value">${ ultimateText }</div>
+					</div>
+					<div class="block-cell note">
+						<div class="label">附註</div>
+						<div class="value">${ dataObj.note }</div>
+					</div>
+				</div>
+				<div class="mainBlock">
+					<div class="block-cell skills">
+						<div class="label">特技</div>
+					</div>
+					${ this.getSkillTable(field, dataObj.skills) }
+				</div>
+			</div>
 		</div>
+		<div class="ninpo-list">
+			${ninpoListText}
+		</div>
+		${actionBarElem}
 	</div>`;
 	}
 
@@ -121,10 +150,14 @@ class EnemyParser {
 		if(gear.length==0) return '-';
 		return gear.join("<br>");
 	}
-	static getUltimate(ultimate){
+	static getUltimate(ultimate, isCard){
 		if(ultimate.length==0) return '-';
-		if(ultimate.length==1 && ultimate[0]=="追加忍法以外") return `6種<br>（${ultimate[0]}）`;
-		return `${ultimate.length}種<br>（${ultimate.join("、<br>")}）`;
+
+		var num = ultimate.length;
+		if(ultimate.length==1 && ultimate[0]=="追加忍法以外") num = 6;
+
+		if(isCard) return `${num}種<br>${ultimate.map( v => `<div style="font-size:.9em;">(${v})</div>`).join("")}`;
+		return `${num}種<br>(${ultimate.join(",<br>")})`;
 	}
 	static getNinpo(ninpoObj){
 		var sourceName = (ninpoObj.name).split("：")[0];
@@ -143,6 +176,24 @@ class EnemyParser {
 		if(ninpoObj.skill) { tmpObj.skills = [ ninpoObj.skill ]; }
 
 		return NinpoParser.getElem(tmpObj, { mode:"fold-list" });
+	}
+
+	static getSkillTable(field, skillArr){
+		var list = Utils.SkillTable;
+
+		var fieldIdx = list.findIndex( f => f.text==field );
+
+		var contentArr = [];
+		for(var i=0; i<6; i++){
+			var isFiedlMark = (fieldIdx==i) || (fieldIdx+1==i);
+
+			contentArr.push(`<div class="field-gap ${isFiedlMark? "mark": ""}"></div>`);
+			contentArr.push(`<div class="field-content">
+				<div class="title">${ list[i].text }</div>
+				${ list[i].list.map( item => `<div class="skill ${skillArr.indexOf(item.text)>=0? "mark": ""}">${item.text}</div>`).join('') }
+			</div>`);
+		}
+		return `<div class="skillTable">${contentArr.join("")}</div>`
 	}
 
 

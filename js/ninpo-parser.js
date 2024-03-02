@@ -76,7 +76,7 @@ class NinpoParser {
 				<div class="range">間隔 ${ range=="無"?"-":range }</div>
 				<div class="cost">花費 ${ cost=="無"?"-":cost }</div>
 				<div class="skill">${ skills=="無"?"-":skills }</div>
-				<div><button onclick="NinpoParser.toggleFoldedEffect(this)">展開效果</button></div>
+				<div class="btn"><button onclick="NinpoParser.toggleFoldedEffect(this)">展開</button></div>
 			</div>
 			<div class="folded-effect">${ninpoObj.effect.join('<p>')}</div>`;
 		}

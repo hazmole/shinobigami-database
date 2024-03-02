@@ -10,6 +10,10 @@
 
 /* ============================== */
 /* Card Structure */
+.info-card.card.enemy {
+	width: 400px;
+}
+
 .info-card.card .titleRow {
 	display: flex;
 	justify-content: space-between;
@@ -19,6 +23,15 @@
 	background: var(--ninpo-title-row-background);
 	color: var(--ninpo-title-text);
 }
+.info-card.card .titleRow .level > .label {
+	padding: 1px 5px;
+	font-size: 12px;
+}
+.info-card.card .titleRow .level > .value {
+	font-size: .8em;
+	text-align: center;
+}
+
 .info-card.card .titleRow .title {
 	font-size: large; font-weight: bold;
 	margin: 0 2px;
@@ -48,53 +61,75 @@
 	border-top: 9px solid transparent;
 	border-bottom: 9px solid transparent;
 }
-.info-card.card .titleRow .restricts {
-	margin-top: 3px;
-}
-.info-card.card .titleRow .restricts .restrict {
-	background: var(--ninpo-restrict-background);
-	color: white;
-	font-size: 10px;
-	margin: 0 1px;
-	padding: 1px 3px;
-	border-radius: 5px;
-}
-
-.info-card.card .arguments { display: inline-flex; font-size: 14px; width: 100%; padding-top: 1px; }
-.info-card.card .arguments .tag-label {
-	background: var(--ninpo-tag-label-bg);
-	color: var(--ninpo-tag-label-text);
-	padding: 1px 9px 1px 8px;
-}
-.info-card.card .arguments .tag-content {
-	border:solid black;
-	border-width: 1px 0 1px 0;
-	text-align: center;
-}
-
-.info-card.card .arguments .tag-content.reqExp   { flex-grow:1; text-align:left; padding-left:5px; }
 
 .info-card.card .body {
 	margin-top: 1px;
 	border-top: 1px solid black;
-	width: 300px;
-	background-image: url('../img/japanese-pattern.png');
-	background-position: bottom;
-}
-.info-card.card .body .effect {
-	background: rgba(255,255,255,.4);
-	padding: 5px;
-	height: 220px;
-	overflow-y: auto;
+	width: inherit;
 }
 .info-card.card .body .desc {
 	padding: 5px;
-	height: 60px;
+	height: 45px;
+	width: inherit;
 	font-size: xx-small; font-style: italic;
 	display: table-cell;
-	vertical-align: bottom;
+	background-image: url('../img/japanese-pattern.png');
+	background-position: bottom;
 }
 
+.info-card.card .body > .bodyRow {
+	display: flex;
+	margin-top: 1px;
+	gap: 1px;
+}
+.info-card.card .body > .bodyRow > .sideBlock {
+	width:  60px;
+	flex-shrink: 0;
+	display: flex; flex-direction: column;
+	gap: 1px;
+}
+.info-card.card .body > .bodyRow > .mainBlock {
+	flex-grow: 1;
+	display: flex; flex-direction: column;
+	gap: 1px;
+}
+
+.bodyRow .block-cell {
+	text-align: center;
+	border: 1px solid black;
+}
+.bodyRow .block-cell > .label {
+	font-size: .8em;
+	padding-bottom: 2px;
+	background: #333;
+	color: white;
+}
+.bodyRow .block-cell > .value { padding: 3px 0; }
+
+.bodyRow .block-cell.health   > .label { background: #c10000; }
+.bodyRow .block-cell.gear     > .label { background: #a17a21; }
+.bodyRow .block-cell.ultimate > .label { background: #240176; }
+.bodyRow .block-cell.note     > .label { background: #01760b; }
+.bodyRow .block-cell.skills   > .label { background: black; }
+
+.bodyRow .block-cell.gear   > .value { font-size: .8em; }
+.bodyRow .block-cell.gear > .value:nth-child(n+3) {
+	border-top: 1px dotted black;
+}
+.bodyRow .block-cell.ultimate > .value { font-size: .8em; }
+.info-card.card .ninpo-list {
+	margin-top: 1px;
+	border: 1px solid black;
+	font-size: .9em;
+}
+.bodyRow .block-cell.note   > .value { font-size: .7em; }
+
+.info-card.card .fold-list.ninpo > div { padding:0px; }
+.info-card.card .fold-list.ninpo > .btn { flex-grow: 1; }
+.info-card.card .ninpo-list button {
+	padding: 0 5px;
+	width: 100%;
+}
 
 /* ============================== */
 /* Row Structure */
@@ -174,10 +209,11 @@
 	justify-content: space-between;*/
 	flex-grow: 1;
 }
-.info-card.row .ninpo-list .fold-list.ninpo {
+.info-card .ninpo-list .fold-list.ninpo {
 	font-size: 0.9em;
 	display: flex;
 	flex-direction: row;
+	align-items: center;
 }
 .fold-list.ninpo:not(:first-child) { border-top: 1px dotted black; }
 .fold-list.ninpo > div { padding:1px; }
@@ -190,7 +226,7 @@
 .fold-list.ninpo .type.sup { background-color: var(--ninpo-type-sup); color: white; }
 .fold-list.ninpo .type.equ { background-color: var(--ninpo-type-equ); color: white; }
 
-.info-card.row .ninpo-list .folded-effect {
+.info-card .ninpo-list .folded-effect {
 	display: none;
 	font-size: 0.85em;
 	margin: 0 5px 3px 5px;
@@ -214,15 +250,30 @@
 }
 
 /* Category */
-.trait .category {        	background-color:  var(--enemy-category-default); }
-.trait .category:before { 	border-left-color: var(--enemy-category-default);
+.enemy .category {        	background-color:  var(--enemy-category-default); }
+.enemy .category:before { 	border-left-color: var(--enemy-category-default);
 														border-right-color:var(--enemy-category-default); }
-.trait .category.beast {        	background-color:  var(--enemy-category-beast); }
-.trait .category.beast:before { 	border-left-color: var(--enemy-category-beast);
+.enemy .category.beast {        	background-color:  var(--enemy-category-beast); }
+.enemy .category.beast:before { 	border-left-color: var(--enemy-category-beast);
 																	border-right-color:var(--enemy-category-beast); }
-.trait .category.ninja {        	background-color:  var(--enemy-category-ninja); }
-.trait .category.ninja:before { 	border-left-color: var(--enemy-category-ninja);
+.enemy .category.ninja {        	background-color:  var(--enemy-category-ninja); }
+.enemy .category.ninja:before { 	border-left-color: var(--enemy-category-ninja);
 																	border-right-color:var(--enemy-category-ninja); }
-.trait .category.demon {        	background-color:  var(--enemy-category-demon); }
-.trait .category.demon:before { 	border-left-color: var(--enemy-category-demon);
+.enemy .category.demon {        	background-color:  var(--enemy-category-demon); }
+.enemy .category.demon:before { 	border-left-color: var(--enemy-category-demon);
 																	border-right-color:var(--enemy-category-demon); }
+
+
+.skillTable {
+	display: flex;
+	border: 1px solid black;
+}
+.skillTable .field-gap     { width:5px; border-right:1px solid; border-left:1px solid; }
+.skillTable .field-gap:first-child { border-left-width:0px; }
+.skillTable .field-gap.mark { background:#555; }
+
+.skillTable .field-content { flex-grow:1; text-align:center; }
+.skillTable .field-content > .title { font-size: .9em; background:black; color:white; }
+.skillTable .field-content > .skill { font-size: .8em; border-top:1px dotted; }
+.skillTable .field-content > .skill:first-child { border-top-width:0px; }
+.skillTable .field-content > .skill.mark { background:#000f5e; color:white; }

@@ -1,4 +1,5 @@
-var Utils = {};
+var Utils;
+if(!Utils) Utils = {};
 
 Utils.getMotivationObj = function(text){
 	for(var obj of Utils.MotivationList){

@@ -64,7 +64,7 @@ var ENEMY_LIST;
     compareFunc: ctrl.sortFunc,
     placeholderText: "尋找敵人名或忍法...",
 
-    isDisplayModeEnable: false,
+    isDisplayModeEnable: true,
     displayMode: "list",
   });
 }
