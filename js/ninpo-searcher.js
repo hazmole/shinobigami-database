@@ -201,7 +201,9 @@ var NINPO_LIST;
     }
   }
   ctrl.sortFunc = (a, b) => {
-    if(a.t_category!=b.t_category) return 0;
+    var a_cateT = a.category.join("-");
+    var b_cateT = b.category.join("-");
+    if(a_cateT != b_cateT) return 0;
 
     const orderOfType = ["atk", "sup", "equ"];
     var result = orderOfType.indexOf(a.type) - orderOfType.indexOf(b.type);
